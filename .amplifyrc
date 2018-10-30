@@ -1,0 +1,14 @@
+{
+    "providers": {
+        "awscloudformation": {
+            "AuthRoleName": "netvoteadmin-20181030000032-authRole",
+            "UnauthRoleArn": "arn:aws:iam::891335278704:role/netvoteadmin-20181030000032-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::891335278704:role/netvoteadmin-20181030000032-authRole",
+            "Region": "us-east-1",
+            "DeploymentBucketName": "netvoteadmin-20181030000032-deployment",
+            "UnauthRoleName": "netvoteadmin-20181030000032-unauthRole",
+            "StackName": "netvoteadmin-20181030000032",
+            "StackId": "arn:aws:cloudformation:us-east-1:891335278704:stack/netvoteadmin-20181030000032/595fc0e0-dbf8-11e8-b379-500abe228429"
+        }
+    }
+}
