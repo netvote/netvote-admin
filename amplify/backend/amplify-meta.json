@@ -1,35 +1,35 @@
 {
 	"providers": {
 		"awscloudformation": {
-			"AuthRoleName": "netvoteadmin-20181030000032-authRole",
-			"UnauthRoleArn": "arn:aws:iam::891335278704:role/netvoteadmin-20181030000032-unauthRole",
-			"AuthRoleArn": "arn:aws:iam::891335278704:role/netvoteadmin-20181030000032-authRole",
+			"AuthRoleName": "netvoteadmin-20181030101202-authRole",
+			"UnauthRoleArn": "arn:aws:iam::891335278704:role/netvoteadmin-20181030101202-unauthRole",
+			"AuthRoleArn": "arn:aws:iam::891335278704:role/netvoteadmin-20181030101202-authRole",
 			"Region": "us-east-1",
-			"DeploymentBucketName": "netvoteadmin-20181030000032-deployment",
-			"UnauthRoleName": "netvoteadmin-20181030000032-unauthRole",
-			"StackName": "netvoteadmin-20181030000032",
-			"StackId": "arn:aws:cloudformation:us-east-1:891335278704:stack/netvoteadmin-20181030000032/595fc0e0-dbf8-11e8-b379-500abe228429"
+			"DeploymentBucketName": "netvoteadmin-20181030101202-deployment",
+			"UnauthRoleName": "netvoteadmin-20181030101202-unauthRole",
+			"StackName": "netvoteadmin-20181030101202",
+			"StackId": "arn:aws:cloudformation:us-east-1:891335278704:stack/netvoteadmin-20181030101202/c6cd0e80-dc4d-11e8-a566-500c2893c036"
 		}
 	},
-	"auth": {
-		"cognito96ffc7b8": {
-			"service": "Cognito",
+	"hosting": {
+		"S3AndCloudFront": {
+			"service": "S3AndCloudFront",
 			"providerPlugin": "awscloudformation",
 			"providerMetadata": {
-				"s3TemplateURL": "https://s3.amazonaws.com/netvoteadmin-20181030000032-deployment/amplify-cfn-templates/auth/cognito96ffc7b8-cloudformation-template.yml",
-				"logicalId": "authcognito96ffc7b8"
+				"s3TemplateURL": "https://s3.amazonaws.com/netvoteadmin-20181030101202-deployment/amplify-cfn-templates/hosting/template.json",
+				"logicalId": "hostingS3AndCloudFront"
 			},
-			"lastPushTimeStamp": "2018-10-30T04:35:48.840Z",
+			"lastPushTimeStamp": "2018-10-30T14:34:35.839Z",
 			"output": {
-				"AppClientSecret": "oqkbnlm2ck581qmorck379c36b03hpg0a5ealj9lht2c94cp629",
-				"UserPoolId": "us-east-1_wRuiknf7H",
-				"AppClientIDWeb": "72d7qo7nfqunhibfp140g2mbs",
-				"AppClientID": "4vpj5grh1a54djdavj1ck721gu",
-				"IdentityPoolId": "us-east-1:2a5d0dfc-b554-4e52-a451-f05c75f23977",
-				"IdentityPoolName": "cognito96ffc7b8_identitypool_96ffc7b8",
-				"UserPoolName": "cognito96ffc7b8_userpool_96ffc7b8"
+				"CloudFrontSecureURL": "https://d2q9q3k071zxdy.cloudfront.net",
+				"S3BucketSecureURL": "https://netvoteadmin-20181030101708--hostingbucket.s3.amazonaws.com",
+				"WebsiteURL": "http://netvoteadmin-20181030101708--hostingbucket.s3-website-us-east-1.amazonaws.com",
+				"CloudFrontDistributionID": "E9WEFQP7LMSF6",
+				"Region": "us-east-1",
+				"HostingBucketName": "netvoteadmin-20181030101708--hostingbucket",
+				"CloudFrontDomainName": "d2q9q3k071zxdy.cloudfront.net"
 			},
-			"lastPushDirHash": "tdtDtSdQrsWVILU5Es6hpRo7+b4="
+			"lastPushDirHash": "mkETLNVhWvREpgJQ+2apDR1Yep8="
 		}
 	}
 }

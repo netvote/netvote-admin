@@ -2,10 +2,9 @@
 
 const awsmobile =  {
     "aws_project_region": "us-east-1",
-    "aws_cognito_identity_pool_id": "us-east-1:2a5d0dfc-b554-4e52-a451-f05c75f23977",
-    "aws_cognito_region": "us-east-1",
-    "aws_user_pools_id": "us-east-1_wRuiknf7H",
-    "aws_user_pools_web_client_id": "72d7qo7nfqunhibfp140g2mbs"
+    "aws_content_delivery_bucket": "netvoteadmin-20181030101708--hostingbucket",
+    "aws_content_delivery_bucket_region": "us-east-1",
+    "aws_content_delivery_url": "https://d2q9q3k071zxdy.cloudfront.net"
 };
 
 
