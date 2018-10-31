@@ -77,13 +77,6 @@
 					]
 				}
 			}
-		},
-		"hostingS3AndCloudFront": {
-			"Type": "AWS::CloudFormation::Stack",
-			"Properties": {
-				"TemplateURL": "https://s3.amazonaws.com/netvoteadmin-20181030101202-deployment/amplify-cfn-templates/hosting/template.json",
-				"Parameters": {}
-			}
 		}
 	},
 	"Outputs": {

@@ -8,6 +8,8 @@ import aws_exports from './aws-exports';
 
 import { withAuthenticator } from 'aws-amplify-react';
 
+
+Amplify.Logger.LOG_LEVEL = 'INFO'; // We write INFO level logs throughout app
 // Amplify.configure(aws_exports);
 
 Amplify.configure({
@@ -24,10 +26,10 @@ Amplify.configure({
       // identityPoolRegion: 'XX-XXXX-X',
 
       // OPTIONAL - Amazon Cognito User Pool ID
-      userPoolId: 'us-east-1_svd7ExXfX',
+      userPoolId: 'us-east-1_gjH1FmMsn',
 
       // OPTIONAL - Amazon Cognito Web Client ID (26-char alphanumeric string)
-      userPoolWebClientId: '55c3jfkiklh7bvf89t1qjuo7b3',
+      userPoolWebClientId: '2lqd49qru5jvlintj41nngtan',
 
       // OPTIONAL - Enforce user authentication prior to accessing AWS resources or not
       mandatorySignIn: true,
@@ -52,7 +54,6 @@ Amplify.configure({
   }
 });
 
-
 class App extends Component {
   render() {
     return (
@@ -64,4 +65,6 @@ class App extends Component {
   }
 }
 
-export default withAuthenticator(App, true); // Render a sign out button once logged in
+// export default App;
+// export default withAuthenticator(App, true); // Render a sign out button once logged in
+export default withAuthenticator(App);

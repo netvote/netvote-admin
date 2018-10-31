@@ -3,11 +3,6 @@ import { Container } from 'bootstrap-4-react';
 import { HashRouter, Route, Switch } from 'react-router-dom';
 import { Auth, Hub, Logger } from 'aws-amplify';
 
-import MainHeader from './MainHeader';
-import MainChart from './MainChart';
-import MainTable from './MainTable';
-
-
 import { Home, Login } from '../pages';
 
 const logger = new Logger('Main');
@@ -49,7 +44,7 @@ export default class Main extends Component {
               <Route
                 exact
                 path="/"
-                render={(props) => <Home user={user} />}
+                render={(props) => <Login user={user} />}
               />
               {/* <Route
                 exact
@@ -59,8 +54,6 @@ export default class Main extends Component {
             </Switch>
           </HashRouter>
         </div>
-        <MainChart />
-        <MainTable />
       </Container>
     )
   }

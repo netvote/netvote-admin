@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Lead, BSpan } from 'bootstrap-4-react';
-import { SignOut } from 'aws-amplify-react/dist/Auth';
 
 export default class Home extends Component {
   render() {
@@ -8,7 +7,7 @@ export default class Home extends Component {
 
     return (
       <React.Fragment>
-        <h1>Coming Soon!</h1>
+        {/* <h1>Coming Soon!</h1> */}
         { user && <Lead>You are signed in as  <BSpan font="italic">{user.username}</BSpan>.</Lead> }
       </React.Fragment>
     )

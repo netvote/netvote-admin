@@ -1,7 +1,73 @@
 body {
   padding-top: 5rem;
+  background-color: rgb(40, 49, 61);
+  background-image: url("../src/resources/splash.png");
+  background-repeat: no-repeat;
+  background-position: 80% 10%;
+  background-size: 100%;
+  font-size: 13px;
+  color: rgb(172, 200, 228);
 }
+
 .starter-template {
   padding: 3rem 1.5rem;
   text-align: center;
 }
+
+/* AWS SignIn Button */
+.Button__button___3XjN7 {
+  background-color: rgb(61, 83, 116);
+  border: none;
+  color: white;
+}
+
+/* AWS SignIn Button */
+.Button__button___3XjN7:active {
+  background-color: rgb(61, 83, 116);
+}
+
+/* Buttons styles start */
+
+.btn {
+  border-top: 1px solid #96d1f8;
+  background: #65a9d7;
+  background: -webkit-gradient(linear, left top, left bottom, from(#3e779d), to(#65a9d7));
+  background: -webkit-linear-gradient(top, #3e779d, #65a9d7);
+  background: -moz-linear-gradient(top, #3e779d, #65a9d7);
+  background: -ms-linear-gradient(top, #3e779d, #65a9d7);
+  background: -o-linear-gradient(top, #3e779d, #65a9d7);
+  padding: 7px 14px;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  border-radius: 8px;
+  -webkit-box-shadow: rgba(0, 0, 0, 1) 0 1px 0;
+  -moz-box-shadow: rgba(0, 0, 0, 1) 0 1px 0;
+  box-shadow: rgba(0, 0, 0, 1) 0 1px 0;
+  text-shadow: rgba(0, 0, 0, .4) 0 1px 0;
+  color: white;
+  font-size: 13px;
+  font-family: Helvetica, Arial, Sans-Serif;
+  text-decoration: none;
+  vertical-align: middle;
+}
+
+.btn:hover {
+  border-top-color: #28597a;
+  background: #28597a;
+  color: #ccc;
+}
+
+.btn:active {
+  border-top-color: #1b435e;
+  background: #1b435e;
+}
+
+input.button {
+  background-color: #660099;
+  color: white;
+  font-family: "trebuchet ms", arial, sans-serif;
+  border: 1px solid black;
+  font-style: italic;
+}
+
+/* Button styles end */
