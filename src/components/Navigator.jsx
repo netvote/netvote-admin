@@ -4,6 +4,8 @@ import { HashRouter, Route, Switch } from 'react-router-dom';
 import { Auth, Hub, Logger } from 'aws-amplify';
 import { JSignOut, JSignIn } from './auth';
 
+import { NetVoteAdmin } from '../lib';
+
 const HomeItems = props => (
   <React.Fragment>
     {/* <Nav.ItemLink href="#/" active>
@@ -56,27 +58,21 @@ export default class Navigator extends Component {
       .catch(err => this.setState({ user: null }));
 
     Auth.currentSession()
-      .then(data =>  {
-        console.log(data);
-       
-        let token = data.getIdToken().getJwtToken();
-        
-        console.log('JwtToken: ' + token);
+      .then(data => {
 
-        // fetch('https://elections.netvote.io/v1/usage/detail', {
-        //   method: 'get',
-        //   headers: new Headers({
-        //     'Authorization': `Bearer ${token}`
-        //   })
-        // }).then(response =>  {
-        //   console.log(response.json());
-        // });
+        //TODO: FIND PROPER COMPONENT LOCATION --- TESTING ONLY!!!!
+        let netVoteAdmin = new NetVoteAdmin();
 
+        netVoteAdmin.getElectionUsageDetails()
+          .then(response => {
+            console.log('NetVoteAdmin Response: ' + JSON.stringify(response));
+          }).catch(reason => {
+            console.log('NetVoteAdmin Fetch Failed: ' + reason.message);
+          });
 
       }).catch(err => console.log(err));
-   
   }
-  ""
+
   render() {
     const { user } = this.state;
 

@@ -4,14 +4,14 @@ import Amplify from 'aws-amplify';
 import { Navigator, Main} from './components';
 import './App.css';
 
-import aws_exports from './aws-exports';
-
 import { withAuthenticator } from 'aws-amplify-react';
 
+//Netvote Admin AWS Settings
+import * as aws_settings from './config/aws-settings';
 
 Amplify.Logger.LOG_LEVEL = 'INFO'; // We write INFO level logs throughout app
-// Amplify.configure(aws_exports);
 
+//Manually Configure AWS Amplify
 Amplify.configure({
   Auth: {
 
@@ -19,17 +19,17 @@ Amplify.configure({
       // identityPoolId: 'XX-XXXX-X:XXXXXXXX-XXXX-1234-abcd-1234567890ab',
       
       // REQUIRED - Amazon Cognito Region
-      region: 'us-east-1',
+      region: aws_settings.AWS_AUTH_REGION,
 
       // OPTIONAL - Amazon Cognito Federated Identity Pool Region 
       // Required only if it's different from Amazon Cognito Region
       // identityPoolRegion: 'XX-XXXX-X',
 
       // OPTIONAL - Amazon Cognito User Pool ID
-      userPoolId: 'us-east-1_gjH1FmMsn',
+      userPoolId: aws_settings.AWS_AUTH_USER_POOL_ID,
 
       // OPTIONAL - Amazon Cognito Web Client ID (26-char alphanumeric string)
-      userPoolWebClientId: '2lqd49qru5jvlintj41nngtan',
+      userPoolWebClientId: aws_settings.AWS_AUTH_USER_POOL_WEB_CLIENT_ID,
 
       // OPTIONAL - Enforce user authentication prior to accessing AWS resources or not
       mandatorySignIn: true,

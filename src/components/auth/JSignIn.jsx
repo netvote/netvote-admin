@@ -1,28 +1,28 @@
 import React, { Component } from 'react';
 import { BDiv, Form, Button, Alert, Row, Col, BA } from 'bootstrap-4-react';
 import { Auth, Logger, JS } from 'aws-amplify';
-import { withFederated } from 'aws-amplify-react';
+// import { withFederated } from 'aws-amplify-react';
 
 const logger = new Logger('JSignIn');
 
-const FederatedButtons = (props) => (
-  <Button
-    secondary
-    mt="1"
-    style={{ width: '100%' }}
-    onClick={props.facebookSignIn}
-  >
-    Facebook
-  </Button>
-);
+// const FederatedButtons = (props) => (
+//   <Button
+//     secondary
+//     mt="1"
+//     style={{ width: '100%' }}
+//     onClick={props.facebookSignIn}
+//   >
+//     Facebook
+//   </Button>
+// );
 
-const Federated = withFederated(FederatedButtons);
+// const Federated = withFederated(FederatedButtons);
 
-const federated_data = {
-    google_client_id: '',
-    facebook_app_id: '__replace_with_your_facebook_app_id__',
-    amazon_client_id: ''
-};
+// const federated_data = {
+//     google_client_id: '',
+//     facebook_app_id: '__replace_with_your_facebook_app_id__',
+//     amazon_client_id: ''
+// };
 
 export default class JSignIn extends Component {
   constructor(props) {
