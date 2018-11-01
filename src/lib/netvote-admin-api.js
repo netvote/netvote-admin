@@ -25,14 +25,29 @@ const NETVOTE_API_VERSION = 'v1';
 const NETVOTE_ELECTION_USAGE_DETAILS = 'usage/detail';
 const NETVOTE_ELECTION_USAGE_TIME = 'usage/report/time';
 
+//Netvote IAM API Details
+const IAM_API_SERVER = 'https://iam.netvote.io';
+const IAM_API_VERSION = 'v1';
+
+//Netvote IAM Endpoints
+const IAM_ENDPOINT_API_KEY = "apikey";
 
 export default class NetVoteAdmin {
     constructor() {
         //Netvote API Server
-        this.server = NETVOTE_API_SERVER + '/' + NETVOTE_API_VERSION;
+        this.electionsServer = NETVOTE_API_SERVER + '/' + NETVOTE_API_VERSION;
+        this.iamServer = IAM_API_SERVER + '/' + IAM_API_VERSION;
 
-        this.netvoteRequest = async (path, method, postObj) => {
-            let URL = this.server + "/" + path;
+        this.electionRequest = async (path, method, postObj) => {
+            return this.netvoteRequest(this.electionsServer, path, method, postObj)
+        }
+
+        this.iamRequest = async (path, method, postObj) => {
+            return this.netvoteRequest(this.iamServer, path, method, postObj)
+        }
+
+        this.netvoteRequest = async (endpoint, path, method, postObj) => {
+            let URL = endpoint + "/" + path;
 
             //Current authenticated user token
             let reqHeaders = new Headers();
@@ -59,7 +74,7 @@ export default class NetVoteAdmin {
 
             if (response.ok) {
                 console.log('NetVoteAdmin Fetch Successful - ' + response.status);
-                return await response.text();
+                return await response.json()
             } else {
                 console.log('NetVoteAdmin ERROR: Fetch Failed - ' + response.status);
                 throw new Error('NetVoteAdmin ERROR: Fetch Failed - ' + response.status);
@@ -79,16 +94,27 @@ export default class NetVoteAdmin {
         };
 
         this.getElectionUsageDetails = () => {
-            return this.netvoteRequest(NETVOTE_ELECTION_USAGE_DETAILS, 'GET', null);
+            return this.electionRequest(NETVOTE_ELECTION_USAGE_DETAILS, 'GET', null);
         };
 
         this.getElectionUsageTimes = () => {
-            return this.netvoteRequest(NETVOTE_ELECTION_USAGE_TIME, 'GET', null);
+            return this.electionRequest(NETVOTE_ELECTION_USAGE_TIME, 'GET', null);
         };
 
-    }
+        this.getApiKeys = () => {
+            return this.iamRequest(IAM_ENDPOINT_API_KEY, 'GET', null);
+        }
 
-    get serverName() {
-        return this.server;
+        this.getApiKey = (id) => {
+            return this.iamRequest(`${IAM_ENDPOINT_API_KEY}/${id}`, 'GET', null);
+        }
+
+        this.addApiKey = () => {
+            return this.iamRequest(IAM_ENDPOINT_API_KEY, 'POST', null);
+        }
+
+        this.deleteApiKey = (id) => {
+            return this.iamRequest(`${IAM_ENDPOINT_API_KEY}/${id}`, 'DELETE', null);
+        }
     }
 }

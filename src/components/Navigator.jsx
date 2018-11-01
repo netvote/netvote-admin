@@ -58,17 +58,21 @@ export default class Navigator extends Component {
       .catch(err => this.setState({ user: null }));
 
     Auth.currentSession()
-      .then(data => {
+      .then(async data => {
 
         //TODO: FIND PROPER COMPONENT LOCATION --- TESTING ONLY!!!!
         let netVoteAdmin = new NetVoteAdmin();
 
-        netVoteAdmin.getElectionUsageDetails()
-          .then(response => {
-            console.log('NetVoteAdmin Response: ' + JSON.stringify(response));
-          }).catch(reason => {
-            console.log('NetVoteAdmin Fetch Failed: ' + reason.message);
-          });
+        let usageDetails = await netVoteAdmin.getElectionUsageDetails();
+        console.log('NetVoteAdmin Response: ' + JSON.stringify(usageDetails));
+
+        let keys = await netVoteAdmin.getApiKeys();
+        console.log(keys);
+
+        for(let i=0; i<keys.keyList.length; i++){
+          let key = await netVoteAdmin.getApiKey(keys.keyList[i].id)
+          console.log(key);
+        }
 
       }).catch(err => console.log(err));
   }
