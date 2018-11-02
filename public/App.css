@@ -1,0 +1,57 @@
+body {
+  padding-top: 3.3rem;
+  background-color: rgba(140, 160, 183, 1);
+  /* background-image: url("../resources/splash.png"); */
+  /* background-repeat: no-repeat; */
+  /* background-position: 80% 10%; */
+  /* background-size: 100%; */
+  font-size: 13px;
+  color: rgb(200, 225, 250);
+}
+
+
+.starter-template {
+  padding: 3rem 1.5rem;
+  text-align: center;
+}
+
+/* AWS SignIn Button */
+.Button__button___3XjN7 {
+  background-color: #65a9d7;
+  border: none;
+  color: white;
+}
+
+/* AWS SignIn Button */
+.Button__button___3XjN7:active {
+  background-color: rgb(61, 83, 116);
+}
+
+/* Bootstrap Lead Display Heading */
+.lead {
+  font-size: 1.25rem;
+  font-weight: 300;
+  color: rgb(172, 200, 228);
+}
+/* Buttons styles start */
+
+.btn {
+  background: #65a9d7;
+  color: white;
+  font-size: 13px;
+  font-family: Helvetica, Arial, Sans-Serif;
+  text-decoration: none;
+  vertical-align: middle;
+}
+
+.btn:hover {
+  border-top-color: #28597a;
+  background: #28597a;
+  color: #ccc;
+}
+
+.btn:active {
+  border-top-color: #1b435e;
+  background: #1b435e;
+}
+/* Button styles end */
