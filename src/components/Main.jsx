@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
-import { Container } from 'bootstrap-4-react';
+import { Col, Row } from 'bootstrap-4-react';
 import { HashRouter, Route, Switch } from 'react-router-dom';
 import { Auth, Hub, Logger } from 'aws-amplify';
+import { Authenticator } from 'aws-amplify-react';
 
-import { Home, Login } from '../pages';
+import MainHeader from './MainHeader';
+import MainChart from './MainChart';
+import MainTable from './MainTable';
+import Sidebar from './Sidebar';
 
 const logger = new Logger('Main');
 
@@ -33,28 +37,35 @@ export default class Main extends Component {
       .catch(err => this.setState({ user: null }));
   }
 
+
   render() {
     const { user } = this.state;
 
-    return (
-      <Container as="main" role="main">
-        <div className="starter-template">
-          <HashRouter>
-            <Switch>
-              <Route
-                exact
-                path="/"
-                render={(props) => <Login user={user} />}
-              />
-              {/* <Route
-                exact
-                path="/login"
-                render={(props) => <Login user={user} />}
-              /> */}
-            </Switch>
-          </HashRouter>
+    if (user) {
+      logger.info('Main - Logging out - User!');
+      return (
+        <div>
+          <Row>
+            <Sidebar />
+            <Col as="main" role="main" col="md-9 lg-10" ml="sm-auto" px="4">
+              <MainHeader user={user} />
+              <MainChart user={user} />
+              <MainTable user={user} />
+            </Col>
+          </Row>
         </div>
-      </Container>
-    )
+      )
+    } else {
+      logger.info('Main - Logging out - No User!');
+      return (
+        <Col as="main" role="main" col="md-9 lg-10" ml="sm-auto" px="4">
+          <Authenticator />
+        </Col>
+      )
+    }
   }
 }
+
+
+
+

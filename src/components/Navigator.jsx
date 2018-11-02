@@ -1,38 +1,14 @@
 import React, { Component } from 'react';
-import { Navbar, Nav, BSpan } from 'bootstrap-4-react';
+import { Navbar, Nav, NavItem, Form } from 'bootstrap-4-react';
 import { HashRouter, Route, Switch } from 'react-router-dom';
 import { Auth, Hub, Logger } from 'aws-amplify';
 import { JSignOut, JSignIn } from './auth';
-
 import { NetVoteAdmin } from '../lib';
-
-const HomeItems = props => (
-  <React.Fragment>
-    {/* <Nav.ItemLink href="#/" active>
-      Home
-      <BSpan srOnly>(current}</BSpan>
-    </Nav.ItemLink> */}
-    {/* <Nav.ItemLink href="#/login">
-      Login
-    </Nav.ItemLink> */}
-  </React.Fragment>
-)
-
-const LoginItems = props => (
-  <React.Fragment>
-    {/* <Nav.ItemLink href="#/">
-      Home
-    </Nav.ItemLink> */}
-    {/* <Nav.ItemLink href="#/login" active>
-      Login
-      <BSpan srOnly>(current}</BSpan>
-    </Nav.ItemLink> */}
-  </React.Fragment>
-)
 
 const logger = new Logger('Navigator');
 
 export default class Navigator extends Component {
+
   constructor(props) {
     super(props);
 
@@ -69,7 +45,7 @@ export default class Navigator extends Component {
         let keys = await netVoteAdmin.getApiKeys();
         console.log(keys);
 
-        for(let i=0; i<keys.keyList.length; i++){
+        for (let i = 0; i < keys.keyList.length; i++) {
           let key = await netVoteAdmin.getApiKey(keys.keyList[i].id)
           console.log(key);
         }
@@ -78,6 +54,7 @@ export default class Navigator extends Component {
   }
 
   render() {
+
     const { user } = this.state;
 
     return (
@@ -85,14 +62,8 @@ export default class Navigator extends Component {
         <Navbar.Brand href="#">Netvote Admin</Navbar.Brand>
         <Navbar.Toggler target="#navbarsDefault" />
 
-        <Navbar.Collapse id="navbarsDefault">
+        <Navbar.Collapse id="navbarsDefault" >
           <Navbar.Nav mr="auto">
-            <HashRouter>
-              <Switch>
-                <Route exact path="/" component={LoginItems} />
-                {/* <Route exact path="/login" component={LoginItems} /> */}
-              </Switch>
-            </HashRouter>
           </Navbar.Nav>
           <Navbar.Text mr="2">
             {user ? 'Logged in as ' + user.username : 'Please sign in'}

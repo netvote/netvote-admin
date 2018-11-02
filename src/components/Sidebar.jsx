@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { Logger } from 'aws-amplify';
+
 import {
   Col,
   Nav,
@@ -14,24 +16,12 @@ const SideNav = props => (
       Dashboard<BSpan srOnly>(current)</BSpan>
     </Nav.ItemLink>
     <Nav.ItemLink href="#">
-      <span data-feather="file"></span>
-      Orders
-    </Nav.ItemLink>
-    <Nav.ItemLink href="#">
-      <span data-feather="shopping-cart"></span>
-      Products
+      <span data-feather="bar-chart-2"></span>
+      Usage
     </Nav.ItemLink>
     <Nav.ItemLink href="#">
       <span data-feather="users"></span>
-      Customers
-    </Nav.ItemLink>
-    <Nav.ItemLink href="#">
-      <span data-feather="bar-chart-2"></span>
-      Reports
-    </Nav.ItemLink>
-    <Nav.ItemLink href="#">
-      <span data-feather="layers"></span>
-      Integrations
+      API Keys
     </Nav.ItemLink>
   </Nav>
 )
@@ -74,6 +64,8 @@ const SavedReports = props => (
   </React.Fragment>
 )
 
+const logger = new Logger('Sidebar');
+
 export default class Sidebar extends Component {
   componentDidMount() {
     window.feather.replace();
@@ -81,10 +73,10 @@ export default class Sidebar extends Component {
 
   render() {
     return (
-      <Col as="nav" md="2" display="none md-block" bg="light" className="sidebar">
+      <Col as="nav" md="2" display="none md-block" bg="dark" className="sidebar">
         <div className="sidebar-sticky">
           <SideNav />
-          <SavedReports />
+          {/* <SavedReports /> */}
         </div>
       </Col>
     )

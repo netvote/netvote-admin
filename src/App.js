@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
-import Amplify from 'aws-amplify';
+import { Container, Row } from 'bootstrap-4-react';
 
-import { Navigator, Main} from './components';
-import './App.css';
+import Amplify from 'aws-amplify';
 
 import { withAuthenticator } from 'aws-amplify-react';
 
 //Netvote Admin AWS Settings
 import * as aws_settings from './config/aws-settings';
+
+import { Navigator, Main } from './components';
+import './App.css';
 
 Amplify.Logger.LOG_LEVEL = 'INFO'; // We write INFO level logs throughout app
 
@@ -59,12 +61,13 @@ class App extends Component {
     return (
       <React.Fragment>
         <Navigator />
+        <Container fluid>
         <Main />
+        </Container>
       </React.Fragment>
     );
   }
 }
 
 // export default App;
-// export default withAuthenticator(App, true); // Render a sign out button once logged in
 export default withAuthenticator(App);
