@@ -5,6 +5,7 @@ Under Development
 ## Project bootstrapped with CoreUI and Create React App
 
 * [CoreUI Free React.js Admin Template](https://github.com/coreui/coreui-free-react-admin-template)
+* [Create React App](https://github.com/facebook/create-react-app)
 
 
 ## Installation
@@ -19,9 +20,6 @@ $ cd my-project
 # install app's dependencies
 $ npm install
 ```
-
-## Create React App
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app)
 
 
 ### Basic usage
