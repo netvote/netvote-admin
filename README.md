@@ -5,8 +5,6 @@ Under Development
 ## Project bootstrapped with CoreUI and Create React App
 
 * [CoreUI Free React.js Admin Template](https://github.com/coreui/coreui-free-react-admin-template)
-| [![CoreUI Pro React Admin Template](https://coreui.io/assets/img/example-coureui.jpg)](https://coreui.io/pro/react/) | [![Prime React Admin Template]
-[Create React App](https://github.com/facebook/create-react-app)
 
 
 ## Installation
