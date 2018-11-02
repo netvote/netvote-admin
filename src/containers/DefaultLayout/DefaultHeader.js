@@ -5,8 +5,8 @@ import { Auth } from 'aws-amplify';
 
 
 import { AppHeaderDropdown, AppNavbarBrand, AppSidebarToggler } from '@coreui/react';
-import logo from '../../assets/img/brand/nv.png'
-import sygnet from '../../assets/img/brand/nv.png'
+import logo from '../../assets/img/brand/netvote-logo.svg'
+import sygnet from '../../assets/img/brand/netvote-logo.svg'
 
 const propTypes = {
   children: PropTypes.node,
@@ -31,6 +31,7 @@ class DefaultHeader extends Component {
       <React.Fragment>
         <AppSidebarToggler className="d-lg-none" display="md" mobile />
         <AppNavbarBrand
+          className="navbar-brand-full"
           full={{ src: logo, width: 160, height: 31, alt: 'Netvote Logo' }}
           minimized={{ src: sygnet, width: 30, height: 30, alt: 'Netvote Logo' }}
         />
