@@ -25,7 +25,7 @@ export default class MainHeader extends Component {
           mb="3"
           border="bottom"
         >
-          <BH2>Dashboard</BH2>
+          <BH2>Election Usage Times</BH2>
           <ButtonToolbar mb="2 md-0">
             <ButtonGroup mr="2">
               <Button outline secondary sm>Share</Button>

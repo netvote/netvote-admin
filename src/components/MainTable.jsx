@@ -1,139 +1,116 @@
 import React, { Component } from 'react';
-import { Table } from 'bootstrap-4-react';
+import { Auth, Logger } from 'aws-amplify';
+import { BDiv } from 'bootstrap-4-react';
+
+// import "react-tabulator/lib/styles.css"; // default theme
+
+// import "../../node_modules/react-tabulator/lib/css/bootstrap/tabulator_bootstrap.min.css"; // use Theme(s)
+
+import "../../node_modules/react-tabulator/lib/css/tabulator_midnight.css"; // use Theme(s)
+
+// for React 16.4.x use: import { ReactTabulator }
+import { React15Tabulator } from "react-tabulator"; // for React 15.x
+
+import { NetVoteAdmin } from '../lib';
+
+const logger = new Logger('MainTable');
+
+const columns = [
+  { title: "Company", field: "company", align: "left", headerFilter: "input" }, //width: xxx, formatter: xxxx
+  { title: "EventName", field: "eventName", align: "left" },
+  { title: "EventId", field: "eventId" },
+  { title: "ElectionId", field: "electionId", align: "left" },
+  { title: "Mode", field: "mode", align: "left" },
+  { title: "CreatedAt", field: "createdAt", align: "left" },
+  { title: "Network", field: "details.network", align: "left" },
+  { title: "Owner", field: "details.owner", align: "left" },
+  { title: "voteId", field: "details.voteId", align: "left" },
+];
+const data = [];
 
 export default class MainTable extends Component {
+  constructor(props) {
+    super(props);
+
+    this.data = this.loadData.bind(this);
+
+  }
+
+  state = {
+    data: []
+  };
+  ref = null;
+
+  rowClick = (e, row) => {
+    logger.info("ref table: ", this.ref.table); // this is the Tabulator table instance
+    logger.info(`rowClick id: ${row.getData().id}`, row, e);
+  };
+
+  setData = () => {
+    this.loadData();
+    this.setState({ data });
+  };
+
+  clearData = () => {
+    this.setState({ data: [] });
+  };
+
+  componentDidMount() {
+    const { user } = this.props;
+    this.loadData();
+    this.setState({ data });
+  }
+
+  loadData() {
+    Auth.currentSession()
+      .then(async data => {
+
+        let netVoteAdmin = new NetVoteAdmin();
+
+        let usageDetails = await netVoteAdmin.getElectionUsageDetails();
+
+        this.setState({ data: usageDetails.results })
+
+      }).catch(err => console.log(err));
+  }
+
   render() {
+    const options = {
+      height: "100%",
+      movableRows: true,
+      placeholder: "No Election Data Available",
+      layout: "fitColumns", //"fitDataFill"
+      pagination: "local",
+      paginationSize: 20,
+    };
+
     return (
-      <React.Fragment>
-        <h2>Elections</h2>
-        <div className="table-responsive">
-          <Table striped sm>
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Header</th>
-                <th>Header</th>
-                <th>Header</th>
-                <th>Header</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>1,001</td>
-                <td>Lorem</td>
-                <td>ipsum</td>
-                <td>dolor</td>
-                <td>sit</td>
-              </tr>
-              <tr>
-                <td>1,002</td>
-                <td>amet</td>
-                <td>consectetur</td>
-                <td>adipiscing</td>
-                <td>elit</td>
-              </tr>
-              <tr>
-                <td>1,003</td>
-                <td>Integer</td>
-                <td>nec</td>
-                <td>odio</td>
-                <td>Praesent</td>
-              </tr>
-              <tr>
-                <td>1,003</td>
-                <td>libero</td>
-                <td>Sed</td>
-                <td>cursus</td>
-                <td>ante</td>
-              </tr>
-              <tr>
-                <td>1,004</td>
-                <td>dapibus</td>
-                <td>diam</td>
-                <td>Sed</td>
-                <td>nisi</td>
-              </tr>
-              <tr>
-                <td>1,005</td>
-                <td>Nulla</td>
-                <td>quis</td>
-                <td>sem</td>
-                <td>at</td>
-              </tr>
-              <tr>
-                <td>1,006</td>
-                <td>nibh</td>
-                <td>elementum</td>
-                <td>imperdiet</td>
-                <td>Duis</td>
-              </tr>
-              <tr>
-                <td>1,007</td>
-                <td>sagittis</td>
-                <td>ipsum</td>
-                <td>Praesent</td>
-                <td>mauris</td>
-              </tr>
-              <tr>
-                <td>1,008</td>
-                <td>Fusce</td>
-                <td>nec</td>
-                <td>tellus</td>
-                <td>sed</td>
-              </tr>
-              <tr>
-                <td>1,009</td>
-                <td>augue</td>
-                <td>semper</td>
-                <td>porta</td>
-                <td>Mauris</td>
-              </tr>
-              <tr>
-                <td>1,010</td>
-                <td>massa</td>
-                <td>Vestibulum</td>
-                <td>lacinia</td>
-                <td>arcu</td>
-              </tr>
-              <tr>
-                <td>1,011</td>
-                <td>eget</td>
-                <td>nulla</td>
-                <td>Class</td>
-                <td>aptent</td>
-              </tr>
-              <tr>
-                <td>1,012</td>
-                <td>taciti</td>
-                <td>sociosqu</td>
-                <td>ad</td>
-                <td>litora</td>
-              </tr>
-              <tr>
-                <td>1,013</td>
-                <td>torquent</td>
-                <td>per</td>
-                <td>conubia</td>
-                <td>nostra</td>
-              </tr>
-              <tr>
-                <td>1,014</td>
-                <td>per</td>
-                <td>inceptos</td>
-                <td>himenaeos</td>
-                <td>Curabitur</td>
-              </tr>
-              <tr>
-                <td>1,015</td>
-                <td>sodales</td>
-                <td>ligula</td>
-                <td>in</td>
-                <td>libero</td>
-              </tr>
-            </tbody>
-          </Table>
+      <div>
+        <div>
+          <h3>Election Usage Details</h3>
+          <BDiv
+            display="flex"
+            flex="wrap md-nowrap"
+            justifyContent="between"
+            alignItems="center"
+            pt="3"
+            pb="2"
+            mb="3"
+            border="bottom"
+          >
+          </BDiv>
+
+          <React15Tabulator
+            ref={ref => (this.ref = ref)}
+            columns={columns}
+            data={this.state.data}
+            rowClick={this.rowClick}
+            options={options}
+            data-custom-attr="test-custom-attribute"
+            className="custom-css-class"
+          />
         </div>
-      </React.Fragment>
-    )
+      </div>
+    );
   }
 }

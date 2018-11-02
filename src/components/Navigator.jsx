@@ -33,24 +33,24 @@ export default class Navigator extends Component {
       .then(user => this.setState({ user: user }))
       .catch(err => this.setState({ user: null }));
 
-    Auth.currentSession()
-      .then(async data => {
+    // Auth.currentSession()
+    //   .then(async data => {
 
-        //TODO: FIND PROPER COMPONENT LOCATION --- TESTING ONLY!!!!
-        let netVoteAdmin = new NetVoteAdmin();
+    //     //TODO: FIND PROPER COMPONENT LOCATION --- TESTING ONLY!!!!
+    //     let netVoteAdmin = new NetVoteAdmin();
 
-        let usageDetails = await netVoteAdmin.getElectionUsageDetails();
-        console.log('NetVoteAdmin Response: ' + JSON.stringify(usageDetails));
+    //     let usageDetails = await netVoteAdmin.getElectionUsageDetails();
+    //     console.log('NetVoteAdmin Response: ' + JSON.stringify(usageDetails));
 
-        let keys = await netVoteAdmin.getApiKeys();
-        console.log(keys);
+    //     let keys = await netVoteAdmin.getApiKeys();
+    //     console.log(keys);
 
-        for (let i = 0; i < keys.keyList.length; i++) {
-          let key = await netVoteAdmin.getApiKey(keys.keyList[i].id)
-          console.log(key);
-        }
+    //     for (let i = 0; i < keys.keyList.length; i++) {
+    //       let key = await netVoteAdmin.getApiKey(keys.keyList[i].id)
+    //       console.log(key);
+    //     }
 
-      }).catch(err => console.log(err));
+    //   }).catch(err => console.log(err));
   }
 
   render() {

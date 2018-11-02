@@ -11,13 +11,13 @@ import {
 
 const SideNav = props => (
   <Nav flex="column">
-    <Nav.ItemLink href="#" active>
+    {/* <Nav.ItemLink href="#" active>
       <span data-feather="home"></span>
       Dashboard<BSpan srOnly>(current)</BSpan>
-    </Nav.ItemLink>
+    </Nav.ItemLink> */}
     <Nav.ItemLink href="#">
       <span data-feather="bar-chart-2"></span>
-      Usage
+      Usage<BSpan srOnly>(current)</BSpan>
     </Nav.ItemLink>
     <Nav.ItemLink href="#">
       <span data-feather="users"></span>
