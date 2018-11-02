@@ -42,7 +42,6 @@ export default class Main extends Component {
     const { user } = this.state;
 
     if (user) {
-      logger.info('Main - Logging out - User!');
       return (
         <div>
           <Row>
@@ -56,7 +55,6 @@ export default class Main extends Component {
         </div>
       )
     } else {
-      logger.info('Main - Logging out - No User!');
       return (
         <Col as="main" role="main" col="md-9 lg-10" ml="sm-auto" px="4">
           <Authenticator />
