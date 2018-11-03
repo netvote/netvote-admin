@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Bar, Doughnut, Line, Pie, Polar, Radar } from 'react-chartjs-2';
-import { Card, Col, Row, CardBody, FormGroup, Input, Label, CardColumns, CardHeader } from 'reactstrap';
+import { Card, Col, Table, Badge, Row, CardBody, FormGroup, Input, Label, CardColumns, CardHeader } from 'reactstrap';
 import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips';
 import { NetVoteAdmin } from '../../lib';
 import { Auth } from 'aws-amplify';
@@ -82,7 +82,7 @@ class Charts extends Component {
     return (
       <div className="animated fadeIn">
       <Row>
-      <Col>
+        <Col>
           <FormGroup className="float-right">
           <Input type="select" name="ccmonth" id="ccmonth">
             <option value="1">Current Month</option>
@@ -100,21 +100,197 @@ class Charts extends Component {
           </Input>
         </FormGroup>
         </Col>
-        </Row>
-  <Row>
-    <Col>
+       </Row> 
         <Card>
             <CardHeader>
               Votes
             </CardHeader>
             <CardBody>
-              <div className="chart-wrapper">
+              <div className="chart-wrapper"  style={{ height: 300 + 'px', marginTop: 40 + 'px' }}>
                 <Bar data={this.state.bar} options={options} />
               </div>
             </CardBody>
           </Card>
-      </Col>
-      </Row>
+ 
+          <Card>
+              <CardHeader>
+                <i className="fa fa-align-justify"></i> Day Counts
+              </CardHeader>
+              <CardBody>
+                <Table responsive>
+                  <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Real Votes</th>
+                    <th>Test Votes</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr>
+                    <td>10/01/2018</td>
+                    <td>100</td>
+                    <td>53</td>
+                  </tr>
+                  <tr>
+                    <td>10/02/2018</td>
+                    <td>100</td>
+                    <td>53</td>
+                  </tr>
+                  <tr>
+                    <td>10/03/2018</td>
+                    <td>100</td>
+                    <td>53</td>
+                  </tr>
+                  <tr>
+                    <td>10/04/2018</td>
+                    <td>100</td>
+                    <td>53</td>
+                  </tr>
+                  <tr>
+                    <td>10/05/2018</td>
+                    <td>100</td>
+                    <td>53</td>
+                  </tr>
+                  <tr>
+                    <td>10/06/2018</td>
+                    <td>100</td>
+                    <td>53</td>
+                  </tr>
+                  <tr>
+                    <td>10/07/2018</td>
+                    <td>100</td>
+                    <td>53</td>
+                  </tr>
+                  <tr>
+                    <td>10/08/2018</td>
+                    <td>100</td>
+                    <td>53</td>
+                  </tr>
+                  <tr>
+                    <td>10/01/2018</td>
+                    <td>100</td>
+                    <td>53</td>
+                  </tr>
+                  <tr>
+                    <td>10/02/2018</td>
+                    <td>100</td>
+                    <td>53</td>
+                  </tr>
+                  <tr>
+                    <td>10/03/2018</td>
+                    <td>100</td>
+                    <td>53</td>
+                  </tr>
+                  <tr>
+                    <td>10/04/2018</td>
+                    <td>100</td>
+                    <td>53</td>
+                  </tr>
+                  <tr>
+                    <td>10/05/2018</td>
+                    <td>100</td>
+                    <td>53</td>
+                  </tr>
+                  <tr>
+                    <td>10/06/2018</td>
+                    <td>100</td>
+                    <td>53</td>
+                  </tr>
+                  <tr>
+                    <td>10/07/2018</td>
+                    <td>100</td>
+                    <td>53</td>
+                  </tr>
+                  <tr>
+                    <td>10/08/2018</td>
+                    <td>100</td>
+                    <td>53</td>
+                  </tr>
+                  <tr>
+                    <td>10/01/2018</td>
+                    <td>100</td>
+                    <td>53</td>
+                  </tr>
+                  <tr>
+                    <td>10/02/2018</td>
+                    <td>100</td>
+                    <td>53</td>
+                  </tr>
+                  <tr>
+                    <td>10/03/2018</td>
+                    <td>100</td>
+                    <td>53</td>
+                  </tr>
+                  <tr>
+                    <td>10/04/2018</td>
+                    <td>100</td>
+                    <td>53</td>
+                  </tr>
+                  <tr>
+                    <td>10/05/2018</td>
+                    <td>100</td>
+                    <td>53</td>
+                  </tr>
+                  <tr>
+                    <td>10/06/2018</td>
+                    <td>100</td>
+                    <td>53</td>
+                  </tr>
+                  <tr>
+                    <td>10/07/2018</td>
+                    <td>100</td>
+                    <td>53</td>
+                  </tr>
+                  <tr>
+                    <td>10/08/2018</td>
+                    <td>100</td>
+                    <td>53</td>
+                  </tr>
+                  <tr>
+                    <td>10/01/2018</td>
+                    <td>100</td>
+                    <td>53</td>
+                  </tr>
+                  <tr>
+                    <td>10/02/2018</td>
+                    <td>100</td>
+                    <td>53</td>
+                  </tr>
+                  <tr>
+                    <td>10/03/2018</td>
+                    <td>100</td>
+                    <td>53</td>
+                  </tr>
+                  <tr>
+                    <td>10/04/2018</td>
+                    <td>100</td>
+                    <td>53</td>
+                  </tr>
+                  <tr>
+                    <td>10/05/2018</td>
+                    <td>100</td>
+                    <td>53</td>
+                  </tr>
+                  <tr>
+                    <td>10/06/2018</td>
+                    <td>100</td>
+                    <td>53</td>
+                  </tr>
+                  <tr>
+                    <td>10/07/2018</td>
+                    <td>100</td>
+                    <td>53</td>
+                  </tr>
+                  <tr>
+                    <td>10/08/2018</td>
+                    <td>100</td>
+                    <td>53</td>
+                  </tr>
+                  </tbody>
+                </Table>
+              </CardBody>
+            </Card>
+
       </div>
     );
   }

@@ -15,7 +15,7 @@ export default {
       class: ''             // optional class names space delimited list for title item ex: "text-center"
     },
     {
-      name: 'Monthly Reports',
+      name: 'Vote Usage',
       url: '/charts',
       icon: 'icon-chart',
     },
@@ -36,6 +36,14 @@ export default {
       name: 'API Keys',
       url: '/Base/Forms',
       icon: 'fa fa-key',
+    },    
+    {
+      title: true,
+      name: 'Examples',
+      wrapper: {
+        element: '',
+        attributes: {},
+      },
     },
     {
       name: 'Base',
