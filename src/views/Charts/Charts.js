@@ -32,7 +32,12 @@ const options = {
 class Charts extends Component {
   constructor(props) {
     super(props);
+
     this.data = this.loadData.bind(this);
+
+    this.handleChange = this.handleChange.bind(this);
+    // this.handleSubmit = this.handleSubmit.bind(this);
+
   }
 
   state = {
@@ -43,14 +48,16 @@ class Charts extends Component {
   listOfDates = () => {
 
     let result = [];
+    let startDate = moment().startOf('year');
     let currentDate = moment().clone();
     let endDate = moment().endOf('year');
 
-    while (currentDate.isBefore(endDate)) {
+    while (currentDate.isBefore(endDate) && currentDate.isAfter(startDate)) {
       result.push(currentDate.format("MM/YYYY"));
-      currentDate.add(1, 'month');
+      currentDate.subtract(1, 'month');
     }
 
+    console.log(result);
     return result;
   }
 
@@ -65,6 +72,7 @@ class Charts extends Component {
 
       if (mthDropdown.options.length === 0) {
         option.text = 'Current Month';
+        option.selected = true;
       } else {
         option.text = dates[date];
       }
@@ -74,11 +82,48 @@ class Charts extends Component {
     }
   }
 
+  handleChange(event) {
+    var usageDetails = this.state.usageDetails;
+    var bar = this.state.bar;
+
+    // this.setState({ value: event.target.value });
+    alert('Chosen Month: ' + event.target.value);
+
+    bar.labels = usageDetails.monthLabels;
+    bar.datasets = [{
+      label: 'Votes',
+      backgroundColor: '#b9d7e8',
+      borderColor: '#2C5062',
+      borderWidth: 1,
+      hoverBackgroundColor: '#c4deed',
+      hoverBorderColor: '#4d84a0',
+      data: usageDetails.monthChartData
+    }];
+
+    this.setState({ bar: bar });
+
+
+  }
+
+  // handleSubmit(event) {
+  //   alert('Chosen Month: ' + this.state.value);
+  //   event.preventDefault();
+  // }
+
+
   loadData = async () => {
+    this.addDatesToDropdown();
+
+    // var usageDetails = this.state.usageDetails;
     await Auth.currentSession()
     let netVoteAdmin = new NetVoteAdmin();
 
     let usageDetails = await netVoteAdmin.getElectionUsageTimes();
+
+    this.setState({
+      usageDetails: usageDetails
+    });
+
     bar.labels = usageDetails.dayLabels;
     bar.datasets = [{
       label: 'Votes',
@@ -92,7 +137,6 @@ class Charts extends Component {
     this.setState({ bar: bar });
     console.log(bar);
 
-    this.addDatesToDropdown();
   }
 
   setData = async () => {
@@ -116,9 +160,7 @@ class Charts extends Component {
         <Row>
           <Col>
             <FormGroup className="float-right">
-              <Input type="select" name="ccmonth" id="ccmonth">
-                {/* <option value="1">Current Month</option> */}
-              </Input>
+              <select name="ccmonth" id="ccmonth" value={this.state.value} onChange={this.handleChange}/>
             </FormGroup>
           </Col>
         </Row>

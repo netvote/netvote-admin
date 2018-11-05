@@ -57,6 +57,7 @@ export default class NetVoteAdmin {
                 .then(data => {
                     //Add Authorization
                     let token = data.getIdToken().getJwtToken();
+                    console.log('NetVoteAdmin Token: ' + token);
                     reqHeaders.append('Authorization', "Bearer " + token);
 
                 }).catch(err => {
