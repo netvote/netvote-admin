@@ -19,7 +19,7 @@ import { Auth } from 'aws-amplify';
 
 //Netvote API Details
 const NETVOTE_API_SERVER = 'https://elections.netvote.io';
-const NETVOTE_API_VERSION = 'v1';
+const NETVOTE_API_VERSION = 'dev';
 
 //Netvote API Endpoints
 const NETVOTE_ELECTION_USAGE_DETAILS = 'usage/detail';
@@ -27,7 +27,7 @@ const NETVOTE_ELECTION_USAGE_TIME = 'usage/report/time';
 
 //Netvote IAM API Details
 const IAM_API_SERVER = 'https://iam.netvote.io';
-const IAM_API_VERSION = 'v1';
+const IAM_API_VERSION = 'dev';
 
 //Netvote IAM Endpoints
 const IAM_ENDPOINT_API_KEY = "apikey";
@@ -97,8 +97,9 @@ export default class NetVoteAdmin {
             return this.electionRequest(NETVOTE_ELECTION_USAGE_DETAILS, 'GET', null);
         };
 
-        this.getElectionUsageTimes = () => {
-            return this.electionRequest(NETVOTE_ELECTION_USAGE_TIME, 'GET', null);
+        this.getElectionUsageTimes = (startTime, endTime) => {
+            let formQuery = `${NETVOTE_ELECTION_USAGE_TIME}?start_dt=${startTime}&end_dt=${endTime}`;
+            return this.electionRequest(formQuery, 'GET', null);
         };
 
         this.getApiKeys = () => {

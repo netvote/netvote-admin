@@ -36,8 +36,6 @@ class Charts extends Component {
     this.data = this.loadData.bind(this);
 
     this.handleChange = this.handleChange.bind(this);
-    // this.handleSubmit = this.handleSubmit.bind(this);
-
   }
 
   state = {
@@ -48,16 +46,17 @@ class Charts extends Component {
   listOfDates = () => {
 
     let result = [];
-    let startDate = moment().startOf('year');
-    let currentDate = moment().clone();
-    let endDate = moment().endOf('year');
+    let currentDate = moment();
 
+    let startDate = currentDate.clone().startOf('year');
+    let endDate = currentDate.clone().endOf('year');
+
+    //Add previous months for current calendar year only
     while (currentDate.isBefore(endDate) && currentDate.isAfter(startDate)) {
       result.push(currentDate.format("MM/YYYY"));
       currentDate.subtract(1, 'month');
     }
 
-    console.log(result);
     return result;
   }
 
@@ -83,60 +82,96 @@ class Charts extends Component {
   }
 
   handleChange(event) {
-    var usageDetails = this.state.usageDetails;
-    var bar = this.state.bar;
+    let usageDetails = this.state.usageDetails;
+    let bar = this.state.bar;
 
-    // this.setState({ value: event.target.value });
-    alert('Chosen Month: ' + event.target.value);
+    //Convert chosen month string to monthly data index (MM/YYYY)
+    let monthIndex = +event.target.value.substring(0, 2);
 
-    bar.labels = usageDetails.monthLabels;
-    bar.datasets = [{
-      label: 'Votes',
-      backgroundColor: '#b9d7e8',
-      borderColor: '#2C5062',
-      borderWidth: 1,
-      hoverBackgroundColor: '#c4deed',
-      hoverBorderColor: '#4d84a0',
-      data: usageDetails.monthChartData
-    }];
+    //Set Monthly Data
+    let chartData = this.setMontlyChartData(usageDetails, monthIndex);
 
-    this.setState({ bar: bar });
+    //Set Month Label
+    let chartLabels = [];
+    chartLabels[0] = event.target.value;
 
+    //Add daily data to table by month
+    this.setMonthlyTableData(monthIndex);
 
+    //Add monthly Chart
+    this.renderChart(bar, chartLabels, chartData);
   }
-
-  // handleSubmit(event) {
-  //   alert('Chosen Month: ' + this.state.value);
-  //   event.preventDefault();
-  // }
-
 
   loadData = async () => {
     this.addDatesToDropdown();
 
-    // var usageDetails = this.state.usageDetails;
     await Auth.currentSession()
     let netVoteAdmin = new NetVoteAdmin();
 
-    let usageDetails = await netVoteAdmin.getElectionUsageTimes();
+    let currentDate = moment();
+    let startDate = currentDate.clone().startOf('year').valueOf();
+    let endDate = currentDate.clone().endOf('month').valueOf();
+
+    //Retrieve ALL data for current year up to end of current month
+    let usageDetails = await netVoteAdmin.getElectionUsageTimes(startDate, endDate);
 
     this.setState({
       usageDetails: usageDetails
     });
 
-    bar.labels = usageDetails.dayLabels;
-    bar.datasets = [{
-      label: 'Votes',
-      backgroundColor: '#b9d7e8',
-      borderColor: '#2C5062',
-      borderWidth: 1,
-      hoverBackgroundColor: '#c4deed',
-      hoverBorderColor: '#4d84a0',
-      data: usageDetails.dayChartData
-    }];
-    this.setState({ bar: bar });
-    console.log(bar);
+    //Set Monthly Data
+    let currMonthIndex = +currentDate.format("MM");
+    let chartData = this.setMontlyChartData(usageDetails, currMonthIndex);
 
+    //Set Month Label
+    let chartLabels = [];
+    chartLabels[0] = currentDate.format("MM/YYYY")
+
+    this.renderChart(bar, chartLabels, chartData);
+
+    //Add daily data to table by month
+    this.setMonthlyTableData(+currentDate.format("MM"));
+
+  }
+
+  setMonthlyTableData(month) {
+    let usageDetails = this.state.usageDetails;
+    let tbody = document.getElementById("monthlyTableData");
+
+    let tr, td;
+
+    let jsData = [];
+
+    jsData = usageDetails.days;
+
+    //Clear Table Data
+    this.resetMonthlyTableData(tbody);
+
+    const entries = Object.entries(jsData)
+    for (const [date, values] of entries) {
+
+      //Determine current data rows month
+      let rowMonth = moment(date, "YYYY-MM-DD").month() + 1;
+
+      //Only add chosen months data to table
+      if (parseInt(rowMonth, 10) === parseInt(month, 10)) {
+
+        //Add monthly data to table
+        tr = tbody.insertRow(tbody.rows.length);
+
+        //Add Date
+        td = tr.insertCell(tr.cells.length);
+        td.innerHTML = date;
+
+        //Add Prod
+        td = tr.insertCell(tr.cells.length);
+        td.innerHTML = values["PROD"];
+
+        //Adfd Test
+        td = tr.insertCell(tr.cells.length);
+        td.innerHTML = values["TEST"];
+      }
+    }
   }
 
   setData = async () => {
@@ -154,13 +189,39 @@ class Charts extends Component {
     this.setState({ bar: bar });
   }
 
+  resetMonthlyTableData(tbody) {
+    while (tbody.hasChildNodes()) {
+      tbody.removeChild(tbody.lastChild);
+    }
+  }
+
+  setMontlyChartData(usageDetails, currMonthIndex) {
+    let chartData = [];
+    chartData[0] = usageDetails.monthChartData[currMonthIndex - 1];
+    return chartData;
+  }
+
+  renderChart(bar, chartLabels, chartData) {
+    bar.labels = chartLabels;
+    bar.datasets = [{
+      label: 'Votes',
+      backgroundColor: '#b9d7e8',
+      borderColor: '#2C5062',
+      borderWidth: 1,
+      hoverBackgroundColor: '#c4deed',
+      hoverBorderColor: '#4d84a0',
+      data: chartData
+    }];
+    this.setState({ bar: bar });
+  }
+
   render() {
     return (
       <div className="animated fadeIn">
         <Row>
           <Col>
             <FormGroup className="float-right">
-              <select name="ccmonth" id="ccmonth" value={this.state.value} onChange={this.handleChange}/>
+              <select name="ccmonth" id="ccmonth" value={this.state.value} onChange={this.handleChange} />
             </FormGroup>
           </Col>
         </Row>
@@ -180,7 +241,7 @@ class Charts extends Component {
             <i className="fa fa-align-justify"></i> Day Counts
               </CardHeader>
           <CardBody>
-            <Table responsive>
+            <Table responsive id="monthTable">
               <thead>
                 <tr>
                   <th>Date</th>
@@ -188,168 +249,7 @@ class Charts extends Component {
                   <th>Test Votes</th>
                 </tr>
               </thead>
-              <tbody>
-                <tr>
-                  <td>10/01/2018</td>
-                  <td>100</td>
-                  <td>53</td>
-                </tr>
-                <tr>
-                  <td>10/02/2018</td>
-                  <td>100</td>
-                  <td>53</td>
-                </tr>
-                <tr>
-                  <td>10/03/2018</td>
-                  <td>100</td>
-                  <td>53</td>
-                </tr>
-                <tr>
-                  <td>10/04/2018</td>
-                  <td>100</td>
-                  <td>53</td>
-                </tr>
-                <tr>
-                  <td>10/05/2018</td>
-                  <td>100</td>
-                  <td>53</td>
-                </tr>
-                <tr>
-                  <td>10/06/2018</td>
-                  <td>100</td>
-                  <td>53</td>
-                </tr>
-                <tr>
-                  <td>10/07/2018</td>
-                  <td>100</td>
-                  <td>53</td>
-                </tr>
-                <tr>
-                  <td>10/08/2018</td>
-                  <td>100</td>
-                  <td>53</td>
-                </tr>
-                <tr>
-                  <td>10/01/2018</td>
-                  <td>100</td>
-                  <td>53</td>
-                </tr>
-                <tr>
-                  <td>10/02/2018</td>
-                  <td>100</td>
-                  <td>53</td>
-                </tr>
-                <tr>
-                  <td>10/03/2018</td>
-                  <td>100</td>
-                  <td>53</td>
-                </tr>
-                <tr>
-                  <td>10/04/2018</td>
-                  <td>100</td>
-                  <td>53</td>
-                </tr>
-                <tr>
-                  <td>10/05/2018</td>
-                  <td>100</td>
-                  <td>53</td>
-                </tr>
-                <tr>
-                  <td>10/06/2018</td>
-                  <td>100</td>
-                  <td>53</td>
-                </tr>
-                <tr>
-                  <td>10/07/2018</td>
-                  <td>100</td>
-                  <td>53</td>
-                </tr>
-                <tr>
-                  <td>10/08/2018</td>
-                  <td>100</td>
-                  <td>53</td>
-                </tr>
-                <tr>
-                  <td>10/01/2018</td>
-                  <td>100</td>
-                  <td>53</td>
-                </tr>
-                <tr>
-                  <td>10/02/2018</td>
-                  <td>100</td>
-                  <td>53</td>
-                </tr>
-                <tr>
-                  <td>10/03/2018</td>
-                  <td>100</td>
-                  <td>53</td>
-                </tr>
-                <tr>
-                  <td>10/04/2018</td>
-                  <td>100</td>
-                  <td>53</td>
-                </tr>
-                <tr>
-                  <td>10/05/2018</td>
-                  <td>100</td>
-                  <td>53</td>
-                </tr>
-                <tr>
-                  <td>10/06/2018</td>
-                  <td>100</td>
-                  <td>53</td>
-                </tr>
-                <tr>
-                  <td>10/07/2018</td>
-                  <td>100</td>
-                  <td>53</td>
-                </tr>
-                <tr>
-                  <td>10/08/2018</td>
-                  <td>100</td>
-                  <td>53</td>
-                </tr>
-                <tr>
-                  <td>10/01/2018</td>
-                  <td>100</td>
-                  <td>53</td>
-                </tr>
-                <tr>
-                  <td>10/02/2018</td>
-                  <td>100</td>
-                  <td>53</td>
-                </tr>
-                <tr>
-                  <td>10/03/2018</td>
-                  <td>100</td>
-                  <td>53</td>
-                </tr>
-                <tr>
-                  <td>10/04/2018</td>
-                  <td>100</td>
-                  <td>53</td>
-                </tr>
-                <tr>
-                  <td>10/05/2018</td>
-                  <td>100</td>
-                  <td>53</td>
-                </tr>
-                <tr>
-                  <td>10/06/2018</td>
-                  <td>100</td>
-                  <td>53</td>
-                </tr>
-                <tr>
-                  <td>10/07/2018</td>
-                  <td>100</td>
-                  <td>53</td>
-                </tr>
-                <tr>
-                  <td>10/08/2018</td>
-                  <td>100</td>
-                  <td>53</td>
-                </tr>
-              </tbody>
+              <tbody id="monthlyTableData"></tbody>
             </Table>
           </CardBody>
         </Card>
