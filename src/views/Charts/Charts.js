@@ -6,6 +6,8 @@ import { NetVoteAdmin } from '../../lib';
 import * as moment from 'moment';
 import { Auth } from 'aws-amplify';
 
+const ROLLING_WINDOW_IN_MONTHS = 12;
+
 const bar = {
   labels: [],
   datasets: [
@@ -48,11 +50,12 @@ class Charts extends Component {
     let result = [];
     let currentDate = moment();
 
-    let startDate = currentDate.clone().startOf('year');
-    let endDate = currentDate.clone().endOf('year');
+    //Rolling 12 Month Window
+    let startDate = currentDate.clone().startOf('month').subtract(ROLLING_WINDOW_IN_MONTHS - 1, 'month');
+    let endDate = currentDate.clone();
 
     //Add previous months for current calendar year only
-    while (currentDate.isBefore(endDate) && currentDate.isAfter(startDate)) {
+    while (currentDate.isSameOrBefore(endDate) && currentDate.isSameOrAfter(startDate)) {
       result.push(currentDate.format("MM/YYYY"));
       currentDate.subtract(1, 'month');
     }
@@ -82,59 +85,58 @@ class Charts extends Component {
   }
 
   handleChange(event) {
-    let usageDetails = this.state.usageDetails;
-    let bar = this.state.bar;
+    // let usageDetails = this.state.usageDetails;
+    // let bar = this.state.bar;
 
-    //Convert chosen month string to monthly data index (MM/YYYY)
-    let monthIndex = +event.target.value.substring(0, 2);
+    //Convert event data
+    let date = event.target.value.split("/");
+    let monthIndex = date[0];
+    let year = date[1];
+
+    //Add daily data to table by month+year
+    this.setMonthlyTableData(monthIndex, year);
 
     //Set Monthly Data
-    let chartData = this.setMontlyChartData(usageDetails, monthIndex);
+    // let currMonthIndex = +currentDate.format("MM");
+    // let chartData = this.setMontlyChartData(usageDetails, currMonthIndex);
 
-    //Set Month Label
-    let chartLabels = [];
-    chartLabels[0] = event.target.value;
+    // //Set Month Label
+    // let chartLabels = [];
+    // chartLabels[0] = currentDate.format("MM/YYYY")
 
-    //Add daily data to table by month
-    this.setMonthlyTableData(monthIndex);
+    // this.renderChart(bar, chartLabels, chartData);
 
-    //Add monthly Chart
-    this.renderChart(bar, chartLabels, chartData);
   }
 
   loadData = async () => {
     this.addDatesToDropdown();
 
+    let currentDate = moment();
+    let startDate = currentDate.clone().startOf('month').subtract(ROLLING_WINDOW_IN_MONTHS - 1, 'month').valueOf();
+    let endDate = currentDate.clone().valueOf();
+
     await Auth.currentSession()
     let netVoteAdmin = new NetVoteAdmin();
 
-    let currentDate = moment();
-    let startDate = currentDate.clone().startOf('year').valueOf();
-    let endDate = currentDate.clone().endOf('month').valueOf();
-
-    //Retrieve ALL data for current year up to end of current month
+    //Retrieve rolling windows of data by X months
     let usageDetails = await netVoteAdmin.getElectionUsageTimes(startDate, endDate);
 
+    //Store fetch details
     this.setState({
       usageDetails: usageDetails
     });
+    
+    //Add daily data to table by month+year - Default current month+year
+    this.setMonthlyTableData(+currentDate.format("MM"), +currentDate.format("YYYY"));
 
-    //Set Monthly Data
-    let currMonthIndex = +currentDate.format("MM");
-    let chartData = this.setMontlyChartData(usageDetails, currMonthIndex);
+    //Add Rolling Monthly Chart
+    let chartData = [];
+    chartData[0] = usageDetails.monthChartData;
 
-    //Set Month Label
-    let chartLabels = [];
-    chartLabels[0] = currentDate.format("MM/YYYY")
-
-    this.renderChart(bar, chartLabels, chartData);
-
-    //Add daily data to table by month
-    this.setMonthlyTableData(+currentDate.format("MM"));
-
+    this.renderChart(bar, usageDetails.monthLabels, usageDetails.monthChartData);
   }
 
-  setMonthlyTableData(month) {
+  setMonthlyTableData(month, year) {
     let usageDetails = this.state.usageDetails;
     let tbody = document.getElementById("monthlyTableData");
 
@@ -150,11 +152,14 @@ class Charts extends Component {
     const entries = Object.entries(jsData)
     for (const [date, values] of entries) {
 
-      //Determine current data rows month
-      let rowMonth = moment(date, "YYYY-MM-DD").month() + 1;
+      //Determine current data rows month/year
+      let rowDate = moment(date, "YYYY-MM-DD");
+      let rowMonth = rowDate.month() + 1;
+      let rowYear = rowDate.year();
 
-      //Only add chosen months data to table
-      if (parseInt(rowMonth, 10) === parseInt(month, 10)) {
+      //Only add chosen months/year data to table
+      if ((parseInt(rowMonth, 10) === parseInt(month, 10)) &&
+        (parseInt(rowYear, 10) === parseInt(year, 10))) {
 
         //Add monthly data to table
         tr = tbody.insertRow(tbody.rows.length);
@@ -218,13 +223,6 @@ class Charts extends Component {
   render() {
     return (
       <div className="animated fadeIn">
-        <Row>
-          <Col>
-            <FormGroup className="float-right">
-              <select name="ccmonth" id="ccmonth" value={this.state.value} onChange={this.handleChange} />
-            </FormGroup>
-          </Col>
-        </Row>
         <Card>
           <CardHeader>
             Votes
@@ -235,10 +233,16 @@ class Charts extends Component {
             </div>
           </CardBody>
         </Card>
-
+        <Row>
+          <Col>
+            <FormGroup className="float-right">
+              <select name="ccmonth" id="ccmonth" value={this.state.value} onChange={this.handleChange} />
+            </FormGroup>
+          </Col>
+        </Row>
         <Card>
           <CardHeader>
-            <i className="fa fa-align-justify"></i> Day Counts
+            <i className="fa fa-align-justify"></i> Daily Counts
               </CardHeader>
           <CardBody>
             <Table responsive id="monthTable">
