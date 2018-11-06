@@ -27,7 +27,7 @@ const NETVOTE_ELECTION_USAGE_TIME = 'usage/report/time';
 
 //Netvote IAM API Details
 const IAM_API_SERVER = 'https://iam.netvote.io';
-const IAM_API_VERSION = 'dev';
+const IAM_API_VERSION = 'v1';
 
 //Netvote IAM Endpoints
 const IAM_ENDPOINT_API_KEY = "apikey";
