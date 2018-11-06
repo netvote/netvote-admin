@@ -121,7 +121,6 @@ class Charts extends Component {
 
     //Retrieve rolling windows of data by X months
     let usageDetails = await netVoteAdmin.getElectionUsageTimes(startDate, endDate);
-    console.log(usageDetails);
 
     //Store fetch details
     this.setState({
@@ -146,10 +145,9 @@ class Charts extends Component {
 
     let monthKey = `${year}-${month}`;
     
-
     this.setState({
       usageDetails: usageDetails,
-      totalVotes: `${usageDetails.months[monthKey]["PROD"]}`,
+      totalVotes:  `${usageDetails.months[monthKey]["PROD"]}`,
       totalTestVotes: `${usageDetails.months[monthKey]["TEST"]}`
     });
 
@@ -254,8 +252,8 @@ class Charts extends Component {
           </Col>
         </Row>
         <Row>
-          <Col><Widget02 header={this.state.totalVotes} mainText="Real Votes" icon="fa fa-check" color="primary" variant="2" /></Col>
-          <Col><Widget02 header={this.state.totalTestVotes} mainText="Test Votes" icon="fa fa-check" color="secondary" variant="2" /></Col>
+          <Col><Widget02 header={(''+this.state.totalVotes)} mainText="Real Votes" icon="fa fa-check" color="primary" variant="2" /></Col>
+          <Col><Widget02 header={(''+this.state.totalTestVotes)} mainText="Test Votes" icon="fa fa-check" color="secondary" variant="2" /></Col>
         </Row>
         <Card>
           <CardHeader>
