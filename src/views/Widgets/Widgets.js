@@ -123,7 +123,7 @@ class Widgets extends Component {
         </Row>
         <Row>
           <Col xs="12" sm="6" lg="3">
-            <Widget02 header="$1.999,50" mainText="Income" icon="fa fa-cogs" color="primary" variant="1" />
+            <Widget02 header="$1.999,50" mainText="Income" icon="fa fa-check" color="primary" variant="1" />
           </Col>
           <Col xs="12" sm="6" lg="3">
             <Widget02 header="$1.999,50" mainText="Income" icon="fa fa-laptop" color="info" variant="1" />

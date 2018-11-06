@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { Bar, Doughnut, Line, Pie, Polar, Radar } from 'react-chartjs-2';
-import { Card, Col, Table, Badge, Row, CardBody, FormGroup, Input, Label, CardColumns, CardHeader } from 'reactstrap';
+import { Card, Col, Table, Badge, Row, CardBody, FormGroup, CardHeader } from 'reactstrap';
 import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips';
 import { NetVoteAdmin } from '../../lib';
 import * as moment from 'moment';
 import { Auth } from 'aws-amplify';
+import Widget02 from './Widget02';
 
 const ROLLING_WINDOW_IN_MONTHS = 12;
 
@@ -120,10 +121,13 @@ class Charts extends Component {
 
     //Retrieve rolling windows of data by X months
     let usageDetails = await netVoteAdmin.getElectionUsageTimes(startDate, endDate);
+    console.log(usageDetails);
 
     //Store fetch details
     this.setState({
-      usageDetails: usageDetails
+      usageDetails: usageDetails,
+      totalVotes: 0,
+      totalTestVotes: 0
     });
     
     //Add daily data to table by month+year - Default current month+year
@@ -139,6 +143,15 @@ class Charts extends Component {
   setMonthlyTableData(month, year) {
     let usageDetails = this.state.usageDetails;
     let tbody = document.getElementById("monthlyTableData");
+
+    let monthKey = `${year}-${month}`;
+    
+
+    this.setState({
+      usageDetails: usageDetails,
+      totalVotes: `${usageDetails.months[monthKey]["PROD"]}`,
+      totalTestVotes: `${usageDetails.months[monthKey]["TEST"]}`
+    });
 
     let tr, td;
 
@@ -239,6 +252,10 @@ class Charts extends Component {
               <select name="ccmonth" id="ccmonth" value={this.state.value} onChange={this.handleChange} />
             </FormGroup>
           </Col>
+        </Row>
+        <Row>
+          <Col><Widget02 header={this.state.totalVotes} mainText="Real Votes" icon="fa fa-check" color="primary" variant="1" /></Col>
+          <Col><Widget02 header={this.state.totalTestVotes} mainText="Test Votes" icon="fa fa-check" color="primary" variant="1" /></Col>
         </Row>
         <Card>
           <CardHeader>
