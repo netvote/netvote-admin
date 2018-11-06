@@ -248,6 +248,7 @@ class Charts extends Component {
             </div>
           </CardBody>
         </Card>
+        <hr />
         <Row>
           <Col>
             <FormGroup className="float-right">
