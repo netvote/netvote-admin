@@ -96,14 +96,17 @@ class Forms extends Component {
 
       //Add API Key
       td = tr.insertCell(tr.cells.length);
+      td.style = "font-family: Courier New;"
       td.innerHTML = values["apiKey"];
 
       //Add API ID
       td = tr.insertCell(tr.cells.length);
+      td.style = "font-family: Courier New"
       td.innerHTML = values["apiId"];
 
       //Add API Secret
       td = tr.insertCell(tr.cells.length);
+      td.style = "font-family: Courier New"
       td.innerHTML = values["apiSecret"];
 
       //Add API Owner
