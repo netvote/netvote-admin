@@ -144,11 +144,13 @@ class Charts extends Component {
     let tbody = document.getElementById("monthlyTableData");
 
     let monthKey = `${year}-${month}`;
+    let monthText = `${month}/${year}`
     
     this.setState({
       usageDetails: usageDetails,
       totalVotes:  `${usageDetails.months[monthKey]["PROD"]}`,
-      totalTestVotes: `${usageDetails.months[monthKey]["TEST"]}`
+      totalTestVotes: `${usageDetails.months[monthKey]["TEST"]}`,
+      monthText: monthText
     });
 
     let tr, td;
@@ -236,7 +238,7 @@ class Charts extends Component {
       <div className="animated fadeIn">
         <Card>
           <CardHeader>
-            Votes
+            Votes by Month
             </CardHeader>
           <CardBody>
             <div className="chart-wrapper" style={{ height: 300 + 'px', marginTop: 40 + 'px' }}>
@@ -257,8 +259,8 @@ class Charts extends Component {
         </Row>
         <Card>
           <CardHeader>
-            <i className="fa fa-align-justify"></i> Daily Counts
-              </CardHeader>
+            Daily Votes for {this.state.monthText}
+          </CardHeader>
           <CardBody>
             <Table responsive id="monthTable">
               <thead>

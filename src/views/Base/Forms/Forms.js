@@ -145,8 +145,8 @@ class Forms extends Component {
       <div className="animated fadeIn">
         <Card>
           <CardHeader>
-            <i className="fa fa-align-justify"></i> API Keys
-              </CardHeader>
+            API Keys
+          </CardHeader>
           <CardBody>
             <Table responsive>
               <thead>
@@ -161,29 +161,11 @@ class Forms extends Component {
                 </tr>
               </thead>
               <tbody id="apiKeyTableData">
-                {/* <tr>
-                  <td>itDasdfasdfIaxIPJf6EGGSasdfasdfqNd6cyS8d</td>
-                  <td>abc********************</td>
-                  <td>def********************</td>
-                  <td>steven@netvote.io</td>
-                  <td>32 days</td>
-                  <td><Button size="sm" block color="primary">View</Button></td>
-                  <td><Button size="sm" block color="danger">Delete</Button></td>
-                </tr>
-                <tr>
-                  <td>itDasdfasdfIaxIPJf6EGGSasdfasdfqNd6cyS8d</td>
-                  <td>abc********************</td>
-                  <td>def********************</td>
-                  <td>steven@netvote.io</td>
-                  <td>32 days</td>
-                  <td><Button size="sm" block color="primary">View</Button></td>
-                  <td><Button size="sm" block color="danger">Delete</Button></td>
-                </tr> */}
               </tbody>
             </Table>
           </CardBody>
           <CardFooter>
-            <Button block color="primary">Create API Key</Button>
+            <Button className="float-left" color="primary"><i className="fa fa-plus-circle"></i>&nbsp;Create API Key</Button>
           </CardFooter>
         </Card>
 
