@@ -13,12 +13,12 @@ const bar = {
   labels: [],
   datasets: [
     {
-      label: 'Votes',
-      backgroundColor: '#b9d7e8',
-      borderColor: '#2C5062',
+      label: 'Monthly Real Votes',
+      backgroundColor: '#20a8d8', 
+      borderColor: '#20a8d8',
       borderWidth: 1,
-      hoverBackgroundColor: '#c4deed',
-      hoverBorderColor: '#4d84a0',
+      hoverBackgroundColor: '#63c2de',
+      hoverBorderColor: '#63c2de',
       data: [],
     },
   ],
@@ -222,12 +222,12 @@ class Charts extends Component {
   renderChart(bar, chartLabels, chartData) {
     bar.labels = chartLabels;
     bar.datasets = [{
-      label: 'Votes',
-      backgroundColor: '#b9d7e8',
-      borderColor: '#2C5062',
+      label: 'Monthly Real Votes',
+      backgroundColor: '#20a8d8',
+      borderColor: '#20a8d8',
       borderWidth: 1,
-      hoverBackgroundColor: '#c4deed',
-      hoverBorderColor: '#4d84a0',
+      hoverBackgroundColor: '#63c2de',
+      hoverBorderColor: '#63c2de',
       data: chartData
     }];
     this.setState({ bar: bar });
@@ -254,8 +254,8 @@ class Charts extends Component {
           </Col>
         </Row>
         <Row>
-          <Col><Widget02 header={this.state.totalVotes} mainText="Real Votes" icon="fa fa-check" color="primary" variant="1" /></Col>
-          <Col><Widget02 header={this.state.totalTestVotes} mainText="Test Votes" icon="fa fa-check" color="primary" variant="1" /></Col>
+          <Col><Widget02 header={this.state.totalVotes} mainText="Real Votes" icon="fa fa-check" color="primary" variant="2" /></Col>
+          <Col><Widget02 header={this.state.totalTestVotes} mainText="Test Votes" icon="fa fa-check" color="secondary" variant="2" /></Col>
         </Row>
         <Card>
           <CardHeader>
