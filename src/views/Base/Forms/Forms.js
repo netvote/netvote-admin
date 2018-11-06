@@ -139,10 +139,10 @@ class Forms extends Component {
                         <td style={{fontFamily: "Courier New"}}>{key.apiSecret}</td>
                         <td>{key.createdBy}</td>
                         <td>{getCreationAgeInDays(key)}</td>
-                        <td><Button size="sm" block color="primary" onClick={() => this.onViewApiBtnClick()}>View</Button></td>
+                        <td><Button size="sm" block color="primary" onClick={() => this.onViewApiBtnClick(key.apiId)}>View</Button></td>
                         <td><Button onClick={() => this.toggle(0)}size="sm" block color="danger">Delete</Button></td>
                         </tr>;
-                  })}
+                  }, this)}
               </tbody>
             </Table>
           </CardBody>
