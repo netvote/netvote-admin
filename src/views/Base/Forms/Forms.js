@@ -29,6 +29,15 @@ import {
   Row,
 } from 'reactstrap';
 
+
+function getCreationAgeInDays (values) {
+  var created = moment(values["createdAt"]);
+  var now = moment();
+
+  let creationAge = now.diff(created, 'days') + 1; //+1 to include the start day
+  return `${creationAge} days`;
+}
+
 class Forms extends Component {
   constructor(props) {
     super(props);
@@ -41,7 +50,8 @@ class Forms extends Component {
     this.state = {
       collapse: true,
       fadeIn: true,
-      timeout: 300
+      timeout: 300,
+      apiKeyList: []
     };
   }
 
@@ -69,8 +79,6 @@ class Forms extends Component {
       netVoteAdmin: netVoteAdmin
     });
 
-    //Add API Keys to table
-    this.setApiKeyTableData();
   }
 
 
@@ -78,62 +86,7 @@ class Forms extends Component {
     await this.loadData();
   }
 
-  setApiKeyTableData() {
-    let apiKeyList = this.state.apiKeyList;
 
-    let tbody = document.getElementById("apiKeyTableData");
-
-    let tr, td;
-
-    //Clear Table Data
-    this.resetApiKeyTableData(tbody);
-
-    const entries = Object.entries(apiKeyList);
-
-    for (const [index, values] of entries) {
-  
-      tr = tbody.insertRow(tbody.rows.length);
-
-      //Add API Key
-      td = tr.insertCell(tr.cells.length);
-      td.style = "font-family: Courier New;"
-      td.innerHTML = values["apiKey"];
-
-      //Add API ID
-      td = tr.insertCell(tr.cells.length);
-      td.style = "font-family: Courier New"
-      td.innerHTML = values["apiId"];
-
-      //Add API Secret
-      td = tr.insertCell(tr.cells.length);
-      td.style = "font-family: Courier New"
-      td.innerHTML = values["apiSecret"];
-
-      //Add API Owner
-      td = tr.insertCell(tr.cells.length);
-      td.innerHTML = values["createdBy"];
-
-      //Add API Key Age
-      let creationAge = this.getCreationAgeInDays(values);  
-      
-      td = tr.insertCell(tr.cells.length);
-      td.innerHTML = creationAge;
-
-
-      //TODO: ADD FUNCTIONAL BUTTONS
-      // <td><Button size="sm" block color="primary">View</Button></td>
-      // <td><Button size="sm" block color="danger">Delete</Button></td>
-
-    }
-  }
-
-  getCreationAgeInDays(values) {
-    var created = moment(values["createdAt"]);
-    var now = moment();
-
-    let creationAge = now.diff(created, 'days') + 1; //+1 to include the start day
-    return `${creationAge} days`;
-  }
 
   resetApiKeyTableData(tbody) {
     while (tbody.hasChildNodes()) {
@@ -171,6 +124,18 @@ class Forms extends Component {
                 </tr>
               </thead>
               <tbody id="apiKeyTableData">
+              {this.state.apiKeyList.map(function(key, index){
+                console.log(key.apiKey);
+                    return <tr>
+                        <td style={{fontFamily: "Courier New"}}>{key.apiKey}</td>
+                        <td style={{fontFamily: "Courier New"}}>{key.apiId}</td>
+                        <td style={{fontFamily: "Courier New"}}>{key.apiSecret}</td>
+                        <td>{key.owner}</td>
+                        <td>{getCreationAgeInDays(key)}</td>
+                        <td><Button size="sm" block color="primary">View</Button></td>
+                        <td><Button size="sm" block color="danger">Delete</Button></td>
+                        </tr>;
+                  })}
               </tbody>
             </Table>
           </CardBody>
