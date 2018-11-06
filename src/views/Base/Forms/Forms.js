@@ -117,7 +117,7 @@ class Forms extends Component {
                   <th>API Key</th>
                   <th>API ID</th>
                   <th>API Secret</th>
-                  <th>Owner</th>
+                  <th>Created By</th>
                   <th>Age</th>
                   <th></th>
                   <th></th>
@@ -130,7 +130,7 @@ class Forms extends Component {
                         <td style={{fontFamily: "Courier New"}}>{key.apiKey}</td>
                         <td style={{fontFamily: "Courier New"}}>{key.apiId}</td>
                         <td style={{fontFamily: "Courier New"}}>{key.apiSecret}</td>
-                        <td>{key.owner}</td>
+                        <td>{key.createdBy}</td>
                         <td>{getCreationAgeInDays(key)}</td>
                         <td><Button size="sm" block color="primary">View</Button></td>
                         <td><Button size="sm" block color="danger">Delete</Button></td>
