@@ -100,7 +100,7 @@ class Forms extends Component {
 
       //Add API ID
       td = tr.insertCell(tr.cells.length);
-      td.innerHTML = values["id"];
+      td.innerHTML = values["apiId"];
 
       //Add API Secret
       td = tr.insertCell(tr.cells.length);
@@ -129,7 +129,7 @@ class Forms extends Component {
     var now = moment();
 
     let creationAge = now.diff(created, 'days') + 1; //+1 to include the start day
-    return creationAge;
+    return `${creationAge} days`;
   }
 
   resetApiKeyTableData(tbody) {
