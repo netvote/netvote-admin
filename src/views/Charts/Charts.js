@@ -42,7 +42,9 @@ class Charts extends Component {
   }
 
   state = {
-    bar: {}
+    bar: {},
+    totalVotes: 0,
+    totalTestVotes: 0
   };
   ref = null;
 
