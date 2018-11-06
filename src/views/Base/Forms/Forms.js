@@ -38,6 +38,8 @@ function getCreationAgeInDays (values) {
   return `${creationAge} days`;
 }
 
+
+
 class Forms extends Component {
   constructor(props) {
     super(props);
@@ -46,6 +48,8 @@ class Forms extends Component {
 
     this.toggle = this.toggle.bind(this);
     this.toggleFade = this.toggleFade.bind(this);
+
+    this.onViewApiBtnClick = this.onViewApiBtnClick.bind(this);
 
     this.state = {
       collapse: true,
@@ -81,6 +85,9 @@ class Forms extends Component {
 
   }
 
+   onViewApiBtnClick() {
+    alert('TRYING TO VIEW API KEY');
+  }
 
   componentDidMount = async () => {
     await this.loadData();
@@ -125,15 +132,15 @@ class Forms extends Component {
               </thead>
               <tbody id="apiKeyTableData">
               {this.state.apiKeyList.map(function(key, index){
-                console.log(key.apiKey);
-                    return <tr>
+                
+                    return  <tr key={key.id}>
                         <td style={{fontFamily: "Courier New"}}>{key.apiKey}</td>
                         <td style={{fontFamily: "Courier New"}}>{key.apiId}</td>
                         <td style={{fontFamily: "Courier New"}}>{key.apiSecret}</td>
                         <td>{key.createdBy}</td>
                         <td>{getCreationAgeInDays(key)}</td>
-                        <td><Button size="sm" block color="primary">View</Button></td>
-                        <td><Button size="sm" block color="danger">Delete</Button></td>
+                        <td><Button size="sm" block color="primary" onClick={() => this.onViewApiBtnClick()}>View</Button></td>
+                        <td><Button onClick={() => this.toggle(0)}size="sm" block color="danger">Delete</Button></td>
                         </tr>;
                   })}
               </tbody>
