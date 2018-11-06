@@ -143,7 +143,14 @@ class Forms extends Component {
   render() {
     return (
       <div className="animated fadeIn">
-        <Card>
+      <Row>
+        <Col>
+        <Button className="float-right" color="primary"><i className="fa fa-plus-circle"></i>&nbsp;Create API Key</Button>
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+        <Card style={{ marginTop: 30 + 'px' }}>
           <CardHeader>
             API Keys
           </CardHeader>
@@ -164,10 +171,10 @@ class Forms extends Component {
               </tbody>
             </Table>
           </CardBody>
-          <CardFooter>
-            <Button className="float-left" color="primary"><i className="fa fa-plus-circle"></i>&nbsp;Create API Key</Button>
-          </CardFooter>
         </Card>
+        </Col>
+        </Row>
+
 
       </div>
     );
