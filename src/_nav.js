@@ -19,11 +19,11 @@ export default {
       url: '/charts',
       icon: 'icon-chart',
     },
-    {
-      name: 'Audit Log',
-      url: '/tables',
-      icon: 'fa fa-shield',
-    },
+    // {
+    //   name: 'Audit Log',
+    //   url: '/tables',
+    //   icon: 'fa fa-shield',
+    // },
     {
       title: true,
       name: 'Configuration',
