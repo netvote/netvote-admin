@@ -1,10 +1,10 @@
 export default {
   items: [
-    {
-      name: 'Dashboard',
-      url: '/dashboard',
-      icon: 'icon-speedometer'
-    },
+    // {
+    //   name: 'Dashboard',
+    //   url: '/dashboard',
+    //   icon: 'icon-speedometer'
+    // },
     {
       title: true,
       name: 'Usage',
@@ -21,7 +21,7 @@ export default {
     },
     {
       name: 'Audit Log',
-      url: '/base/tables',
+      url: '/tables',
       icon: 'fa fa-shield',
     },
     {
@@ -34,7 +34,7 @@ export default {
     },
     {
       name: 'API Keys',
-      url: '/Base/Forms',
+      url: '/forms',
       icon: 'fa fa-key',
     },    
     // {
