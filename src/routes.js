@@ -32,11 +32,6 @@ const Dropdowns = Loadable({
   loading: Loading,
 });
 
-const Forms = Loadable({
-  loader: () => import('./views/Base/Forms'),
-  loading: Loading,
-});
-
 const Jumbotrons = Loadable({
   loader: () => import('./views/Base/Jumbotrons'),
   loading: Loading,
@@ -112,11 +107,6 @@ const Buttons = Loadable({
   loading: Loading,
 });
 
-const Charts = Loadable({
-  loader: () => import('./views/Charts'),
-  loading: Loading,
-});
-
 const Dashboard = Loadable({
   loader: () => import('./views/Dashboard'),
   loading: Loading,
@@ -183,6 +173,15 @@ const User = Loadable({
 });
 
 
+const Usage = Loadable({
+  loader: () => import('./views/Pages/Usage'),
+  loading: Loading,
+});
+
+const APIKeys = Loadable({
+  loader: () => import('./views/Pages/APIKeys'),
+  loading: Loading,
+});
 
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
@@ -193,7 +192,6 @@ const routes = [
   { path: '/theme/typography', name: 'Typography', component: Typography },
   { path: '/base', exact: true, name: 'Base', component: Cards },
   { path: '/base/cards', name: 'Cards', component: Cards },
-  { path: '/forms', name: 'Forms', component: Forms },
   { path: '/base/switches', name: 'Switches', component: Switches },
   { path: '/tables', name: 'Tables', component: Tables },
   { path: '/base/tabs', name: 'Tabs', component: Tabs },
@@ -224,7 +222,8 @@ const routes = [
   { path: '/notifications/badges', name: 'Badges', component: Badges },
   { path: '/notifications/modals', name: 'Modals', component: Modals },
   { path: '/widgets', name: 'Widgets', component: Widgets },
-  { path: '/charts', name: 'Charts', component: Charts },
+  { path: '/usage', name: 'Vote Usage', component: Usage },
+  { path: '/apikeys', name: 'API Keys', component: APIKeys },
   { path: '/users', exact: true,  name: 'Users', component: Users },
   { path: '/users/:id', exact: true, name: 'User Details', component: User },
 ];

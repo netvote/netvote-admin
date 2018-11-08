@@ -48,7 +48,7 @@ class DefaultLayout extends Component {
                       : (null);
                   },
                 )}
-                <Redirect from="/" to="/Charts" />
+                <Redirect from="/" to="/usage" />
               </Switch>
             </Container>
           </main>

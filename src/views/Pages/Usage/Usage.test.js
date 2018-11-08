@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Charts from './Charts';
+import Usage from './Usage';
 
 jest.mock('react-chartjs-2', () => ({
   Line: () => null,
@@ -13,6 +13,6 @@ jest.mock('react-chartjs-2', () => ({
 
 it('renders without crashing', () => {
   const div = document.createElement('div');
-  ReactDOM.render(<Charts />, div);
+  ReactDOM.render(<Usage />, div);
   ReactDOM.unmountComponentAtNode(div);
 });

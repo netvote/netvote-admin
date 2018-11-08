@@ -3,29 +3,12 @@ import { NetVoteAdmin } from '../../../lib';
 import { Auth } from 'aws-amplify';
 import * as moment from 'moment';
 import {
-  Badge,
   Button,
-  ButtonDropdown,
   Card,
   CardBody,
-  CardFooter,
   CardHeader,
   Table,
   Col,
-  Collapse,
-  DropdownItem,
-  DropdownMenu,
-  DropdownToggle,
-  Fade,
-  Form,
-  FormGroup,
-  FormText,
-  FormFeedback,
-  Input,
-  InputGroup,
-  InputGroupAddon,
-  InputGroupText,
-  Label,
   Row,
   Modal,
   ModalBody,
@@ -42,7 +25,7 @@ function getCreationAgeInDays(values) {
   return `${creationAge} days`;
 }
 
-class Forms extends Component {
+class APIKeys extends Component {
   constructor(props) {
     super(props);
 
@@ -331,4 +314,4 @@ class Forms extends Component {
   }
 }
 
-export default Forms;
+export default APIKeys;

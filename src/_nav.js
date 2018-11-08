@@ -16,14 +16,9 @@ export default {
     },
     {
       name: 'Vote Usage',
-      url: '/charts',
+      url: '/usage',
       icon: 'icon-chart',
     },
-    // {
-    //   name: 'Audit Log',
-    //   url: '/tables',
-    //   icon: 'fa fa-shield',
-    // },
     {
       title: true,
       name: 'Configuration',
@@ -34,7 +29,7 @@ export default {
     },
     {
       name: 'API Keys',
-      url: '/forms',
+      url: '/apikeys',
       icon: 'fa fa-key',
     },    
     // {

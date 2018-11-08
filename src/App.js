@@ -12,7 +12,7 @@ import * as aws_settings from './config/aws-settings';
 // Containers
 import { DefaultLayout } from './containers';
 // Pages
-import { Login, Page404, Page500, Register } from './views/Pages';
+import { Login, Page404, Page500, Register} from './views/Pages';
 
 Amplify.Logger.LOG_LEVEL = 'INFO'; // We write INFO level logs throughout app
 

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { Bar, Doughnut, Line, Pie, Polar, Radar } from 'react-chartjs-2';
-import { Card, Col, Table, Badge, Row, CardBody, FormGroup, CardHeader } from 'reactstrap';
+import { Bar } from 'react-chartjs-2';
+import { Card, Col, Table, Row, CardBody, FormGroup, CardHeader } from 'reactstrap';
 import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips';
-import { NetVoteAdmin } from '../../lib';
+import { NetVoteAdmin } from '../../../lib';
 import * as moment from 'moment';
 import { Auth } from 'aws-amplify';
 import Widget02 from './Widget02';
@@ -32,7 +32,7 @@ const options = {
   maintainAspectRatio: false
 }
 
-class Charts extends Component {
+class Usage extends Component {
   constructor(props) {
     super(props);
 
@@ -283,4 +283,4 @@ class Charts extends Component {
   }
 }
 
-export default Charts;
+export default Usage;

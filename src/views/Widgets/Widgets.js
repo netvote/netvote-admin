@@ -109,9 +109,6 @@ class Widgets extends Component {
             <Widget02 header="$1.999,50" mainText="Income" icon="fa fa-bell" color="danger" />
           </Col>
           <Col xs="12" sm="6" lg="3">
-            <Widget02 header="$1.999,50" mainText="Income" icon="fa fa-cogs" color="primary" footer link="#/charts" />
-          </Col>
-          <Col xs="12" sm="6" lg="3">
             <Widget02 header="$1.999,50" mainText="Income" icon="fa fa-laptop" color="info" footer />
           </Col>
           <Col xs="12" sm="6" lg="3">
