@@ -55,7 +55,7 @@ class Forms extends Component {
     this.toggleDeleteApiModal = this.toggleDeleteApiModal.bind(this);
 
     this.deleteApiKeyAction = this.deleteApiKeyAction.bind(this);
-
+    this.toggleSuccess = this.toggleSuccess.bind(this);
 
     this.state = {
       collapse: true,
@@ -63,7 +63,7 @@ class Forms extends Component {
       timeout: 300,
       apiKeyList: [],
       clippedApiData: {},
-      
+
     };
   }
 
@@ -74,7 +74,6 @@ class Forms extends Component {
   toggleFade() {
     this.setState((prevState) => { return { fadeIn: !prevState } });
   }
-
 
   toggleViewApiModal() {
     this.setState({
@@ -88,6 +87,11 @@ class Forms extends Component {
     });
   }
 
+  toggleSuccess() {
+    this.setState({
+      success: !this.state.success,
+    });
+  }
 
   loadData = async () => {
     await Auth.currentSession()
@@ -104,7 +108,6 @@ class Forms extends Component {
       apiKeyList: keyList,
       netVoteAdmin: netVoteAdmin
     });
-
   }
 
   onViewApiBtnClick = async (id) => {
@@ -117,11 +120,6 @@ class Forms extends Component {
     //Show Modal
     this.toggleViewApiModal();
 
-    //Set Modal Body elements
-    //document.getElementById("apiIdKeyBody").innerText = `${response["apiKey"]}`;
-    //document.getElementById("apiIdBody").innerText = `${response["apiId"]}`;
-    //document.getElementById("apiSecretBody").innerText = `${response["apiSecret"]}`;
-
     //Store elements to clipboard text area
     let clippedApiData = {
       apiId: `${response["apiId"]}`,
@@ -129,16 +127,15 @@ class Forms extends Component {
       apiSecret: `${response["apiSecret"]}`
     };
 
-    this.setState({ 
+    this.setState({
       clipContent: clippedApiData,
-      apiKey:`${response["apiKey"]}`,
-      apiId:`${response["apiId"]}`,
-      apiSecret:`${response["apiSecret"]}`
+      apiKey: `${response["apiKey"]}`,
+      apiId: `${response["apiId"]}`,
+      apiSecret: `${response["apiSecret"]}`
     });
 
     //Get new API List
     await this.loadData();
-
   }
 
   copyToClipboard = (key) => {
@@ -157,6 +154,14 @@ class Forms extends Component {
 
     document.execCommand('copy');
 
+    //Show copy confirmation
+    this.setState({
+      successTitle: `Copy Complete`,
+      successMessage: `${key} copied to your clipboard`
+    });
+
+    this.toggleSuccess();
+
     document.body.removeChild(hiddenTxtArea);
   };
 
@@ -167,7 +172,6 @@ class Forms extends Component {
 
     //Store api key id for deletion
     this.setState({ deleteKeyId: id });
-
   }
 
   deleteApiKeyAction = async () => {
@@ -191,9 +195,7 @@ class Forms extends Component {
 
     //dismiss Delete Modal
     this.toggleDeleteApiModal();
-
   }
-
 
   onCreateApiBtnClick = async () => {
 
@@ -263,58 +265,67 @@ class Forms extends Component {
           </Col>
         </Row>
 
-        <Modal isOpen={this.state.delModal} toggle={this.toggleDeleteApiModal}
-                  className={'modal-danger ' + this.props.className} size="mid" color="danger">
-                  <ModalHeader toggle={this.toggleDeleteApiModal}>Delete API Key</ModalHeader>
-                  <ModalBody id="deleteBodyText" style={{ fontWeight: "bold", color: "red" }}>
-                    Are you sure you want to delete this API Key?
+        <Modal isOpen={this.state.delModal} centered={true} toggle={this.toggleDeleteApiModal}
+          className={'modal-danger ' + this.props.className} size="mid" color="danger">
+          <ModalHeader toggle={this.toggleDeleteApiModal}>Delete API Key</ModalHeader>
+          <ModalBody id="deleteBodyText" style={{ fontWeight: "bold", color: "red" }}>
+            Are you sure you want to delete this API Key?
                   </ModalBody>
-                  <ModalFooter>
-                    <Button color="danger" onClick={this.deleteApiKeyAction}>Delete</Button>{' '}
-                    <Button color="secondary" onClick={this.toggleDeleteApiModal}>Cancel</Button>
-                  </ModalFooter>
-                </Modal>
+          <ModalFooter>
+            <Button color="danger" onClick={this.deleteApiKeyAction}>Delete</Button>{' '}
+            <Button color="secondary" onClick={this.toggleDeleteApiModal}>Cancel</Button>
+          </ModalFooter>
+        </Modal>
 
-        <Modal isOpen={this.state.primary} toggle={this.toggleViewApiModal}
-                  className={'modal-primary ' + this.props.className} size="lg" color="primary">
-                  <ModalHeader toggle={this.toggleViewApiModal}>API Key Details</ModalHeader>
-                  <ModalBody id="modalBodyText" style={{margin: "20px"}} >
-                    <Row>
-                      <Col >
-                        <Card>
-                          <CardHeader style={{ fontWeight: "bold", color: "#1985ac" }}>
-                            API Key
-                            <Button color="secondary" onClick={() => this.copyToClipboard('apiKey')} size="sm" className="float-right btn-primary"><i style={{color: "#1985ac"}} className="fa fa-clipboard"></i></Button>
-                          </CardHeader>
-                          <CardBody style={{ fontFamily: "Courier New", backgroundColor: "black", color: "aqua" }}>
-                          {this.state.apiKey}
-                          </CardBody>
-                        </Card>
-                        <Card>
-                          <CardHeader style={{ fontWeight: "bold", color: "#1985ac" }}>
-                            API ID
-                            <Button color="secondary" onClick={() => this.copyToClipboard('apiId')} size="sm" className="float-right btn-primary"><i style={{color: "#1985ac"}} className="fa fa-clipboard"></i></Button>
-                          </CardHeader>
-                          <CardBody style={{ fontFamily: "Courier New", backgroundColor: "black", color: "aqua" }}>
-                          {this.state.apiId}
-                          </CardBody>
-                        </Card>
-                        <Card>
-                          <CardHeader style={{ fontWeight: "bold", color: "#1985ac" }}>
-                            API Secret
-                            <Button color="secondary" onClick={() => this.copyToClipboard('apiSecret')} size="sm" className="float-right btn-primary"><i style={{color: "#1985ac"}} className="fa fa-clipboard"></i></Button>
-                          </CardHeader>
-                          <CardBody style={{ fontFamily: "Courier New", backgroundColor: "black", color: "aqua" }}>
-                          {this.state.apiSecret}
-                          </CardBody>
-                        </Card>
-                      </Col>
-                    </Row>
-                  </ModalBody>
-                  <ModalFooter>
-                    <Button color="secondary" onClick={this.toggleViewApiModal}>Close</Button>
-                  </ModalFooter>
-                </Modal>
+        <Modal isOpen={this.state.primary} centered={true} toggle={this.toggleViewApiModal}
+          className={'modal-primary ' + this.props.className} size="lg" color="primary">
+          <ModalHeader toggle={this.toggleViewApiModal}>API Key Details</ModalHeader>
+          <ModalBody id="modalBodyText" style={{ margin: "20px" }} >
+            <Row>
+              <Col >
+                <Card>
+                  <CardHeader style={{ fontWeight: "bold", color: "#1985ac" }}>
+                    API Key
+                  <Button color="secondary" onClick={() => this.copyToClipboard('apiKey')} size="sm" className="float-right btn-primary"><i style={{ color: "#1985ac" }} className="fa fa-clipboard"></i></Button>
+                  </CardHeader>
+                  <CardBody style={{ fontFamily: "Courier New", backgroundColor: "black", color: "aqua" }}>
+                    {this.state.apiKey}
+                  </CardBody>
+                </Card>
+                <Card>
+                  <CardHeader style={{ fontWeight: "bold", color: "#1985ac" }}>
+                    API ID
+                  <Button color="secondary" onClick={() => this.copyToClipboard('apiId')} size="sm" className="float-right btn-primary"><i style={{ color: "#1985ac" }} className="fa fa-clipboard"></i></Button>
+                  </CardHeader>
+                  <CardBody style={{ fontFamily: "Courier New", backgroundColor: "black", color: "aqua" }}>
+                    {this.state.apiId}
+                  </CardBody>
+                </Card>
+                <Card>
+                  <CardHeader style={{ fontWeight: "bold", color: "#1985ac" }}>
+                    API Secret
+                  <Button color="secondary" onClick={() => this.copyToClipboard('apiSecret')} size="sm" className="float-right btn-primary"><i style={{ color: "#1985ac" }} className="fa fa-clipboard"></i></Button>
+                  </CardHeader>
+                  <CardBody style={{ fontFamily: "Courier New", backgroundColor: "black", color: "aqua" }}>
+                    {this.state.apiSecret}
+                  </CardBody>
+                </Card>
+              </Col>
+            </Row>
+          </ModalBody>
+          <ModalFooter>
+            <Button color="secondary" onClick={this.toggleViewApiModal}>Close</Button>
+          </ModalFooter>
+        </Modal>
+
+        <Modal isOpen={this.state.success} centered={true} toggle={this.toggleSuccess}
+          className={'modal-success ' + this.props.className}>
+          <ModalHeader toggle={this.toggleSuccess}>{this.state.successTitle}</ModalHeader>
+          <ModalBody style={{ fontWeight: "bold", color: "green", backgroundColor: "#90ee9057" }}>
+            {this.state.successMessage}
+          </ModalBody>
+        </Modal>
+
       </div>
     );
   }
