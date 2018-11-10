@@ -57,14 +57,14 @@ export default class NetVoteAdmin {
                 .then(data => {
                     //Add Authorization
                     let token = data.getIdToken().getJwtToken();
-                    console.log('NetVoteAdmin Token: ' + token);
+                    console.log('Admin Token: ' + token);
                     reqHeaders.append('Authorization', "Bearer " + token);
 
                 }).catch(err => {
-                    console.log('NetVoteAdmin Auth ERROR: ' + err);
+                    console.log('Admin Auth ERROR: ' + err);
                 });
 
-            console.log('NetVoteAdmin Fetching URL: ' + URL);
+            console.log('Admin Fetching URL: ' + URL);
 
             let response = await fetch(URL, {
                 method,
@@ -73,11 +73,11 @@ export default class NetVoteAdmin {
             });
 
             if (response.ok) {
-                console.log('NetVoteAdmin Fetch Successful - ' + response.status);
+                console.log('Admin Fetch Successful - ' + response.status);
                 return await response.json()
             } else {
-                console.log('NetVoteAdmin ERROR: Fetch Failed - ' + response.status);
-                throw new Error('NetVoteAdmin ERROR: Fetch Failed - ' + response.status);
+                console.log('Admin ERROR: Fetch Failed - ' + response.status);
+                throw new Error('Admin ERROR: Fetch Failed - ' + response.status);
             }
         };
 
