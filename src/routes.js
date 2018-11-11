@@ -222,7 +222,7 @@ const routes = [
   { path: '/notifications/badges', name: 'Badges', component: Badges },
   { path: '/notifications/modals', name: 'Modals', component: Modals },
   { path: '/widgets', name: 'Widgets', component: Widgets },
-  { path: '/usage', name: 'Vote Usage', component: Usage },
+  { path: '/usage', name: 'Netvote Usage', component: Usage },
   { path: '/apikeys', name: 'API Keys', component: APIKeys },
   { path: '/users', exact: true,  name: 'Users', component: Users },
   { path: '/users/:id', exact: true, name: 'User Details', component: User },
