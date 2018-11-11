@@ -15,7 +15,7 @@ export default {
       class: ''             // optional class names space delimited list for title item ex: "text-center"
     },
     {
-      name: 'Vote Usage',
+      name: 'Netvote Usage',
       url: '/usage',
       icon: 'icon-chart',
     },
