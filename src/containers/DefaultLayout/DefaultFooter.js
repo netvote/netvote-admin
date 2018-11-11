@@ -15,8 +15,8 @@ class DefaultFooter extends Component {
 
     return (
       <React.Fragment>
-        <span><a href="https://netvote.io">Netvote</a> &copy; 2018 Netvote Corp.</span>
-        <span className="ml-auto">Powered by <a href="https://citizendata.network">Citizen Data Network</a></span>
+        <span><a href="https://citizendata.network">Citizen Data</a> &copy; 2018 Citizen Data Corp.</span>
+        // <span className="ml-auto">Powered by <a href="https://citizendata.network">Citizen Data Network</a></span>
       </React.Fragment>
     );
   }
