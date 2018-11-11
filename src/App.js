@@ -40,16 +40,16 @@ Amplify.configure({
       mandatorySignIn: true,
 
       // OPTIONAL - Configuration for cookie storage
-      // cookieStorage: {
-      // // REQUIRED - Cookie domain (only required if cookieStorage is provided)
-      //     domain: '.yourdomain.com',
-      // // OPTIONAL - Cookie path
-      //     path: '/',
-      // // OPTIONAL - Cookie expiration in days
-      //     expires: 365,
-      // // OPTIONAL - Cookie secure flag
-      //     secure: true
-      // },
+      cookieStorage: {
+      // REQUIRED - Cookie domain (only required if cookieStorage is provided)
+          domain: 'admin.citizendata.network',
+      // OPTIONAL - Cookie path
+          path: '/',
+      // OPTIONAL - Cookie expiration in days
+          expires: 1,
+      // OPTIONAL - Cookie secure flag
+          secure: true
+      },
 
       // OPTIONAL - customized storage object
       // storage: new MyStorage(),
