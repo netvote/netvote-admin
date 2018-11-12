@@ -63,20 +63,23 @@ class DefaultLayout extends Component {
     //TODO: HARDCODED WRONG TO TEST
     if (this.state.accountType === "prod") {
       return (
-        <Alert color="warning">
+        <div style={{ height:47, zIndex: 999}}>
+        <Alert style={{position:"fixed", width: "100%", marginBottom: 0, textAlign: "center", zIndex: 999 }} color="warning">
           {/* <p className="mb-0"> */}
           This is a developer preview.  Please contact <a href="mailto:support@citizendata.network" className="alert-link">support@citizendata.network</a>. to upgrade your account.
           {/* </p> */}
         </Alert>
+        </div>
       );
     }
   }
 
   render() {
     return (
+      <div>
+        { this.renderAccountWarning() }
       <div className="app">
         <AppHeader fixed>
-          {this.renderAccountWarning()}
           <DefaultHeader />
         </AppHeader>
         <div className="app-body">
@@ -109,6 +112,7 @@ class DefaultLayout extends Component {
         <AppFooter>
           <DefaultFooter />
         </AppFooter>
+      </div>
       </div>
     );
   }
