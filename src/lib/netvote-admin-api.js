@@ -31,6 +31,7 @@ const IAM_API_VERSION = 'v1';
 
 //Netvote IAM Endpoints
 const IAM_ENDPOINT_API_KEY = "apikey";
+const IAM_ENDPOINT_TENANT = "tenant";
 
 export default class NetVoteAdmin {
     constructor() {
@@ -116,6 +117,10 @@ export default class NetVoteAdmin {
 
         this.deleteApiKey = (id) => {
             return this.iamRequest(`${IAM_ENDPOINT_API_KEY}/${id}`, 'DELETE', null);
+        }
+
+        this.getTentantInfo = () => {
+            return this.iamRequest(IAM_ENDPOINT_TENANT, 'GET', null);
         }
     }
 }
