@@ -16,7 +16,9 @@ class DefaultFooter extends Component {
     return (
       <React.Fragment>
         <span>&copy; 2018 Citizen Data Corp.</span>
+        <span className="ml-auto"><a href="https://citizendata.network/terms-of-service">Terms of Service</a></span>
         <span className="ml-auto">Powered by <a href="https://citizendata.network">Citizen Data Network</a></span>
+
       </React.Fragment>
     );
   }
