@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
-import { Row, Alert, Container } from 'reactstrap';
+import { Alert, Container } from 'reactstrap';
 
 import {
   AppAside,
@@ -39,7 +39,6 @@ class DefaultLayout extends Component {
   loadData = async () => {
     await Auth.currentSession()
     let netVoteAdmin = new NetVoteAdmin();
-    let accountMsg = '';
 
     //Retrieve Tenant Info
     let tenantInfo = await netVoteAdmin.getTentantInfo();
@@ -50,7 +49,6 @@ class DefaultLayout extends Component {
     });
 
     console.log('ACCOUNT TYPE: ' + this.state.accountType);
-
   }
 
   componentDidMount = async () => {

@@ -4,15 +4,16 @@ import './App.scss';
 
 import Amplify from 'aws-amplify';
 
-import { withAuthenticator } from 'aws-amplify-react';
+import { ConfirmSignIn, ConfirmSignUp, ForgotPassword, RequireNewPassword, SignIn, VerifyContact, withAuthenticator } from 'aws-amplify-react';
 
 //Netvote Admin AWS Settings
 import * as aws_settings from './config/aws-settings';
 
 // Containers
 import { DefaultLayout } from './containers';
-// Pages
-import { Login, Page404, Page500, Register } from './views/Pages';
+
+//Custom SignUp Page
+import { SignUp } from './views/Pages';
 
 Amplify.Logger.LOG_LEVEL = 'INFO'; // We write INFO level logs throughout app
 
@@ -47,18 +48,11 @@ if (window.location.hostname !== 'localhost') {
 //Manually Configure AWS Amplify
 Amplify.configure(appConfig);
 
-
-// import { renderRoutes } from 'react-router-config';
-
 class App extends Component {
-  render() {
+  render() { 
     return (
-      <HashRouter>
-        <Switch>
-          <Route exact path="/login" name="Login Page" component={Login} />
-          <Route exact path="/register" name="Register Page" component={Register} />
-          <Route exact path="/404" name="Page 404" component={Page404} />
-          <Route exact path="/500" name="Page 500" component={Page500} />
+      <HashRouter> 
+       <Switch>
           <Route path="/" name="Home" component={DefaultLayout} />
         </Switch>
       </HashRouter>
@@ -66,5 +60,14 @@ class App extends Component {
   }
 }
 
-//export default App;
-export default withAuthenticator(App);
+// export default App;
+// export default withAuthenticator(App);
+export default withAuthenticator(App, false, [
+  <SignIn/>,
+  <ConfirmSignIn/>,
+  <VerifyContact/>,
+  <SignUp/>, //Custom CitizenData Signup
+  <ConfirmSignUp/>,
+  <ForgotPassword/>,
+  <RequireNewPassword />,
+]);

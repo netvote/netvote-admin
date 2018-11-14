@@ -204,7 +204,6 @@ class Usage extends Component {
   };
 
   componentDidMount = async () => {
-    const { user } = this.props;
     await this.loadData();
     this.setState({ bar: bar });
   }
