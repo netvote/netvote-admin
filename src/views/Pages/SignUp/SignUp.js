@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Input, Button, Card, CardBody, Col, Container, Form, InputGroup, InputGroupAddon, InputGroupText, Row } from 'reactstrap';
+import { FormGroup, Label, Input, Button, Card, CardBody, Col, Container, Form, InputGroup, InputGroupAddon, InputGroupText, Row } from 'reactstrap';
 
 import Auth from '@aws-amplify/auth'
 import { AuthPiece } from 'aws-amplify-react'
@@ -12,6 +12,7 @@ export default class SignUp extends AuthPiece {
 
     this._validAuthStates = ['signUp'];
     this.signUp = this.signUp.bind(this);
+    this.toggleSignupButton = this.toggleSignupButton.bind(this);
 
     this.inputs = {
       dial_code: "+1",
@@ -47,12 +48,20 @@ export default class SignUp extends AuthPiece {
     }).catch(err => this.error(err));
   }
 
+  toggleSignupButton() {
+    let acceptCheckbox = document.getElementById("acceptBox");
+    this.setState({ hideSignupButton: acceptCheckbox.checked });
+  }
+
+  componentDidMount = async () => {
+    this.setState({ hideSignupButton: false });
+  }
+
   showComponent(theme) {
     const { hide } = this.props;
     if (hide && hide.includes(SignUp)) { return null; }
 
     return (
-      // <div className="app flex-row align-items-center">
       <div className="app flex-row" style={{ position: "relative", top: "73px" }}>
         <Container>
           <Row className="justify-content-center">
@@ -60,72 +69,74 @@ export default class SignUp extends AuthPiece {
               <Card className="mx-4">
                 <CardBody className="p-4">
                   <Form>
-                    <h2 style={{ fontWeight: "bold", color: "#22b1dd" }}>CitizenData</h2>
+                    <h2 style={{ fontWeight: "bold", color: "#22b1dd" }}>Citizen Data Network</h2>
                     <p className="text-muted">Create your account</p>
-
-                    <InputGroup className="mb-3">
-                      <InputGroupAddon addonType="prepend">
-                        <InputGroupText>
-                          <i className="icon-user"></i>
-                        </InputGroupText>
-                      </InputGroupAddon>
-
-                      <Input
-                        autoFocus
-                        placeholder={I18n.get('Username')}
-                        key="username"
-                        name="username"
-                        onChange={this.handleInputChange}
-                      />
-                    </InputGroup>
-
-
-                    <InputGroup className="mb-3">
-                      <InputGroupAddon addonType="prepend">
-                        <InputGroupText>@</InputGroupText>
-                      </InputGroupAddon>
-                      <Input
-                        placeholder="janedoe@email.com"
-                        key="email"
-                        name="email"
-                        onChange={this.handleInputChange}
-                      />
-                    </InputGroup>
-
-
-                    <InputGroup className="mb-3">
-                      <InputGroupAddon addonType="prepend">
-                        <InputGroupText>
-                          <i className="icon-lock"></i>
-                        </InputGroupText>
-                      </InputGroupAddon>
-                      <Input
-                        placeholder={I18n.get('Password')}
-                        type="password"
-                        key="password"
-                        name="password"
-                        onChange={this.handleInputChange}
-                      />
-                    </InputGroup>
-
-
-                    <InputGroup className="mb-4">
-                      <InputGroupAddon addonType="prepend">
-                        <InputGroupText>
-                          <i className="icon-phone"></i>
-                        </InputGroupText>
-                      </InputGroupAddon>
-                      <Input
-                        placeholder="555-555-1212"
-                        key="phone_line_number"
-                        name="phone_line_number"
-                        onChange={this.handleInputChange}
-                      />
-                    </InputGroup>
-
-                    <Button onClick={this.signUp} color="primary" block>Create Account</Button>
-                    <Button onClick={() => this.changeState('signIn')} color="primary" block>Sign In</Button>
-
+                    <FormGroup>
+                      <InputGroup className="mb-3">
+                        <InputGroupAddon addonType="prepend">
+                          <InputGroupText>
+                            <i className="icon-envelope"></i>
+                          </InputGroupText>
+                        </InputGroupAddon>
+                        <Input
+                          autoFocus
+                          placeholder={I18n.get('Email')}
+                          key="username"
+                          name="username"
+                          onChange={this.handleInputChange}
+                        />
+                      </InputGroup>
+                      <InputGroup className="mb-3">
+                        <InputGroupAddon addonType="prepend">
+                          <InputGroupText>
+                          <i className="icon-envelope"></i>
+                          </InputGroupText>
+                        </InputGroupAddon>
+                        <Input
+                          placeholder="Confirm email"
+                          key="email"
+                          name="email"
+                          onChange={this.handleInputChange}
+                        />
+                      </InputGroup>
+                      <InputGroup className="mb-3">
+                        <InputGroupAddon addonType="prepend">
+                          <InputGroupText>
+                            <i className="icon-lock"></i>
+                          </InputGroupText>
+                        </InputGroupAddon>
+                        <Input
+                          placeholder={I18n.get('Password')}
+                          type="password"
+                          key="password"
+                          name="password"
+                          onChange={this.handleInputChange}
+                        />
+                      </InputGroup>
+                      <InputGroup className="mb-4">
+                        <InputGroupAddon addonType="prepend">
+                          <InputGroupText>
+                            <i className="icon-phone"></i>
+                          </InputGroupText>
+                        </InputGroupAddon>
+                        <Input
+                          placeholder="555-555-1212"
+                          key="phone_line_number"
+                          name="phone_line_number"
+                          onChange={this.handleInputChange}
+                        />
+                      </InputGroup>
+                      <Col sm={{ offset: 2 }}>
+                        <InputGroup className="mb-4">
+                          <Label check>
+                            <Input name="acceptBox" id="acceptBox" type="checkbox" onChange={this.toggleSignupButton} />
+                            I have read and accept the <a href="https://citizendata.network/terms-of-service" target="_blank" rel='noopener noreferrer'>Terms of Service</a>
+                          </Label>
+                        </InputGroup>
+                      </Col>
+                      <Button name="signupButton" id="signupButton" onClick={this.signUp} color="primary" block disabled={!this.state.hideSignupButton}>Create Account</Button>
+                      <Button onClick={() => this.changeState('signIn')} color="primary" block>Sign In</Button>
+                    </FormGroup>
                   </Form>
                 </CardBody>
               </Card>
