@@ -60,7 +60,7 @@ export default class SignUp extends AuthPiece {
               <Card className="mx-4">
                 <CardBody className="p-4">
                   <Form>
-                    <h2>CitizenData</h2>
+                    <h2 style={{ fontWeight: "bold", color: "#22b1dd" }}>CitizenData</h2>
                     <p className="text-muted">Create your account</p>
 
                     <InputGroup className="mb-3">
