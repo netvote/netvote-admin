@@ -134,8 +134,8 @@ export default class SignUp extends AuthPiece {
                           </Label>
                         </InputGroup>
                       </Col>
-                      <Button name="signupButton" id="signupButton" onClick={this.signUp} color="primary" block disabled={!this.state.hideSignupButton}>Create Account</Button>
-                      <Button onClick={() => this.changeState('signIn')} color="primary" block>Sign In</Button>
+                      <Button className="signupButton" name="signupButton" id="signupButton" onClick={this.signUp} color="primary" block disabled={!this.state.hideSignupButton}>Create Account</Button>
+                      <Button onClick={() => this.changeState('signIn')} block>Sign In</Button>
                     </FormGroup>
                   </Form>
                 </CardBody>
