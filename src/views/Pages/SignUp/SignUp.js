@@ -6,6 +6,8 @@ import { AuthPiece } from 'aws-amplify-react'
 
 import { I18n } from '@aws-amplify/core';
 
+import logo from '../../../assets/img/brand/cd-logo.png'
+
 export default class SignUp extends AuthPiece {
   constructor(props) {
     super(props);
@@ -62,15 +64,22 @@ export default class SignUp extends AuthPiece {
     if (hide && hide.includes(SignUp)) { return null; }
 
     return (
-      <div className="app flex-row" style={{ position: "relative", top: "73px" }}>
+        <div className="app flex-row align-items-center">
         <Container>
           <Row className="justify-content-center">
             <Col md="6">
               <Card className="mx-4">
                 <CardBody className="p-4">
                   <Form>
-                    <h2 style={{ fontWeight: "bold", color: "#22b1dd" }}>Citizen Data Network</h2>
-                    <p className="text-muted">Create your account</p>
+                    <Row className="justify-content-center">
+                      <Col align="center" >
+                        <img src={logo} alt="logo" width="81" height="81" />
+                      </Col>
+                    </Row>
+                    <h1 align="center" style={{ fontSize: "20px", fontWeight: "bold", color: "#22b1dd" }}>Citizen Data Network</h1>
+
+                    {/* <h2 style={{ fontWeight: "bold", color: "#22b1dd" }}>Citizen Data Network</h2> */}
+                    <p align="center" className="text-muted">Create your account</p>
                     <FormGroup>
                       <InputGroup className="mb-3">
                         <InputGroupAddon addonType="prepend">
@@ -89,7 +98,7 @@ export default class SignUp extends AuthPiece {
                       <InputGroup className="mb-3">
                         <InputGroupAddon addonType="prepend">
                           <InputGroupText>
-                          <i className="icon-envelope"></i>
+                            <i className="icon-envelope"></i>
                           </InputGroupText>
                         </InputGroupAddon>
                         <Input

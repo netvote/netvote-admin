@@ -4,7 +4,7 @@ import './App.scss';
 
 import Amplify from 'aws-amplify';
 
-import { ConfirmSignIn, ConfirmSignUp, ForgotPassword, RequireNewPassword, SignIn, VerifyContact, withAuthenticator } from 'aws-amplify-react';
+import { ConfirmSignIn, ConfirmSignUp, RequireNewPassword, VerifyContact, withAuthenticator } from 'aws-amplify-react';
 
 //Netvote Admin AWS Settings
 import * as aws_settings from './config/aws-settings';
@@ -12,8 +12,8 @@ import * as aws_settings from './config/aws-settings';
 // Containers
 import { DefaultLayout } from './containers';
 
-//Custom SignUp Page
-import { SignUp } from './views/Pages';
+//Custom CitizenData Login Pages
+import { SignIn, SignUp, ForgotPassword} from './views/Pages';
 
 Amplify.Logger.LOG_LEVEL = 'INFO'; // We write INFO level logs throughout app
 
@@ -63,11 +63,11 @@ class App extends Component {
 // export default App;
 // export default withAuthenticator(App);
 export default withAuthenticator(App, false, [
-  <SignIn/>,
+  <SignIn/>, //Custom CitizenData SignIn
   <ConfirmSignIn/>,
   <VerifyContact/>,
   <SignUp/>, //Custom CitizenData Signup
   <ConfirmSignUp/>,
-  <ForgotPassword/>,
+  <ForgotPassword/>, //Custom CitizenData ForgotPassword
   <RequireNewPassword />,
 ]);
