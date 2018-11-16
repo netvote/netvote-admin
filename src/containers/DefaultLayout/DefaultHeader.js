@@ -49,13 +49,13 @@ class DefaultHeader extends Component {
           </NavItem>
         </Nav> */}
         <Nav className="ml-auto" navbar>
-        <span className="ml-auto"><a href="https://doc.netvote.io">Documentation</a></span>
+        {/* <span className="ml-auto"><a href="https://doc.netvote.io">Documentation</a></span> */}
           <AppHeaderDropdown direction="down">
             <DropdownToggle nav>
               <i className="icon-user"></i>
             </DropdownToggle>
             <DropdownMenu right style={{ right: 'auto' }}>
-              <DropdownItem><i className="fa fa-user"></i> Account</DropdownItem>
+              {/* <DropdownItem><i className="fa fa-user"></i> Account</DropdownItem> */}
               <DropdownItem onClick={this.signOut}><i className="fa fa-lock"></i> Logout</DropdownItem>
             </DropdownMenu>
           </AppHeaderDropdown>
