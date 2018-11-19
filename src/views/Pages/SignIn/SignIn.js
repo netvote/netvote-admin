@@ -102,7 +102,7 @@ export default class SignIn extends AuthPiece {
                     <Form>
                       <Row className="justify-content-center">
                         <Col md="4">
-                          <img src={logo} alt="logo" width="81" height="81" />
+                          <img src={logo} alt="logo" width="75" height="75" />
                         </Col>
                       </Row>
                       <h1 align="center" style={{ fontSize: "20px", fontWeight: "bold", color: "#22b1dd" }}>Citizen Data Network</h1>

@@ -41,9 +41,10 @@ export default {
       icon: 'fa fa-book',
       children: [
         {
-          name: 'Getting Started',
+          name: 'Netvote',
           url: 'https://doc.netvote.io',
           icon: 'fa fa-book',
+          attributes: { target: "_blank", rel: "noopener noreferrer" },
         },
       ],
     }, 
