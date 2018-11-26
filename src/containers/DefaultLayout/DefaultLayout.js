@@ -12,7 +12,7 @@ import {
   AppSidebarForm,
   AppSidebarHeader,
   AppSidebarMinimizer,
-  AppSidebarNav,
+  // AppSidebarNav,
 } from '@coreui/react';
 // sidebar nav config
 import navigation from '../../_nav';
@@ -21,6 +21,7 @@ import routes from '../../routes';
 import DefaultAside from './DefaultAside';
 import DefaultFooter from './DefaultFooter';
 import DefaultHeader from './DefaultHeader';
+import AppSidebarNav from './SidebarNav';
 
 import { Auth } from 'aws-amplify';
 import { NetVoteAdmin } from '../../lib';
