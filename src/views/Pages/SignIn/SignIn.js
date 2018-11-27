@@ -151,7 +151,7 @@ export default class SignIn extends AuthPiece {
                     <div>
                       <h2>Sign up</h2>
                       <p>Leverage the blockchain for tamper-proof data and documents</p>
-                      <Button color="primary" onClick={() => this.changeState('signUp')} className="mt-3" active>Create account</Button>
+                      <Button color="primary" onClick={() => this.changeState('signUp')} className="mt-3" active>Create free developer account</Button>
                     </div>
                   </CardBody>
                 </Card>
