@@ -63,16 +63,10 @@ Netvote-admin
 └── package.json
 ```
 
-Netvote API
-===========
+## Netvote API 
 
 [Click here for our Swagger UI](https://swagger.netvote.io)
 
-[Admin SDK](#admin-sdk)
-
-[Voter Client SDK](#client-sdk)
-
-[Rest API](#rest-api)
 
 
 ## Documentation
