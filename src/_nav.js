@@ -46,12 +46,6 @@ export default {
           icon: 'fa fa-book',
           attributes: { target: "_blank", rel: "noopener noreferrer" },
         },
-        {
-          name: 'Netvote API',
-          url: 'https://swagger.netvote.io',
-          icon: 'fa fa-book',
-          attributes: { target: "_blank", rel: "noopener noreferrer" },
-        },
       ],
     }, 
     // {
