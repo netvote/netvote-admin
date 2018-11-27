@@ -183,6 +183,11 @@ const APIKeys = Loadable({
   loading: Loading,
 });
 
+const Profile = Loadable({
+  loader: () => import('./views/Pages/Profile'),
+  loading: Loading,
+});
+
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
   { path: '/', exact: true, name: 'Home', component: DefaultLayout },
@@ -225,6 +230,7 @@ const routes = [
   { path: '/usage', name: 'Netvote Usage', component: Usage },
   { path: '/apikeys', name: 'API Keys', component: APIKeys },
   { path: '/users', exact: true,  name: 'Users', component: Users },
+  { path: '/profile', exact: true,  name: 'User Profile', component: Profile },
   { path: '/users/:id', exact: true, name: 'User Details', component: User },
 ];
 
