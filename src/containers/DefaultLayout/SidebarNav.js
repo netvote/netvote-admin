@@ -173,7 +173,7 @@ var AppSidebarNav = function (_Component) {
       { key: key, className: classes.item },
       this.isExternal(url) ? React.createElement(
         RsNavLink,
-        { href: url, className: classes.link, active: true, target: '_blank' },
+        { href: url, className: classes.link, active: false, target: '_blank' },
         React.createElement('i', { className: classes.icon }),
         item.name,
         this.navBadge(item.badge)

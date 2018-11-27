@@ -36,18 +36,31 @@ export default {
       divider: true,
     },
     {
+      title: true,
       name: 'Documentation',
-      
+      wrapper: {
+        element: '',
+        attributes: {},
+      },
+    },
+    {
+      name: 'Netvote',
+      url: 'https://doc.netvote.io',
       icon: 'fa fa-book',
-      children: [
-        {
-          name: 'Netvote',
-          url: 'https://doc.netvote.io',
-          icon: 'fa fa-book',
-          attributes: { target: "_blank", rel: "noopener noreferrer" },
-        },
-      ],
-    }, 
+    },
+    // {
+    //   name: 'Documentation',
+      
+    //   icon: 'fa fa-book',
+    //   children: [
+    //     {
+    //       name: 'Netvote',
+    //       url: 'https://doc.netvote.io',
+    //       icon: 'fa fa-book',
+    //       attributes: { target: "_blank", rel: "noopener noreferrer" },
+    //     },
+    //   ],
+    // }, 
     // {
     //   title: true,
     //   name: 'Examples',
