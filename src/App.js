@@ -54,7 +54,6 @@ class App extends Component {
       <HashRouter> 
        <Switch>
           <Route path="/" name="Home" component={DefaultLayout} />
-          <Route path="/forgotpassword" name="Forgot Password" component={ForgotPassword} />
         </Switch>
       </HashRouter>
     );
