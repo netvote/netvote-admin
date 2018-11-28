@@ -30,8 +30,12 @@ const IAM_API_SERVER = 'https://iam.netvote.io';
 const IAM_API_VERSION = 'v1';
 
 //Netvote IAM Endpoints
-const IAM_ENDPOINT_API_KEY = "apikey";
+const IAM_ENDPOINT_NETVOTE_API_KEY = "/netvote/apikey";
 const IAM_ENDPOINT_TENANT = "tenant";
+
+//Netrosa IAM Endpoints
+const IAM_ENDPOINT_NETROSA_API_KEY = "/netrosa/apikey";
+
 
 export default class NetVoteAdmin {
     constructor() {
@@ -103,24 +107,42 @@ export default class NetVoteAdmin {
             return this.electionRequest(formQuery, 'GET', null);
         };
 
-        this.getApiKeys = () => {
-            return this.iamRequest(IAM_ENDPOINT_API_KEY, 'GET', null);
+        this.getNetvoteApiKeys = () => {
+            return this.iamRequest(IAM_ENDPOINT_NETVOTE_API_KEY, 'GET', null);
         }
 
-        this.getApiKey = (id) => {
-            return this.iamRequest(`${IAM_ENDPOINT_API_KEY}/${id}`, 'GET', null);
+        this.getNetvoteApiKey = (id) => {
+            return this.iamRequest(`${IAM_ENDPOINT_NETVOTE_API_KEY}/${id}`, 'GET', null);
         }
 
-        this.addApiKey = () => {
-            return this.iamRequest(IAM_ENDPOINT_API_KEY, 'POST', null);
+        this.addNetvoteApiKey = () => {
+            return this.iamRequest(IAM_ENDPOINT_NETVOTE_API_KEY, 'POST', null);
         }
 
-        this.deleteApiKey = (id) => {
-            return this.iamRequest(`${IAM_ENDPOINT_API_KEY}/${id}`, 'DELETE', null);
+        this.deleteNetvoteApiKey = (id) => {
+            return this.iamRequest(`${IAM_ENDPOINT_NETVOTE_API_KEY}/${id}`, 'DELETE', null);
         }
 
         this.getTentantInfo = () => {
             return this.iamRequest(IAM_ENDPOINT_TENANT, 'GET', null);
         }
+
+        //Netrosa Endpoints
+        this.getNetrosaApiKeys = () => {
+            return this.iamRequest(IAM_ENDPOINT_NETROSA_API_KEY, 'GET', null);
+        }
+
+        this.getNetrosaApiKey = (id) => {
+            return this.iamRequest(`${IAM_ENDPOINT_NETROSA_API_KEY}/${id}`, 'GET', null);
+        }
+
+        this.addNetrosaApiKey = () => {
+            return this.iamRequest(IAM_ENDPOINT_NETROSA_API_KEY, 'POST', null);
+        }
+
+        this.deleteNetrosaApiKey = (id) => {
+            return this.iamRequest(`${IAM_ENDPOINT_NETROSA_API_KEY}/${id}`, 'DELETE', null);
+        }
+
     }
 }

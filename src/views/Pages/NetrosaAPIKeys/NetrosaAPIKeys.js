@@ -25,7 +25,7 @@ function getCreationAgeInDays(values) {
   return `${creationAge} days`;
 }
 
-class APIKeys extends Component {
+class NetrosaAPIKeys extends Component {
   constructor(props) {
     super(props);
 
@@ -78,10 +78,10 @@ class APIKeys extends Component {
 
   loadData = async () => {
     await Auth.currentSession()
-    let netVoteAdmin = new NetVoteAdmin();
+    let NetrosaAdmin = new NetVoteAdmin();
 
     //Retrieve API Keys
-    let apiKeyList = await netVoteAdmin.getNetvoteApiKeys();
+    let apiKeyList = await NetrosaAdmin.getNetrosaApiKeys();
 
     let keyList = [];
     keyList = apiKeyList["keyList"];
@@ -89,16 +89,16 @@ class APIKeys extends Component {
     //Store details
     this.setState({
       apiKeyList: keyList,
-      netVoteAdmin: netVoteAdmin
+      NetrosaAdmin: NetrosaAdmin
     });
   }
 
   onViewApiBtnClick = async (id) => {
 
-    let netVoteAdmin = this.state.netVoteAdmin;
+    let NetrosaAdmin = this.state.NetrosaAdmin;
 
     //Get Unmasked API Key values
-    let response = await netVoteAdmin.getNetvoteApiKey(id);
+    let response = await NetrosaAdmin.getNetrosaApiKey(id);
 
     //Show Modal
     this.toggleViewApiModal();
@@ -162,13 +162,13 @@ class APIKeys extends Component {
     //Get stored api key id for deletion
     let id = this.state.deleteKeyId;
 
-    console.log(`deleteApiKey() Deleting API ID: ${id}`);
+    console.log(`deleteApiKey() Deleting Netrosa API ID: ${id}`);
 
-    let netVoteAdmin = this.state.netVoteAdmin;
+    let NetrosaAdmin = this.state.NetrosaAdmin;
 
     //Delete API Key
-    let response = await netVoteAdmin.deleteNetvoteApiKey(id);
-    console.log("deleteApiKey() Response: " + response);
+    let response = await NetrosaAdmin.deleteNetrosaApiKey(id);
+    console.log("deleteNetrosaApiKey() Response: " + response);
 
     //Clear api key id for deletion
     this.setState({ deleteKeyId: "" });
@@ -182,11 +182,11 @@ class APIKeys extends Component {
 
   onCreateApiBtnClick = async () => {
 
-    let netVoteAdmin = this.state.netVoteAdmin;
+    let NetrosaAdmin = this.state.NetrosaAdmin;
 
     //Create API Key
-    let response = await netVoteAdmin.addNetvoteApiKey();
-    console.log("addApiKey() Response: " + response);
+    let response = await NetrosaAdmin.addNetrosaApiKey();
+    console.log("addNetrosaApiKey() Response: " + response);
 
     //Get new API List
     await this.loadData();
@@ -214,7 +214,7 @@ class APIKeys extends Component {
           <Col>
             <Card style={{ marginTop: 30 + 'px' }}>
               <CardHeader>
-                Netvote API Keys
+                Netrosa API Keys
           </CardHeader>
               <CardBody>
                 <Table responsive>
@@ -262,7 +262,7 @@ class APIKeys extends Component {
 
         <Modal isOpen={this.state.primary} centered={true} toggle={this.toggleViewApiModal}
           className={'modal-primary ' + this.props.className} size="lg" color="primary">
-          <ModalHeader toggle={this.toggleViewApiModal}>Netvote API Key Details</ModalHeader>
+          <ModalHeader toggle={this.toggleViewApiModal}>Netrosa API Key Details</ModalHeader>
           <ModalBody id="modalBodyText" style={{ margin: "20px" }} >
             <Row>
               <Col >
@@ -314,4 +314,4 @@ class APIKeys extends Component {
   }
 }
 
-export default APIKeys;
+export default NetrosaAPIKeys;

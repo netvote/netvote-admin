@@ -183,6 +183,11 @@ const APIKeys = Loadable({
   loading: Loading,
 });
 
+const NetrosaAPIKeys = Loadable({
+  loader: () => import('./views/Pages/NetrosaAPIKeys'),
+  loading: Loading,
+});
+
 const Profile = Loadable({
   loader: () => import('./views/Pages/Profile'),
   loading: Loading,
@@ -228,7 +233,8 @@ const routes = [
   { path: '/notifications/modals', name: 'Modals', component: Modals },
   { path: '/widgets', name: 'Widgets', component: Widgets },
   { path: '/usage', name: 'Netvote Usage', component: Usage },
-  { path: '/apikeys', name: 'API Keys', component: APIKeys },
+  { path: '/apikeys', name: 'Netvote API Keys', component: APIKeys },
+  { path: '/netrosaapikeys', name: 'Netrosa API Keys', component: NetrosaAPIKeys },
   { path: '/users', exact: true,  name: 'Users', component: Users },
   { path: '/profile', exact: true,  name: 'User Profile', component: Profile },
   { path: '/users/:id', exact: true, name: 'User Details', component: User },

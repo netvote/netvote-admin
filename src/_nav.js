@@ -27,10 +27,33 @@ export default {
         attributes: {},
       },
     },
+    // {
+    //   name: 'Netvote API Keys',
+    //   url: '/apikeys',
+    //   icon: 'fa fa-key',
+    // },
+    // {
+    //   name: 'Netrosa API Keys',
+    //   url: '/netrosaapikeys',
+    //   icon: 'fa fa-key',
+    // },
     {
       name: 'API Keys',
-      url: '/apikeys',
+
       icon: 'fa fa-key',
+      children: [
+        {
+          name: 'Netvote',
+          url: '/apikeys',
+          icon: 'fa fa-key',
+        },
+        {
+          name: 'Netrosa',
+          url: '/netrosaapikeys',
+          icon: 'fa fa-key',
+        },
+
+      ],
     },
     {
       divider: true,
@@ -50,7 +73,7 @@ export default {
     },
     // {
     //   name: 'Documentation',
-      
+
     //   icon: 'fa fa-book',
     //   children: [
     //     {
