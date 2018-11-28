@@ -79,10 +79,11 @@ export default class NetVoteAdmin {
 
             if (response.ok) {
                 console.log('Admin Fetch Successful - ' + response.status);
-                return await response.json()
+                return await response.json();
             } else {
                 console.log('Admin ERROR: Fetch Failed - ' + response.status);
-                throw new Error('Admin ERROR: Fetch Failed - ' + response.status);
+                return await response.json();
+                // throw new Error('Admin ERROR: Fetch Failed - ' + response.status);
             }
         };
 

@@ -15,6 +15,7 @@ import {
   ModalBody,
   ModalFooter,
   ModalHeader,
+  Form, FormGroup, Label, Input, FormFeedback, FormText 
 } from 'reactstrap';
 
 function getFormattedDate(created) {
@@ -113,21 +114,53 @@ class Profile extends Component {
 
         <Modal isOpen={this.state.primary} centered={true} toggle={this.toggleChangePasswordModal}
           className={'modal-primary ' + this.props.className} size="lg" color="primary">
-          <ModalHeader toggle={this.toggleChangePasswordModal}>Change Password</ModalHeader>
+          <ModalHeader toggle={this.toggleChangePasswordModal}><i className="fa fa-lock"></i>&nbsp;Change Password</ModalHeader>
           <ModalBody id="modalBodyText" style={{ margin: "20px" }} >
-            <Row>
-              <Col >
-                <Card>
-                  <CardBody>
-                    AWS LOGIC COMING SOON...
-                  </CardBody>
-                </Card>
-              </Col>
-            </Row>
+          <Form>
+            <FormGroup>
+              <Label for="currentPassword">Current Password</Label>
+              {/* <Input invalid /> */}
+                <Input
+                  placeholder='Current Password'
+                  type="password"
+                  key="password"
+                  name="password"
+                  // onChange={this.handleInputChange}
+                />
+              <FormFeedback>Error: Password is invalid!</FormFeedback>
+              <FormText>Enter your current password</FormText>
+            </FormGroup>
+            <FormGroup>
+              <Label for="newPassword">New Password</Label>
+              {/* <Input invalid /> */}
+                <Input
+                  placeholder='New Password'
+                  type="password"
+                  key="newPassword"
+                  name="newPassword"
+                  // onChange={this.handleInputChange}
+                />
+              <FormFeedback>Error: Password is invalid!</FormFeedback>
+              <FormText>Confirm your password below</FormText>
+            </FormGroup>
+            <FormGroup>
+              <Label for="confirmPassword">Confirm Password</Label>
+              {/* <Input invalid /> */}
+                <Input
+                  placeholder='New Password'
+                  type="password"
+                  key="confirmPassword"
+                  name="confirmPassword"
+                  // onChange={this.handleInputChange}
+                />
+              <FormFeedback>Error: Password is invalid!</FormFeedback>
+              <FormText></FormText>
+            </FormGroup>
+          </Form>
           </ModalBody>
           <ModalFooter>
-            <Button color="primary" onClick={this.toggleChangePasswordModal}>Submit</Button>
-            <Button color="secondary" onClick={this.toggleChangePasswordModal}>Close</Button>
+            <Button color="secondary" onClick={this.toggleChangePasswordModal}>Cancel</Button>
+            <Button color="primary" onClick={this.toggleChangePasswordModal}>Save</Button>
           </ModalFooter>
         </Modal>
 

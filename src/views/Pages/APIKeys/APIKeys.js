@@ -39,6 +39,7 @@ class APIKeys extends Component {
 
     this.deleteApiKeyAction = this.deleteApiKeyAction.bind(this);
     this.toggleSuccess = this.toggleSuccess.bind(this);
+    this.toggleError = this.toggleError.bind(this);
 
     this.state = {
       collapse: true,
@@ -73,6 +74,12 @@ class APIKeys extends Component {
   toggleSuccess() {
     this.setState({
       success: !this.state.success,
+    });
+  }
+
+  toggleError() {
+    this.setState({
+      error: !this.state.error,
     });
   }
 
@@ -186,10 +193,23 @@ class APIKeys extends Component {
 
     //Create API Key
     let response = await netVoteAdmin.addNetvoteApiKey();
-    console.log("addApiKey() Response: " + response);
+
+    console.log("addApiKey() Response: " + response["message"]);
+
+    if (response['message'] !== undefined) {
+      //Show error message
+      this.setState({
+        errorTitle: `Create API Key`,
+        errorMessage: `${response["message"]}`
+      });
+
+      this.toggleError();
+
+    } 
 
     //Get new API List
     await this.loadData();
+    
   }
 
   componentDidMount = async () => {
@@ -308,7 +328,14 @@ class APIKeys extends Component {
             {this.state.successMessage}
           </ModalBody>
         </Modal>
-
+        
+        <Modal isOpen={this.state.error} centered={true} toggle={this.toggleError}
+          className={'modal-danger ' + this.props.className}>
+          <ModalHeader toggle={this.toggleError}>{this.state.errorTitle}</ModalHeader>
+          <ModalBody style={{ fontWeight: "bold", color: "red", backgroundColor: "#ee909057" }}>
+            {this.state.errorMessage}
+          </ModalBody>
+        </Modal>
       </div>
     );
   }
