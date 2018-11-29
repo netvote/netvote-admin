@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Input, Button, Card, CardFooter, CardGroup, CardBody, Col, Container, Form, InputGroup, InputGroupAddon, InputGroupText, Row } from 'reactstrap';
+import { Input, Button, Card, CardGroup, CardBody, Col, Container, Form, InputGroup, InputGroupAddon, InputGroupText, Row } from 'reactstrap';
 
 import Auth from '@aws-amplify/auth'
 import { AuthPiece } from 'aws-amplify-react'
