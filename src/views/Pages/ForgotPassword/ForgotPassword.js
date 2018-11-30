@@ -120,10 +120,10 @@ export default class ForgotPassword extends AuthPiece {
         <Container>
           <Row className="justify-content-center">
             <Col md="6">
-              <Card className="mx-4">
-                <CardBody className="p-4">
+              <Card className="p-4">
+                <CardBody>
                   <Form>
-                    <Row align="center" className="justify-content-center" style={{ margin: "20px" }}>
+                    <Row align="center" className="justify-content-center">
                       <Col md="4">
                         <img align="center" src={logo} alt="logo" width="75" height="75" />
                       </Col>
