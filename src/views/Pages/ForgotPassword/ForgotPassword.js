@@ -75,37 +75,37 @@ export default class ForgotPassword extends AuthPiece {
 
     return (
       <FormGroup>
-      <InputGroup className="mb-3">
-        <InputGroupAddon addonType="prepend">
-          <InputGroupText>
-            <i className="icon-key"></i>
-          </InputGroupText>
-        </InputGroupAddon>
-        <Input
-          autoFocus
-          placeholder={I18n.get('Code')}
-          key="code"
-          name="code"
-          autoComplete="off"
-          onChange={this.handleInputChange}
-        />
-      </InputGroup>
+        <InputGroup className="mb-3">
+          <InputGroupAddon addonType="prepend">
+            <InputGroupText>
+              <i className="icon-key"></i>
+            </InputGroupText>
+          </InputGroupAddon>
+          <Input
+            autoFocus
+            placeholder={I18n.get('Code')}
+            key="code"
+            name="code"
+            autoComplete="off"
+            onChange={this.handleInputChange}
+          />
+        </InputGroup>
 
-      <InputGroup className="mb-3">
-        <InputGroupAddon addonType="prepend">
-          <InputGroupText>
-            <i className="icon-lock"></i>
-          </InputGroupText>
-        </InputGroupAddon>
-        <Input
-          autoFocus
-          placeholder={I18n.get('New Password')}
-          type="password"
-          key="password"
-          name="password"
-          onChange={this.handleInputChange}
-        />
-      </InputGroup>
+        <InputGroup className="mb-3">
+          <InputGroupAddon addonType="prepend">
+            <InputGroupText>
+              <i className="icon-lock"></i>
+            </InputGroupText>
+          </InputGroupAddon>
+          <Input
+            autoFocus
+            placeholder={I18n.get('New Password')}
+            type="password"
+            key="password"
+            name="password"
+            onChange={this.handleInputChange}
+          />
+        </InputGroup>
       </FormGroup>
 
     );
@@ -123,14 +123,13 @@ export default class ForgotPassword extends AuthPiece {
               <Card className="mx-4">
                 <CardBody className="p-4">
                   <Form>
-                    <Row className="justify-content-center">
-                      <Col align="center" >
-                        <img src={logo} alt="logo" width="81" height="81" />
+                    <Row align="center" className="justify-content-center" style={{ margin: "20px" }}>
+                      <Col md="4">
+                        <img align="center" src={logo} alt="logo" width="75" height="75" />
                       </Col>
                     </Row>
-                    <h1 align="center" style={{ fontSize: "20px", fontWeight: "bold", color: "#22b1dd" }}>Citizen Data Network</h1>
-
-                    <p align="center" className="text-muted">Reset your password</p>
+                    <h1 align="center" style={{ fontSize: "20px", fontWeight: "bold", color: "#22b1dd", margin: "20px" }}>Citizen Data Network</h1>
+                    <p align="center" style={{ fontWeight: "bold"}} className="text-muted">Reset your password</p>
                     <FormGroup>
 
                       {this.state.delivery || authData.username ? this.submitView() : this.sendView()}

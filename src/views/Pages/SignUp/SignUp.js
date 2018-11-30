@@ -71,15 +71,13 @@ export default class SignUp extends AuthPiece {
               <Card className="mx-4">
                 <CardBody className="p-4">
                   <Form>
-                    <Row className="justify-content-center">
-                      <Col align="center" >
-                        <img src={logo} alt="logo" width="81" height="81" />
+                    <Row align="center" className="justify-content-center" style={{ margin: "20px" }}>
+                      <Col md="4">
+                        <img align="center" src={logo} alt="logo" width="75" height="75" />
                       </Col>
                     </Row>
-                    <h1 align="center" style={{ fontSize: "20px", fontWeight: "bold", color: "#22b1dd" }}>Citizen Data Network</h1>
-
-                    {/* <h2 style={{ fontWeight: "bold", color: "#22b1dd" }}>Citizen Data Network</h2> */}
-                    <p align="center" className="text-muted">Create your account</p>
+                    <h1 align="center" style={{ fontSize: "20px", fontWeight: "bold", color: "#22b1dd", margin: "20px"  }}>Citizen Data Network</h1>
+                    <p align="center" style={{ fontWeight: "bold"}} className="text-muted">Create your account</p>
                     <FormGroup>
                       <InputGroup className="mb-3">
                         <InputGroupAddon addonType="prepend">
@@ -135,10 +133,11 @@ export default class SignUp extends AuthPiece {
                           onChange={this.handleInputChange}
                         />
                       </InputGroup>
-                      <Col sm={{ offset: 2 }}>
+                      {/* <Col align="center" sm={{ offset: 2 }}> */}
+                      <Col align="center" style={{ margin: "10px", paddingLeft: "10px" }}>
                         <InputGroup className="mb-4">
                           <Label check>
-                            <Input name="acceptBox" id="acceptBox" type="checkbox" onChange={this.toggleSignupButton} />
+                            <Input align="center" name="acceptBox" id="acceptBox" type="checkbox" onChange={this.toggleSignupButton} />
                             I have read and accept the <a href="https://citizendata.network/terms-of-service" target="_blank" rel='noopener noreferrer'>Terms of Service</a>
                           </Label>
                         </InputGroup>

@@ -15,6 +15,9 @@ import {
   ModalBody,
   ModalFooter,
   ModalHeader,
+  InputGroupAddon,
+  InputGroupText,
+  InputGroup,
   Form, FormGroup, Label, Input, FormFeedback, FormText
 } from 'reactstrap';
 
@@ -181,12 +184,18 @@ class Profile extends Component {
         </Row>
 
         <Modal isOpen={this.state.primary} centered={true} toggle={this.toggleChangePasswordModal}
-          className={'modal-primary ' + this.props.className} size="lg" color="primary">
+          className={'modal-primary ' + this.props.className} size="md" color="primary">
           <ModalHeader toggle={this.toggleChangePasswordModal}><i className="fa fa-lock"></i>&nbsp;Change Password</ModalHeader>
           <ModalBody id="modalBodyText" style={{ margin: "20px" }} >
             <Form>
               <FormGroup>
-                <Label for="currentPassword" style={{ fontWeight: "bold", color: "#22b1dd" }}>Current Password</Label>
+              <Label for="currentPassword" style={{ fontWeight: "bold", color: "#22b1dd" }}>Current Password</Label>
+              <InputGroup>
+                <InputGroupAddon addonType="prepend">
+                  <InputGroupText>
+                    <i className="icon-lock"></i>
+                  </InputGroupText>
+                </InputGroupAddon>
                 <Input
                   placeholder='Current Password'
                   type="password"
@@ -195,33 +204,50 @@ class Profile extends Component {
                   id="password"
                   onChange={this.handleInputChange}
                 />
+                </InputGroup>
                 <FormFeedback>Error: Password is invalid!</FormFeedback>
                 <FormText>Enter your current password</FormText>
               </FormGroup>
+             
               <FormGroup>
-                <Label for="newPassword" style={{ fontWeight: "bold", color: "#22b1dd" }}>New Password</Label>
-                <Input
-                  placeholder='New Password'
-                  type="password"
-                  key="newPassword"
-                  name="newPassword"
-                  id="newPassword"
-                  onChange={this.handleInputChange}
-                />
+              <Label for="newPassword" style={{ fontWeight: "bold", color: "#22b1dd" }}>New Password</Label>
+                <InputGroup>
+                  <InputGroupAddon addonType="prepend">
+                    <InputGroupText>
+                      <i className="icon-lock"></i>
+                    </InputGroupText>
+                  </InputGroupAddon>
+                  <Input
+                    placeholder='New Password'
+                    type="password"
+                    key="newPassword"
+                    name="newPassword"
+                    id="newPassword"
+                    onChange={this.handleInputChange}
+                  />
+                </InputGroup>
                 <FormFeedback>Error: Password is invalid!</FormFeedback>
-                <FormText>Confirm your password below</FormText>
+                <FormText>Enter your new password</FormText>
               </FormGroup>
+
               <FormGroup>
-                <Label for="confirmPassword" style={{ fontWeight: "bold", color: "#22b1dd" }}>Confirm Password</Label>
-                <Input
-                  placeholder='New Password'
-                  type="password"
-                  key="confirmPassword"
-                  name="confirmPassword"
-                  onChange={this.handleInputChange}
-                />
+              <Label for="confirmPassword" style={{ fontWeight: "bold", color: "#22b1dd" }}>Confirm Password</Label>
+                <InputGroup>
+                  <InputGroupAddon addonType="prepend">
+                    <InputGroupText>
+                      <i className="icon-lock"></i>
+                    </InputGroupText>
+                  </InputGroupAddon>
+                    <Input
+                      placeholder='New Password'
+                      type="password"
+                      key="confirmPassword"
+                      name="confirmPassword"
+                      onChange={this.handleInputChange}
+                    />
+                </InputGroup>
                 <FormFeedback>Error: Password is invalid!</FormFeedback>
-                <FormText></FormText>
+                <FormText>Re-enter your new password</FormText>
               </FormGroup>
             </Form>
           </ModalBody>
