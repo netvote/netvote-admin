@@ -17,6 +17,18 @@
 
 import { Auth } from 'aws-amplify';
 
+//Citizen Data Billing API Details
+const CITIZEN_DATA_BILLING_SERVER = 'https://billing.citizendata.network';
+const CITIZEN_DATA_API_VERSION = 'v1';
+
+//Citizen Data Services
+const NETVOTE_SERVICE = 'netvote';
+const NETROSA_SERVICE = 'netrosa';
+
+//Citizen Data Usage Endpoints
+const CITIZEN_DATA_USAGE_DETAILS = 'usage/detail';
+const CITIZEN_DATA_USAGE_TIME = 'usage/report/time';
+
 //Netvote API Details
 const NETVOTE_API_SERVER = 'https://elections.netvote.io';
 const NETVOTE_API_VERSION = 'dev';
@@ -39,19 +51,25 @@ const IAM_ENDPOINT_NETROSA_API_KEY = "/netrosa/apikey";
 
 export default class NetVoteAdmin {
     constructor() {
-        //Netvote API Server
-        this.electionsServer = NETVOTE_API_SERVER + '/' + NETVOTE_API_VERSION;
+        //API Servers
+        this.citizenDataServer = CITIZEN_DATA_BILLING_SERVER + '/' + CITIZEN_DATA_API_VERSION;
+        // this.electionsServer = NETVOTE_API_SERVER + '/' + NETVOTE_API_VERSION;
         this.iamServer = IAM_API_SERVER + '/' + IAM_API_VERSION;
 
-        this.electionRequest = async (path, method, postObj) => {
-            return this.netvoteRequest(this.electionsServer, path, method, postObj)
+        this.billingRequest = async (path, service, method, postObj) => {
+            let endpoint = this.citizenDataServer + '/' + service;
+            return this.networkRequest(endpoint, path, method, postObj)
         }
+
+        // this.electionRequest = async (path, method, postObj) => {
+        //     return this.networkRequest(this.electionsServer, path, method, postObj)
+        // }
 
         this.iamRequest = async (path, method, postObj) => {
-            return this.netvoteRequest(this.iamServer, path, method, postObj)
+            return this.networkRequest(this.iamServer, path, method, postObj)
         }
 
-        this.netvoteRequest = async (endpoint, path, method, postObj) => {
+        this.networkRequest = async (endpoint, path, method, postObj) => {
             let URL = endpoint + "/" + path;
 
             //Current authenticated user token
@@ -87,27 +105,24 @@ export default class NetVoteAdmin {
             }
         };
 
+        // ------------------------------------------------------------------------------------------------------------
+        // Generic Endpoints
+        // ------------------------------------------------------------------------------------------------------------
         this.get = (path) => {
-            return this.netvoteRequest(path, 'GET', null);
+            return this.networkRequest(path, 'GET', null);
         };
 
         this.post = (path, postObj) => {
-            return this.netvoteRequest(path, 'POST', postObj);
+            return this.networkRequest(path, 'POST', postObj);
         };
 
         this.delete = (path, postObj) => {
-            return this.netvoteRequest(path, 'DELETE', postObj);
+            return this.networkRequest(path, 'DELETE', postObj);
         };
 
-        this.getElectionUsageDetails = () => {
-            return this.electionRequest(NETVOTE_ELECTION_USAGE_DETAILS, 'GET', null);
-        };
-
-        this.getElectionUsageTimes = (startTime, endTime) => {
-            let formQuery = `${NETVOTE_ELECTION_USAGE_TIME}?start_dt=${startTime}&end_dt=${endTime}`;
-            return this.electionRequest(formQuery, 'GET', null);
-        };
-
+        // ------------------------------------------------------------------------------------------------------------
+        // Netvote Enpoints
+        // ------------------------------------------------------------------------------------------------------------
         this.getNetvoteApiKeys = () => {
             return this.iamRequest(IAM_ENDPOINT_NETVOTE_API_KEY, 'GET', null);
         }
@@ -128,7 +143,18 @@ export default class NetVoteAdmin {
             return this.iamRequest(IAM_ENDPOINT_TENANT, 'GET', null);
         }
 
-        //Netrosa Endpoints
+        this.getElectionUsageDetails = () => {
+            return this.billingRequest(CITIZEN_DATA_USAGE_DETAILS, NETVOTE_SERVICE, 'GET', null);
+        };
+
+        this.getElectionUsageTimes = (startTime, endTime) => {
+            let formQuery = `${CITIZEN_DATA_USAGE_TIME}?start_dt=${startTime}&end_dt=${endTime}`;
+            return this.billingRequest(formQuery, NETVOTE_SERVICE, 'GET', null);
+        };
+
+        // ------------------------------------------------------------------------------------------------------------
+        // Netrosa Endpoints
+        // ------------------------------------------------------------------------------------------------------------
         this.getNetrosaApiKeys = () => {
             return this.iamRequest(IAM_ENDPOINT_NETROSA_API_KEY, 'GET', null);
         }
@@ -145,5 +171,13 @@ export default class NetVoteAdmin {
             return this.iamRequest(`${IAM_ENDPOINT_NETROSA_API_KEY}/${id}`, 'DELETE', null);
         }
 
+        this.getNetrosaUsageDetails = () => {
+            return this.billingRequest(CITIZEN_DATA_USAGE_DETAILS, NETROSA_SERVICE, 'GET', null);
+        };
+
+        this.getNetrosaUsageTimes = (startTime, endTime) => {
+            let formQuery = `${CITIZEN_DATA_USAGE_TIME}?start_dt=${startTime}&end_dt=${endTime}`;
+            return this.billingRequest(formQuery, NETROSA_SERVICE, 'GET', null);
+        };
     }
 }
