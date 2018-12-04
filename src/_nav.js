@@ -5,62 +5,27 @@ export default {
     //   url: '/dashboard',
     //   icon: 'icon-speedometer'
     // },
-    {
-      title: true,
-      name: 'Usage',
-      wrapper: {            // optional wrapper object
-        element: '',        // required valid HTML5 element tag
-        attributes: {}        // optional valid JS object with JS API naming ex: { className: "my-class", style: { fontFamily: "Verdana" }, id: "my-id"}
-      },
-      class: ''             // optional class names space delimited list for title item ex: "text-center"
-    },
-    {
-      name: 'Netvote Usage',
-      url: '/usage',
-      icon: 'icon-chart',
-    },
-    {
-      title: true,
-      name: 'Configuration',
-      wrapper: {
-        element: '',
-        attributes: {},
-      },
-    },
     // {
-    //   name: 'Netvote API Keys',
+    //   title: true,
+    //   name: 'Netvote',
+    //   wrapper: {
+    //     element: '',
+    //     attributes: {},
+    //   },
+    // },
+    // {
+    //   name: 'Usage',
+    //   url: '/usage',
+    //   icon: 'icon-chart',
+    // },
+    // {
+    //   name: 'API Keys',
     //   url: '/apikeys',
     //   icon: 'fa fa-key',
     // },
-    // {
-    //   name: 'Netrosa API Keys',
-    //   url: '/netrosaapikeys',
-    //   icon: 'fa fa-key',
-    // },
-    {
-      name: 'API Keys',
-
-      icon: 'fa fa-key',
-      children: [
-        {
-          name: 'Netvote',
-          url: '/apikeys',
-          icon: 'fa fa-key',
-        },
-        {
-          name: 'Netrosa',
-          url: '/netrosaapikeys',
-          icon: 'fa fa-key',
-        },
-
-      ],
-    },
-    {
-      divider: true,
-    },
     {
       title: true,
-      name: 'Documentation',
+      name: 'Products',
       wrapper: {
         element: '',
         attributes: {},
@@ -68,9 +33,129 @@ export default {
     },
     {
       name: 'Netvote',
-      url: 'https://doc.netvote.io',
-      icon: 'fa fa-book',
+      icon: 'fa fa-check-square-o',
+      wrapper: {
+        element: '',
+        attributes: {},
+      },
+      children: [
+        {
+          name: 'Usage',
+          url: '/usage',
+          icon: 'icon-chart',
+        },
+        {
+          name: 'API Keys',
+          url: '/apikeys',
+          icon: 'fa fa-key',
+        },
+        {
+          name: 'Documentation',
+          url: 'https://doc.netvote.io',
+          icon: 'fa fa-book',
+        }
+      ],
     },
+    {
+      divider: true,
+    },
+    {
+      name: 'Netrosa',
+      icon: 'fa fa-file-text-o',
+      wrapper: {
+        element: '',
+        attributes: {},
+      },
+      children: [
+        {
+          name: 'Usage',
+          url: '/netrosausage',
+          icon: 'icon-chart',
+        },
+        {
+          name: 'API Keys',
+          url: '/netrosaapikeys',
+          icon: 'fa fa-key',
+        },
+      ],
+    },
+
+    {
+      divider: true,
+    },
+    // {
+    //   name: 'Usage',
+    //   icon: 'icon-chart',
+    //   children: [
+    //     {
+    //       name: 'Netvote',
+    //       url: '/usage',
+    //       icon: 'icon-chart',
+    //     },
+    //     {
+    //       name: 'Netrosa',
+    //       url: '/netrosausage',
+    //       icon: 'icon-chart',
+    //     },
+
+    //   ],
+    // },
+    // {
+    //   title: true,
+    //   name: 'Usage',
+    //   wrapper: {            // optional wrapper object
+    //     element: '',        // required valid HTML5 element tag
+    //     attributes: {}        // optional valid JS object with JS API naming ex: { className: "my-class", style: { fontFamily: "Verdana" }, id: "my-id"}
+    //   },
+    //   class: ''             // optional class names space delimited list for title item ex: "text-center"
+    // },
+    // {
+    //   name: 'Netvote Usage',
+    //   url: '/usage',
+    //   icon: 'icon-chart',
+    // },
+    // {
+    //   title: true,
+    //   name: 'Configuration',
+    //   wrapper: {
+    //     element: '',
+    //     attributes: {},
+    //   },
+    // },
+    // {
+    //   name: 'API Keys',
+
+    //   icon: 'fa fa-key',
+    //   children: [
+    //     {
+    //       name: 'Netvote',
+    //       url: '/apikeys',
+    //       icon: 'fa fa-key',
+    //     },
+    //     {
+    //       name: 'Netrosa',
+    //       url: '/netrosaapikeys',
+    //       icon: 'fa fa-key',
+    //     },
+
+    //   ],
+    // },
+    // {
+    //   divider: true,
+    // },
+    // {
+    //   title: true,
+    //   name: 'Documentation',
+    //   wrapper: {
+    //     element: '',
+    //     attributes: {},
+    //   },
+    // },
+    // {
+    //   name: 'Netvote',
+    //   url: 'https://doc.netvote.io',
+    //   icon: 'fa fa-book',
+    // },
     // {
     //   name: 'Documentation',
 

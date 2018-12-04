@@ -6,8 +6,9 @@ import SignUp from './SignUp';
 import SignIn from './SignIn';
 import ForgotPassword from './ForgotPassword';
 import Usage from './Usage';
+import NetrosaUsage from './NetrosaUsage';
 import APIKeys from './APIKeys';
 
 export {
-  Login, Page404, Page500, Register, SignUp, SignIn, ForgotPassword, Usage, APIKeys
+  Login, Page404, Page500, Register, SignUp, SignIn, ForgotPassword, Usage, NetrosaUsage, APIKeys
 };

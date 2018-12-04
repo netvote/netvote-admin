@@ -33,10 +33,6 @@ const CITIZEN_DATA_USAGE_TIME = 'usage/report/time';
 const NETVOTE_API_SERVER = 'https://elections.netvote.io';
 const NETVOTE_API_VERSION = 'dev';
 
-//Netvote API Endpoints
-const NETVOTE_ELECTION_USAGE_DETAILS = 'usage/detail';
-const NETVOTE_ELECTION_USAGE_TIME = 'usage/report/time';
-
 //Netvote IAM API Details
 const IAM_API_SERVER = 'https://iam.netvote.io';
 const IAM_API_VERSION = 'v1';
@@ -53,7 +49,7 @@ export default class NetVoteAdmin {
     constructor() {
         //API Servers
         this.citizenDataServer = CITIZEN_DATA_BILLING_SERVER + '/' + CITIZEN_DATA_API_VERSION;
-        // this.electionsServer = NETVOTE_API_SERVER + '/' + NETVOTE_API_VERSION;
+        this.electionsServer = NETVOTE_API_SERVER + '/' + NETVOTE_API_VERSION;
         this.iamServer = IAM_API_SERVER + '/' + IAM_API_VERSION;
 
         this.billingRequest = async (path, service, method, postObj) => {
@@ -61,9 +57,9 @@ export default class NetVoteAdmin {
             return this.networkRequest(endpoint, path, method, postObj)
         }
 
-        // this.electionRequest = async (path, method, postObj) => {
-        //     return this.networkRequest(this.electionsServer, path, method, postObj)
-        // }
+        this.electionRequest = async (path, method, postObj) => {
+            return this.networkRequest(this.electionsServer, path, method, postObj)
+        }
 
         this.iamRequest = async (path, method, postObj) => {
             return this.networkRequest(this.iamServer, path, method, postObj)

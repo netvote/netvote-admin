@@ -172,9 +172,13 @@ const User = Loadable({
   loading: Loading,
 });
 
-
 const Usage = Loadable({
   loader: () => import('./views/Pages/Usage'),
+  loading: Loading,
+});
+
+const NetrosaUsage = Loadable({
+  loader: () => import('./views/Pages/NetrosaUsage'),
   loading: Loading,
 });
 
@@ -233,6 +237,7 @@ const routes = [
   { path: '/notifications/modals', name: 'Modals', component: Modals },
   { path: '/widgets', name: 'Widgets', component: Widgets },
   { path: '/usage', name: 'Netvote Usage', component: Usage },
+  { path: '/netrosausage', name: 'Netrosa Usage', component: NetrosaUsage },
   { path: '/apikeys', name: 'Netvote API Keys', component: APIKeys },
   { path: '/netrosaapikeys', name: 'Netrosa API Keys', component: NetrosaAPIKeys },
   { path: '/users', exact: true,  name: 'Users', component: Users },
