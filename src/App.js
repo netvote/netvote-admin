@@ -62,11 +62,6 @@ class App extends Component {
           </Switch>
         </HashRouter>
         </Elements>
-      {/* <div className="example">
-        <Elements>
-          <CheckoutForm />
-        </Elements>
-      </div> */}
     </StripeProvider>
     );
   }
