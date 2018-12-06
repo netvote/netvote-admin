@@ -57,6 +57,7 @@ class DefaultLayout extends Component {
   }
 
   componentDidMount = async () => {
+    console.log('Current app environment: ' + process.env.NODE_ENV);
     await this.loadData();
   }
 

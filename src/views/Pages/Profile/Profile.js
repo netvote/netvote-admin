@@ -3,6 +3,8 @@ import { NetVoteAdmin } from '../../../lib';
 import { Auth } from 'aws-amplify';
 import * as moment from 'moment';
 
+import InjectedPaymentForm from './PaymentForm';
+
 import {
   Button,
   Card,
@@ -21,6 +23,8 @@ import {
   Form, FormGroup, Label, Input, FormFeedback, FormText
 } from 'reactstrap';
 
+import {Elements} from 'react-stripe-elements';
+
 function getFormattedDate(created) {
   let createDate = moment(created).format('MM-DD-YYYY');
 
@@ -35,6 +39,8 @@ class Profile extends Component {
     this.toggleChangePasswordModal = this.toggleChangePasswordModal.bind(this);
     this.toggleError = this.toggleError.bind(this);
     this.toggleSuccess = this.toggleSuccess.bind(this);
+
+    this.togglePaymentModal = this.togglePaymentModal.bind(this);
 
     //AWS Auth
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -85,13 +91,24 @@ class Profile extends Component {
     });
   }
 
+  togglePaymentModal() {
+    this.setState({
+      payment: !this.state.payment,
+    });
+  }
+
   onChangePasswordBtnClick = async (id) => {
     //Show Modal
     this.toggleChangePasswordModal();
   }
 
+  onPaymentBtnClick = async (id) => {
+    //Show Modal
+    this.togglePaymentModal();
+  }
+
   handleInputChange(evt) {
-    const { name, value} = evt.target;
+    const { name, value } = evt.target;
 
     this.inputs = this.inputs || {};
     this.inputs[name] = value;
@@ -152,6 +169,9 @@ class Profile extends Component {
           <Col>
             <Button className="float-right" color="primary" onClick={() => this.onChangePasswordBtnClick()}><i className="fa fa-lock"></i>&nbsp;Change Password</Button>
           </Col>
+          <Col>
+            <Button className="float-left" color="primary" onClick={() => this.onPaymentBtnClick()}><i className="fa fa-credit-card"></i>&nbsp;Payment Details</Button>
+          </Col>
         </Row>
         <Row>
           <Col>
@@ -189,28 +209,28 @@ class Profile extends Component {
           <ModalBody id="modalBodyText" style={{ margin: "20px" }} >
             <Form>
               <FormGroup>
-              <Label for="currentPassword" style={{ fontWeight: "bold", color: "#22b1dd" }}>Current Password</Label>
-              <InputGroup>
-                <InputGroupAddon addonType="prepend">
-                  <InputGroupText>
-                    <i className="icon-lock"></i>
-                  </InputGroupText>
-                </InputGroupAddon>
-                <Input
-                  placeholder='Current Password'
-                  type="password"
-                  key="password"
-                  name="password"
-                  id="password"
-                  onChange={this.handleInputChange}
-                />
+                <Label for="currentPassword" style={{ fontWeight: "bold", color: "#22b1dd" }}>Current Password</Label>
+                <InputGroup>
+                  <InputGroupAddon addonType="prepend">
+                    <InputGroupText>
+                      <i className="icon-lock"></i>
+                    </InputGroupText>
+                  </InputGroupAddon>
+                  <Input
+                    placeholder='Current Password'
+                    type="password"
+                    key="password"
+                    name="password"
+                    id="password"
+                    onChange={this.handleInputChange}
+                  />
                 </InputGroup>
                 <FormFeedback>Error: Password is invalid!</FormFeedback>
                 <FormText>Enter your current password</FormText>
               </FormGroup>
-             
+
               <FormGroup>
-              <Label for="newPassword" style={{ fontWeight: "bold", color: "#22b1dd" }}>New Password</Label>
+                <Label for="newPassword" style={{ fontWeight: "bold", color: "#22b1dd" }}>New Password</Label>
                 <InputGroup>
                   <InputGroupAddon addonType="prepend">
                     <InputGroupText>
@@ -231,20 +251,20 @@ class Profile extends Component {
               </FormGroup>
 
               <FormGroup>
-              <Label for="confirmPassword" style={{ fontWeight: "bold", color: "#22b1dd" }}>Confirm Password</Label>
+                <Label for="confirmPassword" style={{ fontWeight: "bold", color: "#22b1dd" }}>Confirm Password</Label>
                 <InputGroup>
                   <InputGroupAddon addonType="prepend">
                     <InputGroupText>
                       <i className="icon-lock"></i>
                     </InputGroupText>
                   </InputGroupAddon>
-                    <Input
-                      placeholder='New Password'
-                      type="password"
-                      key="confirmPassword"
-                      name="confirmPassword"
-                      onChange={this.handleInputChange}
-                    />
+                  <Input
+                    placeholder='New Password'
+                    type="password"
+                    key="confirmPassword"
+                    name="confirmPassword"
+                    onChange={this.handleInputChange}
+                  />
                 </InputGroup>
                 <FormFeedback>Error: Password is invalid!</FormFeedback>
                 <FormText>Re-enter your new password</FormText>
@@ -255,6 +275,20 @@ class Profile extends Component {
             <Button color="secondary" onClick={this.toggleChangePasswordModal}>Cancel</Button>
             <Button color="primary" onClick={this.submit}>Save</Button>
           </ModalFooter>
+        </Modal>
+
+        <Modal isOpen={this.state.payment} centered={true} toggle={this.togglePaymentModal}
+          className={'modal-primary ' + this.props.className} size="md" color="primary">
+          <ModalHeader toggle={this.togglePaymentModal}><i className="fa fa-credit-card"></i>&nbsp;Payment Details</ModalHeader>
+          <ModalBody id="modalBodyText" style={{ margin: "20px" }} >
+            <Elements>
+              <InjectedPaymentForm />
+            </Elements>
+          </ModalBody>
+          {/* <ModalFooter> */}
+            {/* <Button color="secondary" onClick={this.togglePaymentModal}>Cancel</Button> */}
+            {/* <Button color="primary" onClick={this.handlePaymentSubmit}>Pay</Button> */} 
+          {/* </ModalFooter> */}
         </Modal>
 
         <Modal isOpen={this.state.success} centered={true} toggle={this.toggleSuccess}

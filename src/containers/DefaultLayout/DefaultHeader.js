@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { UncontrolledTooltip, Badge, DropdownItem, DropdownMenu, DropdownToggle, Nav, NavItem, NavLink } from 'reactstrap';
+import { UncontrolledTooltip, DropdownItem, DropdownMenu, DropdownToggle, Nav, NavLink } from 'reactstrap';
 import PropTypes from 'prop-types';
 import { Auth } from 'aws-amplify';
 
