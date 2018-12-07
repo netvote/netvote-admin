@@ -39,7 +39,7 @@ class PaymemtForm extends React.Component {
     // Within the context of `Elements`, this call to createToken knows which Element to
     // tokenize, since there's only one in this group.
     this.props.stripe.createToken({ name: 'Eric Clapton' }).then(({ token }) => {
-      console.log('Received Stripe token:', token);
+      console.log('Received Stripe token:', token);   
 
        //TODO: send the token to our server. This example shows how to send the token ID in the body of a POST request
        if (token !== undefined) {
@@ -85,6 +85,11 @@ class PaymemtForm extends React.Component {
   
   handleChange = (change) => {
     console.log('[change]', change);
+
+    if (change.error !== undefined) {
+      console.log('[change] ERROR: ' + change.error.message )
+    }
+    
   };
   
   handleClick = () => {
@@ -128,7 +133,9 @@ class PaymemtForm extends React.Component {
 
   render() {
     //TODO -- Convert to modal
-    if (this.state.complete) return <h1 style={{ fontWeight: "bold", color: "green" }}>Payment details sent to Citizen Data server</h1>;
+    if (this.state.complete) {
+      return <h1 style={{ fontWeight: "bold", color: "green" }}>Payment details sent to Citizen Data server</h1>;
+    }
 
     return (
 
@@ -182,7 +189,7 @@ class PaymemtForm extends React.Component {
           />
         </FormGroup>
         <Col align="center" style={{ margin: "10px", paddingLeft: "10px" }}>
-            <Button color="primary" onClick={this.handleSubmit}>Send</Button> 
+            <Button color="primary" disabled={this.state.complete} onClick={this.handleSubmit}>Send</Button> 
           </Col>
       </Form>
     );
