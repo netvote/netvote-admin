@@ -65,7 +65,7 @@ class Alerts extends Component {
                 <small> use <code>.alert-link</code> to provide links</small>
               </CardHeader>
               <CardBody>
-                <Alert color="primary">
+                {/* <Alert color="primary">
                   This is a primary alert with <a href="#" className="alert-link">an example link</a>. Give it a click if you like.
                 </Alert>
                 <Alert color="secondary">
@@ -88,7 +88,7 @@ class Alerts extends Component {
                 </Alert>
                 <Alert color="dark">
                   This is a dark alert with <a href="#" className="alert-link">an example link</a>. Give it a click if you like.
-                </Alert>
+                </Alert> */}
               </CardBody>
             </Card>
           </Col>

@@ -182,11 +182,6 @@ export default {
     //   icon: 'icon-puzzle',
     //   children: [
     //     {
-    //       name: 'Breadcrumbs',
-    //       url: '/base/breadcrumbs',
-    //       icon: 'icon-settings',
-    //     },
-    //     {
     //       name: 'Cards',
     //       url: '/base/cards',
     //       icon: 'icon-puzzle',

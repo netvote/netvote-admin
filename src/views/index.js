@@ -1,5 +1,4 @@
 import {
-  Breadcrumbs,
   Cards,
   Carousels,
   Collapses,
@@ -62,7 +61,6 @@ export {
   Collapses,
   Carousels,
   Cards,
-  Breadcrumbs,
   Paginations,
   Usage,
   NetrosaUsage,

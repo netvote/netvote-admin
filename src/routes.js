@@ -7,11 +7,6 @@ function Loading() {
   return <div>Loading...</div>;
 }
 
-const Breadcrumbs = Loadable({
-  loader: () => import('./views/Base/Breadcrumbs'),
-  loading: Loading,
-});
-
 const Cards = Loadable({
   loader: () => import('./views/Base/Cards'),
   loading: Loading,
@@ -209,7 +204,6 @@ const routes = [
   { path: '/base/switches', name: 'Switches', component: Switches },
   { path: '/tables', name: 'Tables', component: Tables },
   { path: '/base/tabs', name: 'Tabs', component: Tabs },
-  { path: '/base/breadcrumbs', name: 'Breadcrumbs', component: Breadcrumbs },
   { path: '/base/carousels', name: 'Carousel', component: Carousels },
   { path: '/base/collapses', name: 'Collapse', component: Collapses },
   { path: '/base/dropdowns', name: 'Dropdowns', component: Dropdowns },

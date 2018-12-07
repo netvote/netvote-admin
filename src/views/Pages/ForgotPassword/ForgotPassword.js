@@ -112,7 +112,8 @@ export default class ForgotPassword extends AuthPiece {
   }
 
   showComponent(theme) {
-    const { authState, hide, authData = {} } = this.props;
+    // const { authState, hide, authData = {} } = this.props;
+    const { hide, authData = {} } = this.props;
     if (hide && hide.includes(ForgotPassword)) { return null; }
 
     return (

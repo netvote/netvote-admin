@@ -7,7 +7,7 @@ import {
 } from 'reactstrap';
 
 import {
-  CardElement,
+  // CardElement,
   CardNumberElement,
   CardExpiryElement,
   CardCVCElement,
