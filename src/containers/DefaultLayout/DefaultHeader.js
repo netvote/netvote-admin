@@ -34,7 +34,7 @@ class DefaultHeader extends Component {
         <AppSidebarToggler className="d-lg-none" display="md" mobile />
         <AppNavbarBrand
           className="navbar-brand-full"
-          full={{ src: logo, width: 160, height: 31, alt: 'Citizen Data Logo' }}
+          full={{ src: logo, width: 145, height: 31, alt: 'Citizen Data Logo' }}
           minimized={{ src: sygnet, width: 30, height: 30, alt: 'Citizen Data Logo' }}
         />
         <AppSidebarToggler className="d-md-down-none" display="lg" />
