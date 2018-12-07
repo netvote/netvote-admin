@@ -30,19 +30,41 @@ class PaymemtForm extends React.Component {
     this.inputs = {};
   };
 
-  //TODO: OPTION 1
+  //TODO: Server side integration
   //Tokenizes the card information and sends it to Citizen Data server
   handleSubmit = (ev) => {
-    // We don't want to let default form submission happen here, which would refresh the page.
+    // Prevent default form submission here, which would refresh the page.
     ev.preventDefault();
 
+    // STEP 1 - Create Stripe Token
     // Within the context of `Elements`, this call to createToken knows which Element to
     // tokenize, since there's only one in this group.
-    this.props.stripe.createToken({ name: 'Eric Clapton' }).then(({ token }) => {
+     this.props.stripe.createToken({ name: 'Eric Clapton' }).then(({ token, error }) => {
       console.log('Received Stripe token:', token);   
 
-       //TODO: send the token to our server. This example shows how to send the token ID in the body of a POST request
+      //TODO: Display errors in modal
+      if (error !== undefined) {
+        console.log('Stripe token error :', error);   
+      }
+      
+       //STEP 2 - Send Stripe Token to Citizen Data server
        if (token !== undefined) {
+
+        //TODO: send the token to our server. This example shows how to send the token ID in the body of a POST request
+        // let response = await fetch("/charge", {
+        //   method: "POST",
+        //   headers: {"Content-Type": "text/plain"},
+        //   body: token.id
+        // });
+  
+        //   if (response.error) {
+        //     // TODO: Inform the customer that there was an error.
+        //     console.log("ERROR: " + response.error.message);
+        //   } else {
+        //    // All good
+        //   }
+
+        //   if (response.ok) console.log("Purchase Complete!")
         this.setState({complete: true});
        }
     });
@@ -58,26 +80,6 @@ class PaymemtForm extends React.Component {
     //   name: 'Eric Clapton'
     // }});
   };
-
-  //TODO: OPTION 2
-  // async submit(ev) {
-  //   let {token} = await this.props.stripe.createToken({name: "Name"});
-  //   let response = await fetch("/charge", {
-  //     method: "POST",
-  //     headers: {"Content-Type": "text/plain"},
-  //     body: token.id
-  //   });
-  
-  //   if (response.error) {
-  //     // TODO: Inform the customer that there was an error.
-  //     console.log("ERROR: " + response.error.message);
-  //   } else {
-  //     // TODO: Send the token to Citizen Data server. (response.token)
-  //   }
-
-  //   if (response.ok) console.log("Purchase Complete!")
-  // }
-
 
   handleBlur = () => {
     console.log('[blur]');
