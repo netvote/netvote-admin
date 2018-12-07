@@ -46,9 +46,11 @@ class PaymemtForm extends React.Component {
       if (error !== undefined) {
         console.log('Stripe token error :', error);   
       }
-      
+
        //STEP 2 - Send Stripe Token to Citizen Data server
        if (token !== undefined) {
+
+        //TODO: Server-side endpoints needed
 
         //TODO: send the token to our server. This example shows how to send the token ID in the body of a POST request
         // let response = await fetch("/charge", {
