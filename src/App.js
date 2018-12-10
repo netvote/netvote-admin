@@ -14,7 +14,7 @@ import { DefaultLayout } from './containers';
 
 // Stripe
 import {Elements, StripeProvider} from 'react-stripe-elements';
-import * as STRIPE_SETTINGS from './config/stripe-settings';
+import * as STRIPE from './config/stripe-settings';
 
 //Custom CitizenData Login Pages
 import { SignIn, SignUp, ForgotPassword} from './views/Pages';
@@ -55,7 +55,7 @@ Amplify.configure(appConfig);
 class App extends Component {
   render() { 
     return (
-      <StripeProvider apiKey={STRIPE_SETTINGS.PUBLISHABLE_KEY}><Elements>
+      <StripeProvider apiKey={STRIPE.PUB_KEY}><Elements>
         <HashRouter> 
         <Switch>
             <Route path="/" name="Home" component={DefaultLayout} />

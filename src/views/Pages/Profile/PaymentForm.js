@@ -193,7 +193,7 @@ class PaymemtForm extends React.Component {
           />
         </FormGroup>
         <Col align="center" style={{ margin: "10px", paddingLeft: "10px" }}>
-            <Button color="primary" disabled={this.state.complete} onClick={this.handleSubmit}>Send</Button> 
+            <Button color="primary" disabled={this.state.complete} onClick={this.handleSubmit}>Update Card</Button> 
           </Col>
       </Form>
     );
