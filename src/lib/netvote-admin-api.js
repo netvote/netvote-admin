@@ -53,7 +53,7 @@ export default class NetVoteAdmin {
         this.iamServer = IAM_API_SERVER + '/' + IAM_API_VERSION;
 
         this.billingRequest = async (path, service, method, postObj) => {
-            let endpoint = this.citizenDataServer + '/' + service;
+            let endpoint = (service) ? this.citizenDataServer + '/' + service : this.citizenDataServer;
             return this.networkRequest(endpoint, path, method, postObj)
         }
 
@@ -85,11 +85,17 @@ export default class NetVoteAdmin {
 
             console.log('Admin Fetching URL: ' + URL);
 
-            let response = await fetch(URL, {
+            let reqObj = {
                 method,
-                headers: reqHeaders,
-                body: postObj
-            });
+                headers: reqHeaders
+            }
+
+            if(postObj) {
+                reqObj.headers["Content-Type"] = "application/json";
+                reqObj.body = JSON.stringify(postObj);
+            }
+
+            let response = await fetch(URL, reqObj);
 
             if (response.ok) {
                 console.log('Admin Fetch Successful - ' + response.status);
@@ -147,6 +153,12 @@ export default class NetVoteAdmin {
             let formQuery = `${CITIZEN_DATA_USAGE_TIME}?start_dt=${startTime}&end_dt=${endTime}`;
             return this.billingRequest(formQuery, NETVOTE_SERVICE, 'GET', null);
         };
+
+        this.setPaymentMethod = (stripeToken) => {
+            return this.billingRequest("payment/method", null, 'PUT', {
+                stripeToken: stripeToken
+            })
+        }
 
         // ------------------------------------------------------------------------------------------------------------
         // Netrosa Endpoints
