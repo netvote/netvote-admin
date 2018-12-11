@@ -7,12 +7,11 @@ import {
   Form, FormGroup, Label,
   Modal,
   ModalBody,
-  ModalFooter,
   ModalHeader,
 } from 'reactstrap';
 
 import {
-  CardElement,
+  // CardElement,
   CardNumberElement,
   CardExpiryElement,
   CardCVCElement,
@@ -48,7 +47,6 @@ class PaymemtForm extends React.Component {
     this.props.stripe.createToken({ name: 'Eric Clapton' }).then(async ({ token, error }) => {
       console.log('Received Stripe token:', token);
 
-      //TODO: Display errors in modal
       if (error !== undefined) {
 
         //Show  Error
@@ -65,43 +63,37 @@ class PaymemtForm extends React.Component {
       //STEP 2 - Send Stripe Token to Citizen Data server
       if (token !== undefined) {
 
-        //TODO: Server-side endpoints needed
-
-        //TODO: send the token to our server. This example shows how to send the token ID in the body of a POST request
+        //Send the token to our server
         console.log("sending token: "+token.id);
         let response = await new NetVoteAdmin().setPaymentMethod(token.id);
 
         console.log(response);
+        console.log('Response code: ' + response["code"]);
 
-        if (response.error) {
-          // TODO: Inform the customer that there was an error.
-          console.log("ERROR: " + response.error.message);
+        if (response["code"] !== undefined) {
+          //Show error message
+          this.setState({
+            errorTitle: `Update Payment`,
+            errorMessage: `${response["message"]}`
+          });
+
+          this.toggleError();
+    
         } else {
-          // All good
+          //Show response message
+          this.setState({
+            successTitle: `Update Payment`,
+            successMessage: `${response["message"]}`
+          });
+
+          this.toggleSuccess();
         }
-
-        //   if (response.ok) console.log("Purchase Complete!")
-        this.setState({ complete: true });
-
-        // this.setState({
-        //   successTitle: `Update Payment`,
-        //   successMessage: `Payment details sent to Citizen Data server`
-        // });
-
-        // this.toggleSuccess();
+        
+        //Toggle payment modal
+        // this.props.togglePaymentModal();
+        //this.setState({ complete: true });
       }
     });
-
-    // However, this line of code will do the same thing:
-    //
-    // this.props.stripe.createToken({type: 'card', name: 'Eric Clapton'});
-
-    // You can also use createSource to create Sources. See our Sources
-    // documentation for more: https://stripe.com/docs/stripe-js/reference#stripe-create-source
-    //
-    // this.props.stripe.createSource({type: 'card', owner: {
-    //   name: 'Eric Clapton'
-    // }});
   };
 
   toggleError() {
@@ -181,9 +173,9 @@ class PaymemtForm extends React.Component {
 
   render() {
 
-    if (this.state.complete) {
-      return <h1 style={{ fontWeight: "bold", color: "green" }}>Payment details sent to Citizen Data server</h1>;
-    }
+    // if (this.state.complete) {
+    //   return <h1 style={{ fontWeight: "bold", color: "green" }}>Payment details sent to Citizen Data server</h1>;
+    // }
 
     return (
       <div className="animated fadeIn">

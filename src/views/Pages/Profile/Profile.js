@@ -282,7 +282,7 @@ class Profile extends Component {
           <ModalHeader toggle={this.togglePaymentModal}><i className="fa fa-credit-card"></i>&nbsp;Payment Details</ModalHeader>
           <ModalBody id="modalBodyText" style={{ margin: "20px" }} >
             <Elements>
-              <InjectedPaymentForm />
+              <InjectedPaymentForm togglePaymentModal={this.togglePaymentModal}/>
             </Elements>
           </ModalBody>
           {/* <ModalFooter> */}
