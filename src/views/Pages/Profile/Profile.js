@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { NetVoteAdmin } from '../../../lib';
 import { Auth } from 'aws-amplify';
 import * as moment from 'moment';
+import * as STRIPE from '../../../config/stripe-settings';
 
 import InjectedPaymentForm from './PaymentForm';
 
@@ -23,7 +24,7 @@ import {
   Form, FormGroup, Label, Input, FormFeedback, FormText
 } from 'reactstrap';
 
-import {Elements} from 'react-stripe-elements';
+import { Elements } from 'react-stripe-elements';
 
 function getFormattedDate(created) {
   let createDate = moment(created).format('MM-DD-YYYY');
@@ -52,6 +53,43 @@ class Profile extends Component {
 
     this.inputs = {};
   };
+ 
+
+  onToken = (token) => {
+
+    var stripe = window.Stripe(STRIPE.PUB_KEY, {
+      betas: ['checkout_beta_4']
+    });
+  
+    //Stripe Checkout Process
+    stripe.redirectToCheckout({
+
+      //TODO: CALL BACKEND TO GET LIST OF SUBSCRIPTION OPTIONS
+
+
+      //TODO: CREATE SUBSCRIPTION PLAN DROPDOWN 
+      items: [{plan: 'plan_E9czHXpV9w9OZ2', quantity: 1}],
+
+      //TODO --- CREATE PROPER SUCCESS/CANCELLED PAGE
+
+      // Note that it is not guaranteed your customers will be redirected to this
+      // URL *100%* of the time, it's possible that they could e.g. close the
+      // tab between form submission and the redirect.
+      successUrl: 'https://citizendata.network/success',
+      cancelUrl: 'https://citizendata.network/canceled',
+    })
+    .then(function (result) {
+      //TODO: PROPER ERROR HANDLING
+      if (result.error) {
+        // If `redirectToCheckout` fails due to a browser or network
+        // error, display the localized error message to your customer.
+        
+        // var displayError = document.getElementById('error-message');
+        // displayError.textContent = result.error.message;
+        alert(result.error.message);
+      }
+    });
+  }
 
   toggleSuccess() {
     this.setState({
@@ -161,16 +199,21 @@ class Profile extends Component {
         });
     }
   }
-
+ 
   render() {
+    
+  
     return (
       <div className="animated fadeIn">
         <Row>
           <Col>
             <Button className="float-right" color="primary" onClick={() => this.onChangePasswordBtnClick()}><i className="fa fa-lock"></i>&nbsp;Change Password</Button>
           </Col>
+          {/* <Col>
+            <Button className="float-left" color="primary" onClick={() => this.onPaymentBtnClick()}><i className="fa fa-credit-card"></i>&nbsp;Update Payment Details</Button>
+          </Col> */}
           <Col>
-            <Button className="float-left" color="primary" onClick={() => this.onPaymentBtnClick()}><i className="fa fa-credit-card"></i>&nbsp;Payment Details</Button>
+          <Button className="float-left" color="primary" onClick={() => this.onToken()}><i className="fa fa-credit-card"></i>&nbsp;Purchase Premium Support</Button>
           </Col>
         </Row>
         <Row>
@@ -282,12 +325,12 @@ class Profile extends Component {
           <ModalHeader toggle={this.togglePaymentModal}><i className="fa fa-credit-card"></i>&nbsp;Payment Details</ModalHeader>
           <ModalBody id="modalBodyText" style={{ margin: "20px" }} >
             <Elements>
-              <InjectedPaymentForm togglePaymentModal={this.togglePaymentModal}/>
+              <InjectedPaymentForm togglePaymentModal={this.togglePaymentModal} />
             </Elements>
           </ModalBody>
           {/* <ModalFooter> */}
-            {/* <Button color="secondary" onClick={this.togglePaymentModal}>Cancel</Button> */}
-            {/* <Button color="primary" onClick={this.handlePaymentSubmit}>Pay</Button> */} 
+          {/* <Button color="secondary" onClick={this.togglePaymentModal}>Cancel</Button> */}
+          {/* <Button color="primary" onClick={this.handlePaymentSubmit}>Pay</Button> */}
           {/* </ModalFooter> */}
         </Modal>
 
