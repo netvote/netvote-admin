@@ -296,11 +296,8 @@ class Profile extends Component {
               <CardBody>
                 <Form inline>
                   <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-                    {/* <Label for="examplePassword" className="mr-sm-2">Password</Label> */}
-                    {/* <Input type="password" name="password" id="examplePassword" placeholder="" value="                " disabled /> */}
                   </FormGroup>
                   <Button color="primary" onClick={() => this.onPaymentBtnClick()}>&nbsp;Update</Button>
-                  {/* <Button className="float-right" color="primary" onClick={() => this.onChangePasswordBtnClick()}>Update</Button> */}
                 </Form>
               </CardBody>
             </Card>
