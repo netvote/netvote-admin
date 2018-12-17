@@ -71,7 +71,7 @@ class Profile extends Component {
       //TODO: REMOVE HARDCODED VALUES & USE SELECTED ITEMS
       items: [{ plan: 'plan_E9czHXpV9w9OZ2', quantity: 1 }],
 
-      livemode: STRIPE.LIVEMODE,
+      // livemode: STRIPE.LIVEMODE,
 
       clientReferenceId: this.state.tenantId,
 
