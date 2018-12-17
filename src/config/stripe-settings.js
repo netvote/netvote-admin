@@ -7,3 +7,8 @@ export const PUB_KEY = process.env.NODE_ENV === 'production'
 export const PAYMENT_SERVER_URL = process.env.NODE_ENV === 'production'
   ? 'http://myapidomain.com'
   : 'http://localhost:8080';
+
+
+  export const LIVEMODE = process.env.NODE_ENV === 'production'
+  ? true //LIVE 
+  : false; //TEST 
