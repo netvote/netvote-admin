@@ -87,7 +87,15 @@ class PaymemtForm extends React.Component {
             successMessage: `${response["message"]}`
           });
 
+          //TODO: set customer exists flag
+
           this.toggleSuccess();
+          this.props.enableExistingCustomer();
+          // window.location.reload()
+
+            //Toggle payment modal
+            // setTimeout(function() { this.closePaymentModal(); }, 5000);
+            //  this.props.togglePaymentModal()
         }
 
         //Toggle payment modal

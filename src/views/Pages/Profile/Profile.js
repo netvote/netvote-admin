@@ -48,6 +48,9 @@ class Profile extends Component {
     this.toggleError = this.toggleError.bind(this);
     this.toggleSuccess = this.toggleSuccess.bind(this);
 
+    this.enableExistingCustomer = this.enableExistingCustomer.bind(this);
+
+
     this.togglePaymentModal = this.togglePaymentModal.bind(this);
 
     //AWS Auth
@@ -58,7 +61,7 @@ class Profile extends Component {
       accountType: '',
       existingCustomer: false,
       supportPackagesNames: [],
-      usagePlanNames: []
+      usagePlanNames: [],
     };
 
     this.inputs = {};
@@ -87,7 +90,7 @@ class Profile extends Component {
 
       clientReferenceId: this.state.tenantId,
 
-      //TODO --- CREATE PROPER SUCCESS/CANCELLED PAGE
+      //TODO --- CREATE PROPER SUCCESS PAGE
 
       // Note that it is not guaranteed your customers will be redirected to this
       // URL *100%* of the time, it's possible that they could e.g. close the
@@ -153,13 +156,13 @@ class Profile extends Component {
 
       this.toggleSuccess();
     } else {
-        //Show error message
-        this.setState({
-          errorTitle: `Update Plan`,
-          errorMessage: `${response["message"]}`
-        });
-  
-        this.toggleError();
+      //Show error message
+      this.setState({
+        errorTitle: `Update Plan`,
+        errorMessage: `${response["message"]}`
+      });
+
+      this.toggleError();
     }
   }
 
@@ -203,6 +206,17 @@ class Profile extends Component {
     });
   }
 
+  enableExistingCustomer() {
+    console.log('KM INSIDE enableExistingCustomer()!!!!');
+
+    //Always set to true
+    this.setState({
+      existingCustomer: true
+    });
+
+    console.log('KM INSIDE enableExistingCustomer() current state: ', this.state.existingCustomer);
+  }
+
   toggleError() {
     this.setState({
       error: !this.state.error,
@@ -236,7 +250,7 @@ class Profile extends Component {
         console.log('stripeCustomerId: ', this.state.stripeCustomer["id"]);
 
         this.setState({
-          // existingCustomer: true
+          existingCustomer: true
         });
       }
     }
@@ -252,6 +266,15 @@ class Profile extends Component {
 
     //TODO: GET current selected plans from backend 
     //TODO: Set current selected plans!!!! First item in list 
+    
+    /*
+    supportPlanLevel: "Professional"
+    tenantId: "netvote"
+    usagePlanId: "plan_EB9HINb03EJZZH"
+    usagePlanLevel: "Silver"
+
+    */
+
 
     //Get Citizen Data Support Package Names
     let supportPackagesNames = this.getSelectionNames(stripeBillingPlans, SUPPORT_PACKAGE);
@@ -413,11 +436,19 @@ class Profile extends Component {
   render() {
 
     let supportOptions = this.state.supportPackagesNames.map(function (key, index) {
-      return <option key={key}>{key}</option>;
+      if (this.state.existingCustomer) {
+        return <option key={key}>{key}</option>;
+      } else {
+        return <option key={key}>No payment method</option>;
+      }
     }, this);
 
     let usageOptions = this.state.usagePlanNames.map(function (key, index) {
-      return <option key={key}>{key}</option>;
+      if (this.state.existingCustomer) {
+        return <option key={key}>{key}</option>;
+      } else {
+        return <option key={key}>No payment method</option>;
+      }
     }, this);
 
     return (
@@ -468,13 +499,14 @@ class Profile extends Component {
 
                 <FormGroup>
                   <FormText color="muted">
+
                     Your first 100 blockchain write transactions a month are free, every transaction after is billed at $0.10 USD.
                     Purchase a transaction subscription for lower rates.
                     All read and configuration transactions are free.  Gas costs when using public blockchains are billed at current market rates.
                   </FormText>
                   <br />
                   <Label style={{ fontWeight: "bold" }} for="subPlan">Transaction Subscription</Label>
-                  <Input type="select" name="subPlan" id="subPlan" onChange={this.handleInputChange} >
+                  <Input disabled={!this.state.existingCustomer} type="select" name="subPlan" id="subPlan" onChange={this.handleInputChange} >
                     {/* <option value="None">None</option> */}
                     {usageOptions}
                   </Input>
@@ -487,20 +519,22 @@ class Profile extends Component {
                   </FormText>
                   <br />
                   <Label style={{ fontWeight: "bold" }} for="supportPkg">Support Package</Label>
-                  <Input type="select" name="supportPkg" id="supportPkg" onChange={this.handleInputChange}>
+                  <Input disabled={!this.state.existingCustomer} type="select" name="supportPkg" id="supportPkg" onChange={this.handleInputChange}>
                     {/* <option value="None">None</option> */}
                     {supportOptions}
                   </Input>
                 </FormGroup>
                 <Button className="float-right" color="primary" onClick={() => this.updatePlan()} hidden={!this.state.existingCustomer}>&nbsp;Update</Button>
-                <Button className="float-right" color="primary" onClick={() => this.purchasePlan()} hidden={this.state.existingCustomer}>&nbsp;Purchase</Button>
+                <Button className="float-right" color="primary" onClick={() => this.onPaymentBtnClick()} hidden={this.state.existingCustomer}>&nbsp;Add Payment</Button>
+                {/* <Button className="float-right" color="primary" onClick={() => this.purchasePlan()} hidden={this.state.existingCustomer}>&nbsp;Purchase</Button> */}
+
               </CardBody>
             </Card>
           </Col>
         </Row>
         <Row>
           <Col>
-            <Card style={{ marginTop: 30 + 'px' }} hidden={!this.state.existingCustomer}>
+            <Card hidden={!this.state.existingCustomer} style={{ marginTop: 30 + 'px' }} >
               <CardHeader style={{ fontWeight: "bold", color: "#22b1dd" }}>
                 <i className="fa fa-credit-card fa-align-justify fa-lg"></i><strong>Billing Information</strong>
               </CardHeader>
@@ -611,7 +645,7 @@ class Profile extends Component {
           <ModalHeader toggle={this.togglePaymentModal}><i className="fa fa-credit-card"></i>&nbsp;Billing Information</ModalHeader>
           <ModalBody id="modalBodyText" style={{ margin: "20px" }} >
             <Elements>
-              <InjectedPaymentForm togglePaymentModal={this.togglePaymentModal} />
+              <InjectedPaymentForm togglePaymentModal={this.togglePaymentModal} enableExistingCustomer={this.enableExistingCustomer} />
             </Elements>
           </ModalBody>
           {/* <ModalFooter> */}
