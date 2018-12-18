@@ -92,9 +92,8 @@ class Profile extends Component {
       // Note that it is not guaranteed your customers will be redirected to this
       // URL *100%* of the time, it's possible that they could e.g. close the
       // tab between form submission and the redirect.
-      successUrl: 'https://citizendata.network/success',
-      cancelUrl: 'https://citizendata.network/canceled',
-  
+      successUrl: STRIPE.SUCCESS_URL,
+      cancelUrl: STRIPE.CANCEL_URL,
 
     }).then(function (result) {
       console.log('purchasePlan() Error: ' + result);
@@ -237,7 +236,7 @@ class Profile extends Component {
         console.log('stripeCustomerId: ', this.state.stripeCustomer["id"]);
 
         this.setState({
-          existingCustomer: true
+          // existingCustomer: true
         });
       }
     }
