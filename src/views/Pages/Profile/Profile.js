@@ -28,6 +28,7 @@ import {
 } from 'reactstrap';
 
 import { Elements } from 'react-stripe-elements';
+import { ConsoleLogger } from '@aws-amplify/core';
 
 function getFormattedDate(created) {
   let createDate = moment(created).format('MM-DD-YYYY');
@@ -89,8 +90,6 @@ class Profile extends Component {
       items: allItems,
 
       clientReferenceId: this.state.tenantId,
-
-      //TODO --- CREATE PROPER SUCCESS PAGE
 
       // Note that it is not guaranteed your customers will be redirected to this
       // URL *100%* of the time, it's possible that they could e.g. close the
@@ -154,7 +153,14 @@ class Profile extends Component {
         successMessage: `Your subscriptions have been updated`
       });
 
+    
+      this.setState({
+        supportPlanLevel: supportId || "None",
+        usagePlanLevel: subPlanId || "None",
+      });
+
       this.toggleSuccess();
+
     } else {
       //Show error message
       this.setState({
@@ -207,14 +213,11 @@ class Profile extends Component {
   }
 
   enableExistingCustomer() {
-    console.log('KM INSIDE enableExistingCustomer()!!!!');
 
-    //Always set to true
+    //Always set to true - used by payment form modal
     this.setState({
       existingCustomer: true
     });
-
-    console.log('KM INSIDE enableExistingCustomer() current state: ', this.state.existingCustomer);
   }
 
   toggleError() {
@@ -239,6 +242,8 @@ class Profile extends Component {
       createdAt: tenantInfo["createdAt"],
       tenantId: tenantInfo["tenantId"],
       stripeCustomer: tenantInfo["stripeCustomer"],
+      supportPlanLevel: tenantInfo["supportPlanLevel"] || "None",
+      usagePlanLevel: tenantInfo["usagePlanLevel"] || "None",
     });
 
     //Set Stripe Customer Information
@@ -263,18 +268,6 @@ class Profile extends Component {
     });
 
     console.log('stripeBillingPlans: ', this.state.stripeBillingPlans);
-
-    //TODO: GET current selected plans from backend 
-    //TODO: Set current selected plans!!!! First item in list 
-    
-    /*
-    supportPlanLevel: "Professional"
-    tenantId: "netvote"
-    usagePlanId: "plan_EB9HINb03EJZZH"
-    usagePlanLevel: "Silver"
-
-    */
-
 
     //Get Citizen Data Support Package Names
     let supportPackagesNames = this.getSelectionNames(stripeBillingPlans, SUPPORT_PACKAGE);
@@ -498,29 +491,35 @@ class Profile extends Component {
               <CardBody>
 
                 <FormGroup>
+                  <FormText style={{ fontSize: "13px", fontWeight: "bold" }} color="primary">
+                    <strong>Current Usage Level: {this.state.usagePlanLevel}</strong>
+                  </FormText>
+                  <hr />
                   <FormText color="muted">
-
                     Your first 100 blockchain write transactions a month are free, every transaction after is billed at $0.10 USD.
                     Purchase a transaction subscription for lower rates.
                     All read and configuration transactions are free.  Gas costs when using public blockchains are billed at current market rates.
                   </FormText>
                   <br />
-                  <Label style={{ fontWeight: "bold" }} for="subPlan">Transaction Subscription</Label>
+
+                  <Label style={{ fontWeight: "bold", color: "#5a636b" }} for="subPlan">Transaction Subscription:</Label>
                   <Input disabled={!this.state.existingCustomer} type="select" name="subPlan" id="subPlan" onChange={this.handleInputChange} >
-                    {/* <option value="None">None</option> */}
                     {usageOptions}
                   </Input>
                 </FormGroup>
                 <br />
 
                 <FormGroup>
+                  <FormText style={{ fontSize: "13px", fontWeight: "bold" }} color="primary">
+                    <strong>Current Support Level: {this.state.supportPlanLevel}</strong>
+                  </FormText>
+                  <hr />
                   <FormText color="muted">
                     Citizen Data provides a variety of support packages to meet your needs.
                   </FormText>
                   <br />
-                  <Label style={{ fontWeight: "bold" }} for="supportPkg">Support Package</Label>
+                  <Label style={{ fontWeight: "bold", color: "#5a636b" }} for="supportPkg">Support Package:</Label>
                   <Input disabled={!this.state.existingCustomer} type="select" name="supportPkg" id="supportPkg" onChange={this.handleInputChange}>
-                    {/* <option value="None">None</option> */}
                     {supportOptions}
                   </Input>
                 </FormGroup>
