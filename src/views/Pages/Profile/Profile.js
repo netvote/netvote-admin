@@ -94,6 +94,7 @@ class Profile extends Component {
       // tab between form submission and the redirect.
       successUrl: 'https://citizendata.network/success',
       cancelUrl: 'https://citizendata.network/canceled',
+  
 
     }).then(function (result) {
       console.log('purchasePlan() Error: ' + result);
@@ -474,10 +475,9 @@ class Profile extends Component {
                   </FormText>
                   <br />
                   <Label style={{ fontWeight: "bold" }} for="subPlan">Transaction Subscription</Label>
-                  <Input value="Developer" type="select" name="subPlan" id="subPlan" onChange={this.handleInputChange} >
+                  <Input type="select" name="subPlan" id="subPlan" onChange={this.handleInputChange} >
                     {/* <option value="None">None</option> */}
                     {usageOptions}
-                    <option value="None">None</option>
                   </Input>
                 </FormGroup>
                 <br />

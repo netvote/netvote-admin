@@ -44,7 +44,8 @@ class PaymemtForm extends React.Component {
     // STEP 1 - Create Stripe Token
     // Within the context of `Elements`, this call to createToken knows which Element to
     // tokenize, since there's only one in this group.
-    this.props.stripe.createToken({ name: 'Eric Clapton' }).then(async ({ token, error }) => {
+    // this.props.stripe.createToken({ name: 'Eric Clapton' }).then(async ({ token, error }) => {
+    this.props.stripe.createToken().then(async ({ token, error }) => {
       console.log('Received Stripe token:', token);
 
       if (error !== undefined) {
@@ -64,7 +65,7 @@ class PaymemtForm extends React.Component {
       if (token !== undefined) {
 
         //Send the token to our server
-        console.log("sending token: "+token.id);
+        console.log("sending token: " + token.id);
         let response = await new NetVoteAdmin().setPaymentMethod(token.id);
 
         console.log(response);
@@ -78,7 +79,7 @@ class PaymemtForm extends React.Component {
           });
 
           this.toggleError();
-    
+
         } else {
           //Show response message
           this.setState({
@@ -88,7 +89,7 @@ class PaymemtForm extends React.Component {
 
           this.toggleSuccess();
         }
-        
+
         //Toggle payment modal
         // this.props.togglePaymentModal();
         //this.setState({ complete: true });
