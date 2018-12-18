@@ -68,10 +68,9 @@ class Profile extends Component {
   purchasePlan() {
     const { subPlan, supportPkg } = this.inputs;
 
-    //TODO: REMOVE metered - not supported by checkout
     //Get aggregated list of plan items 
     let allItems = this.getAllItems(subPlan, supportPkg);
-   
+
     console.log('purchasePlan() allItems: ', allItems);
 
     var stripe = window.Stripe(STRIPE.PUB_KEY, {
@@ -121,20 +120,47 @@ class Profile extends Component {
     })
   }
 
-  updatePlan() {
+
+  updatePlan = async () => {
     const { subPlan, supportPkg } = this.inputs;
-   
-    //Get aggregated list of plan items
-    let allItems = this.getAllItems(subPlan, supportPkg);
 
-    //TODO: Need to wire UPDATE to new endpoint
-    
-    this.setState({
-      successTitle: `Update Plan`,
-      successMessage: 'Plans to be updated: ' + JSON.stringify(allItems)
-    });
+    //Parse Ids from user selections
+    var subPlanId = this.getInputId(subPlan);
+    var supportId = this.getInputId(supportPkg)
 
-    this.toggleSuccess();
+    //Subscription Plan Items
+    let usagePlan = this.getPlansByName(this.state.stripeBillingPlans, USAGE_PLAN, subPlanId);
+
+    //Support Package Items
+    let supportPlan = this.getPlansByName(this.state.stripeBillingPlans, SUPPORT_PACKAGE, supportId);
+
+    //Create backend update plan info
+    let updatePlans = { usagePlanId: `${usagePlan}`, supportPlanId: `${supportPlan}` };
+
+    //Send the updated plans to our server
+    console.log("updatePlan() sending : ", JSON.stringify(updatePlans));
+    let response = await new NetVoteAdmin().setSubscriptionPlans(updatePlans);
+
+    console.log('updatePlan() response: ', response);
+    console.log('updatePlan() Response result: ' + response["result"]);
+
+    if (response["result"] === "ok") {
+      //Show response message
+      this.setState({
+        successTitle: `Update Plan`,
+        successMessage: `Your subscriptions have been updated`
+      });
+
+      this.toggleSuccess();
+    } else {
+        //Show error message
+        this.setState({
+          errorTitle: `Update Plan`,
+          errorMessage: `${response["message"]}`
+        });
+  
+        this.toggleError();
+    }
   }
 
   getAllItems(subPlan, supportPkg) {
@@ -145,21 +171,21 @@ class Profile extends Component {
 
     console.log('Selected subPlanId:', subPlanId + ".");
     console.log('Selected supportId:', supportId + ".");
-    
+
     //Subscription Plan Items
     let usagePlans = this.getPlansByName(this.state.stripeBillingPlans, USAGE_PLAN, subPlanId);
     let usageItems = this.getItemsFromListOfPlans(usagePlans);
     console.log('usageItems: ', usageItems);
-    
+
     //Support Package Items
     let supportPlans = this.getPlansByName(this.state.stripeBillingPlans, SUPPORT_PACKAGE, supportId);
     let supportItems = this.getItemsFromListOfPlans(supportPlans);
     console.log('supportItems: ', supportItems);
-    
+
     //Aggregate All items for update/checkout
     let totalItems = usageItems.concat(supportItems);
     console.log('Total Plan Items: ', totalItems);
-    
+
     return totalItems;
   }
 
@@ -267,10 +293,10 @@ class Profile extends Component {
 
     // destructure the array into its key and property - index internal
     for (const [index, plan] of entries) {
-      let item = {plan: `${plan}`,  quantity: 1};
+      let item = { plan: `${plan}`, quantity: 1 };
       items.push(item);
     }
-    
+
     return items;
   }
 
@@ -286,6 +312,10 @@ class Profile extends Component {
 
       if (key["usagePrice"] !== undefined) {
         itemTitle += ` / Billing rate ${key["usagePrice"]} USD per transaction`;
+      }
+
+      if (key["includedTx"] !== undefined && key["includedTx"] !== "0") {
+        itemTitle += ` / Includes ${key["includedTx"]} blockchain transactions`;
       }
 
       //Default to Developer
@@ -444,9 +474,10 @@ class Profile extends Component {
                   </FormText>
                   <br />
                   <Label style={{ fontWeight: "bold" }} for="subPlan">Transaction Subscription</Label>
-                  <Input type="select" name="subPlan" id="subPlan" onChange={this.handleInputChange} >
+                  <Input value="Developer" type="select" name="subPlan" id="subPlan" onChange={this.handleInputChange} >
                     {/* <option value="None">None</option> */}
                     {usageOptions}
+                    <option value="None">None</option>
                   </Input>
                 </FormGroup>
                 <br />

@@ -28,6 +28,7 @@ const NETROSA_SERVICE = 'netrosa';
 //Stripe Billing Services
 const STRIPE_SERVICE = 'stripe';
 const STRIPE_PLANS = 'plans';
+const STRIPE_SUBSCRIPTION ='subscription';
 
 //Citizen Data Usage Endpoints
 const CITIZEN_DATA_USAGE_DETAILS = 'usage/detail';
@@ -47,6 +48,7 @@ const IAM_ENDPOINT_TENANT = "tenant";
 
 //Netrosa IAM Endpoints
 const IAM_ENDPOINT_NETROSA_API_KEY = "/netrosa/apikey";
+
 
 
 export default class NetVoteAdmin {
@@ -171,6 +173,11 @@ export default class NetVoteAdmin {
             return this.billingRequest(STRIPE_PLANS, STRIPE_SERVICE, 'GET', null);
         };
 
+        //PUT /v1/stripe/subscription
+        this.setSubscriptionPlans = (planData) => {
+            return this.billingRequest(STRIPE_SUBSCRIPTION, STRIPE_SERVICE, 'PUT', planData)
+        }
+        
         // ------------------------------------------------------------------------------------------------------------
         // Netrosa Endpoints
         // ------------------------------------------------------------------------------------------------------------
