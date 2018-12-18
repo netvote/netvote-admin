@@ -25,6 +25,10 @@ const CITIZEN_DATA_API_VERSION = 'v1';
 const NETVOTE_SERVICE = 'netvote';
 const NETROSA_SERVICE = 'netrosa';
 
+//Stripe Billing Services
+const STRIPE_SERVICE = 'stripe';
+const STRIPE_PLANS = 'plans';
+
 //Citizen Data Usage Endpoints
 const CITIZEN_DATA_USAGE_DETAILS = 'usage/detail';
 const CITIZEN_DATA_USAGE_TIME = 'usage/report/time';
@@ -159,6 +163,13 @@ export default class NetVoteAdmin {
                 stripeToken: stripeToken
             })
         }
+
+        // ------------------------------------------------------------------------------------------------------------
+        // Stripe Endpoints
+        // ------------------------------------------------------------------------------------------------------------
+        this.getStripeBillingPlans = () => {
+            return this.billingRequest(STRIPE_PLANS, STRIPE_SERVICE, 'GET', null);
+        };
 
         // ------------------------------------------------------------------------------------------------------------
         // Netrosa Endpoints

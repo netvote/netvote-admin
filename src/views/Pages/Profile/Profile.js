@@ -23,6 +23,7 @@ import {
   InputGroupAddon,
   InputGroupText,
   InputGroup,
+  UncontrolledTooltip,
   Form, FormGroup, Label, Input, FormFeedback, FormText
 } from 'reactstrap';
 
@@ -33,6 +34,10 @@ function getFormattedDate(created) {
 
   return createDate;
 }
+/* eslint no-unused-vars: "off" */
+
+const SUPPORT_PACKAGE = 'Support Package';
+const USAGE_PLAN = 'Usage Plan';
 
 class Profile extends Component {
   constructor(props) {
@@ -51,13 +56,23 @@ class Profile extends Component {
 
     this.state = {
       accountType: '',
+      existingCustomer: false,
+      supportPackagesNames: [],
+      usagePlanNames: []
     };
 
     this.inputs = {};
   };
 
 
-  checkout() {
+  purchasePlan() {
+    const { subPlan, supportPkg } = this.inputs;
+
+    //TODO: REMOVE metered - not supported by checkout
+    //Get aggregated list of plan items 
+    let allItems = this.getAllItems(subPlan, supportPkg);
+   
+    console.log('purchasePlan() allItems: ', allItems);
 
     var stripe = window.Stripe(STRIPE.PUB_KEY, {
       betas: ['checkout_beta_4']
@@ -68,10 +83,8 @@ class Profile extends Component {
     //Stripe Checkout Process
     stripe.redirectToCheckout({
 
-      //TODO: REMOVE HARDCODED VALUES & USE SELECTED ITEMS
-      items: [{ plan: 'plan_E9czHXpV9w9OZ2', quantity: 1 }],
-
-      // livemode: STRIPE.LIVEMODE,
+      // Example items: [{ plan: 'plan_E9czHXpV9w9OZ2', quantity: 1 }],
+      items: allItems,
 
       clientReferenceId: this.state.tenantId,
 
@@ -84,9 +97,9 @@ class Profile extends Component {
       cancelUrl: 'https://citizendata.network/canceled',
 
     }).then(function (result) {
+      console.log('purchasePlan() Error: ' + result);
+
       if (result.error) {
-        // If `redirectToCheckout` fails due to a browser or network
-        // error, display the localized error message to your customer.
 
         this.setState({
           errorTitle: `Purchase Plan`,
@@ -95,7 +108,67 @@ class Profile extends Component {
 
         this.toggleError();
       }
+    }).catch(e => {
+      console.log('PurchasePlan() Error: ', e.message);
+
+      this.setState({
+        errorTitle: `Purchase Plan`,
+        errorMessage: e.message
+      });
+
+      this.toggleError();
+
+    })
+  }
+
+  updatePlan() {
+    const { subPlan, supportPkg } = this.inputs;
+   
+    //Get aggregated list of plan items
+    let allItems = this.getAllItems(subPlan, supportPkg);
+
+    //TODO: Need to wire UPDATE to new endpoint
+    
+    this.setState({
+      successTitle: `Update Plan`,
+      successMessage: 'Plans to be updated: ' + JSON.stringify(allItems)
     });
+
+    this.toggleSuccess();
+  }
+
+  getAllItems(subPlan, supportPkg) {
+
+    //Parse Ids from user selections
+    var subPlanId = this.getInputId(subPlan);
+    var supportId = this.getInputId(supportPkg);
+
+    console.log('Selected subPlanId:', subPlanId + ".");
+    console.log('Selected supportId:', supportId + ".");
+    
+    //Subscription Plan Items
+    let usagePlans = this.getPlansByName(this.state.stripeBillingPlans, USAGE_PLAN, subPlanId);
+    let usageItems = this.getItemsFromListOfPlans(usagePlans);
+    console.log('usageItems: ', usageItems);
+    
+    //Support Package Items
+    let supportPlans = this.getPlansByName(this.state.stripeBillingPlans, SUPPORT_PACKAGE, supportId);
+    let supportItems = this.getItemsFromListOfPlans(supportPlans);
+    console.log('supportItems: ', supportItems);
+    
+    //Aggregate All items for update/checkout
+    let totalItems = usageItems.concat(supportItems);
+    console.log('Total Plan Items: ', totalItems);
+    
+    return totalItems;
+  }
+
+  getInputId(selectedValue) {
+    if (selectedValue !== undefined) {
+      return (selectedValue.split("-", 1)[0]).replace(/ /g, "");
+    } else {
+      return 'Developer';
+    }
   }
 
   toggleSuccess() {
@@ -117,23 +190,117 @@ class Profile extends Component {
     //Retrieve Tenant Info
     let tenantInfo = await netVoteAdmin.getTentantInfo();
 
-    //Set Tenant Account Message
+    console.log('tenantInfo: ', tenantInfo);
+
     this.setState({
       accountType: tenantInfo["accountType"],
       accountOwner: tenantInfo["owner"],
       maxApiKeys: tenantInfo["maxApiKeys"],
       createdAt: tenantInfo["createdAt"],
-      tenantId: tenantInfo["tenantId"]
+      tenantId: tenantInfo["tenantId"],
+      stripeCustomer: tenantInfo["stripeCustomer"],
     });
+
+    //Set Stripe Customer Information
+    if (this.state.stripeCustomer !== undefined) {
+
+      console.log('stripeCustomer: ', this.state.stripeCustomer);
+
+      if (this.state.stripeCustomer["id"] !== undefined) {
+        console.log('stripeCustomerId: ', this.state.stripeCustomer["id"]);
+
+        this.setState({
+          existingCustomer: true
+        });
+      }
+    }
+
+    //Get Stripe Billing Plans
+    let stripeBillingPlans = await netVoteAdmin.getStripeBillingPlans();
+
+    this.setState({
+      stripeBillingPlans: stripeBillingPlans
+    });
+
+    console.log('stripeBillingPlans: ', this.state.stripeBillingPlans);
+
+    //TODO: GET current selected plans from backend 
+    //TODO: Set current selected plans!!!! First item in list 
+
+    //Get Citizen Data Support Package Names
+    let supportPackagesNames = this.getSelectionNames(stripeBillingPlans, SUPPORT_PACKAGE);
+
+    //Get Citizen Data Usage Plan Names
+    let usagePlanNames = this.getSelectionNames(stripeBillingPlans, USAGE_PLAN);
+
+    //Save support packages list for select dropdown
+    this.setState({
+      supportPackagesNames: supportPackagesNames,
+      usagePlanNames: usagePlanNames
+    });
+
   }
 
   componentDidMount = async () => {
     await this.loadData();
 
-    console.log("LIVEMODE: " + STRIPE.LIVEMODE);
-    //TODO: CALL BACKEND TO GET LIST OF SUBSCRIPTION OPTIONS
-    //TODO: CREATE SUBSCRIPTION PLAN DROPDOWN 
+    console.log('Existing Customer: ', this.state.existingCustomer);
+  }
 
+  getPlansByName(stripeBillingPlans, key, name) {
+    let plans = [];
+
+    let entries = Object.entries(stripeBillingPlans[key][name]["plans"]);
+
+    // destructure the array into its key and property - index internal
+    for (const [index, value] of entries) {
+      plans.push(value);
+    }
+
+    return plans;
+  }
+
+  getItemsFromListOfPlans(plans) {
+
+    let items = [];
+    const entries = Object.entries(plans)
+
+    // destructure the array into its key and property - index internal
+    for (const [index, plan] of entries) {
+      let item = {plan: `${plan}`,  quantity: 1};
+      items.push(item);
+    }
+    
+    return items;
+  }
+
+  getSelectionNames(stripeBillingPlans, key) {
+    let namesList = [];
+
+    const entries = Object.entries(stripeBillingPlans[key]);
+
+    //Add price to names
+    for (const [name, key] of entries) {
+
+      let itemTitle = `${name} - ${key["monthlyPrice"]} Monthly`;
+
+      if (key["usagePrice"] !== undefined) {
+        itemTitle += ` / Billing rate ${key["usagePrice"]} USD per transaction`;
+      }
+
+      //Default to Developer
+      if (name === 'Developer') {
+        namesList.unshift(itemTitle);
+      } else {
+        namesList.push(itemTitle);
+      }
+
+    }
+
+    //Sort list
+    // namesList.sort();
+
+    return namesList;
   }
 
   toggleChangePasswordModal() {
@@ -214,6 +381,15 @@ class Profile extends Component {
   }
 
   render() {
+
+    let supportOptions = this.state.supportPackagesNames.map(function (key, index) {
+      return <option key={key}>{key}</option>;
+    }, this);
+
+    let usageOptions = this.state.usagePlanNames.map(function (key, index) {
+      return <option key={key}>{key}</option>;
+    }, this);
+
     return (
       <div className="animated fadeIn">
         <Row>
@@ -249,47 +425,52 @@ class Profile extends Component {
           <Col>
             <Card style={{ marginTop: 30 + 'px' }}>
               <CardHeader style={{ fontWeight: "bold", color: "#22b1dd" }}>
-                <img src={logo} alt="CitizenData" width="25" height="25" border="0" /><strong>&nbsp;Subscription Details</strong>
+                <img src={logo} alt="CitizenData" width="25" height="25" border="0" /><strong>&nbsp;Subscriptions</strong>
                 <strong hidden={STRIPE.LIVEMODE} style={{ fontSize: "12px", fontWeight: "bold", color: "orange", margin: "20px" }}>TEST MODE</strong>
-                <span className="ml-auto"><a href="https://citizendata.network/pricing/" target="_blank" rel='noopener noreferrer'>  <i className={"fa fa-question-circle-o fa-lg float-right"} ></i></a></span>
+                <span className="ml-auto" >
+                  <a href="https://citizendata.network/pricing/" target="_blank" rel='noopener noreferrer'>  <i id="subHelp" className={"fa fa-question-circle-o float-right fa-lg "} ></i></a>
+                  <UncontrolledTooltip placement="right" target="subHelp">
+                    Pricing Details
+                </UncontrolledTooltip>
+                </span>
               </CardHeader>
               <CardBody>
 
-                <FormText color="muted">
-                  Your first 100 blockchain write transactions a month are free, every transaction after is billed at $0.10 USD.
-                  Purchase a transaction subscription for lower rates.
-                  All read and configuration transactions are free.  Gas costs when using public blockchains are billed at current market rates.
-
-            </FormText>
                 <FormGroup>
-                  <Label style={{ fontWeight: "bold" }} for="subPlan">Transaction Subscription:</Label>
-                  <Input type="select" name="select" id="subPlan">
-                    <option>Bronze</option>
-                    <option>Silver</option>
-                    <option>Gold</option>
+                  <FormText color="muted">
+                    Your first 100 blockchain write transactions a month are free, every transaction after is billed at $0.10 USD.
+                    Purchase a transaction subscription for lower rates.
+                    All read and configuration transactions are free.  Gas costs when using public blockchains are billed at current market rates.
+                  </FormText>
+                  <br />
+                  <Label style={{ fontWeight: "bold" }} for="subPlan">Transaction Subscription</Label>
+                  <Input type="select" name="subPlan" id="subPlan" onChange={this.handleInputChange} >
+                    {/* <option value="None">None</option> */}
+                    {usageOptions}
                   </Input>
                 </FormGroup>
+                <br />
 
-                <FormText color="muted">
-                  Citizen Data provides a variety of support packages to meet your needs.
-
-                </FormText>
                 <FormGroup>
-                  <Label style={{ fontWeight: "bold" }} for="supportPkg">Support Package:</Label>
-                  <Input type="select" name="select" id="supportPkg">
-                    <option>Developer</option>
-                    <option>Professional</option>
-                    <option>Premium</option>
+                  <FormText color="muted">
+                    Citizen Data provides a variety of support packages to meet your needs.
+                  </FormText>
+                  <br />
+                  <Label style={{ fontWeight: "bold" }} for="supportPkg">Support Package</Label>
+                  <Input type="select" name="supportPkg" id="supportPkg" onChange={this.handleInputChange}>
+                    {/* <option value="None">None</option> */}
+                    {supportOptions}
                   </Input>
                 </FormGroup>
-                <Button className="float-right" color="primary" onClick={() => this.checkout()}>&nbsp;Purchase</Button>
+                <Button className="float-right" color="primary" onClick={() => this.updatePlan()} hidden={!this.state.existingCustomer}>&nbsp;Update</Button>
+                <Button className="float-right" color="primary" onClick={() => this.purchasePlan()} hidden={this.state.existingCustomer}>&nbsp;Purchase</Button>
               </CardBody>
             </Card>
           </Col>
         </Row>
         <Row>
           <Col>
-            <Card style={{ marginTop: 30 + 'px' }} hidden={false}>
+            <Card style={{ marginTop: 30 + 'px' }} hidden={!this.state.existingCustomer}>
               <CardHeader style={{ fontWeight: "bold", color: "#22b1dd" }}>
                 <i className="fa fa-credit-card fa-align-justify fa-lg"></i><strong>Billing Information</strong>
               </CardHeader>
@@ -307,13 +488,13 @@ class Profile extends Component {
           <Col>
             <Card style={{ marginTop: 30 + 'px' }}>
               <CardHeader style={{ fontWeight: "bold", color: "#22b1dd" }}>
-                <i className="icon-lock fa-align-justify fa-lg"></i><strong>Login Credentials</strong>
+                <i className="icon-lock fa-align-justify fa-lg"></i><strong>Admin Credentials</strong>
               </CardHeader>
               <CardBody>
                 <Form inline>
                   <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-                    <Label for="examplePassword" className="mr-sm-2">Password</Label>
-                    <Input type="password" name="password" id="examplePassword" placeholder="" value="                " disabled />
+                    <Label for="password" className="mr-sm-2">Password:</Label>
+                    <Input type="password" name="password" id="password" placeholder="" value="                " disabled />
                   </FormGroup>
                   <Button className="float-right" color="primary" onClick={() => this.onChangePasswordBtnClick()}>Change Password</Button>
                 </Form>
@@ -397,7 +578,7 @@ class Profile extends Component {
 
         <Modal isOpen={this.state.payment} centered={true} toggle={this.togglePaymentModal}
           className={'modal-primary ' + this.props.className} size="md" color="primary">
-          <ModalHeader toggle={this.togglePaymentModal}><i className="fa fa-credit-card"></i>&nbsp;Payment Details</ModalHeader>
+          <ModalHeader toggle={this.togglePaymentModal}><i className="fa fa-credit-card"></i>&nbsp;Billing Information</ModalHeader>
           <ModalBody id="modalBodyText" style={{ margin: "20px" }} >
             <Elements>
               <InjectedPaymentForm togglePaymentModal={this.togglePaymentModal} />
