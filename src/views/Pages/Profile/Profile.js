@@ -63,6 +63,7 @@ class Profile extends Component {
       existingCustomer: false,
       supportPackagesNames: [],
       usagePlanNames: [],
+      updateDisabled: false
     };
 
     this.inputs = {};
@@ -125,6 +126,11 @@ class Profile extends Component {
 
   updatePlan = async () => {
     const { subPlan, supportPkg } = this.inputs;
+    
+    //Disable Update Button
+    this.setState({
+      updateDisabled: true
+    });
 
     //Parse Ids from user selections
     var subPlanId = this.getInputId(subPlan);
@@ -144,17 +150,12 @@ class Profile extends Component {
     let response = await new NetVoteAdmin().setSubscriptionPlans(updatePlans);
 
     console.log('updatePlan() response: ', response);
-    console.log('updatePlan() Response result: ' + response["result"]);
 
     if (response["result"] === "ok") {
       //Show response message
       this.setState({
         successTitle: `Update Plan`,
-        successMessage: `Your subscriptions have been updated`
-      });
-
-    
-      this.setState({
+        successMessage: `Your subscriptions have been updated`,
         supportPlanLevel: supportId || "None",
         usagePlanLevel: subPlanId || "None",
       });
@@ -169,7 +170,13 @@ class Profile extends Component {
       });
 
       this.toggleError();
+  
     }
+
+    this.setState({
+      updateDisabled: false
+    });
+
   }
 
   getAllItems(subPlan, supportPkg) {
@@ -523,7 +530,7 @@ class Profile extends Component {
                     {supportOptions}
                   </Input>
                 </FormGroup>
-                <Button className="float-right" color="primary" onClick={() => this.updatePlan()} hidden={!this.state.existingCustomer}>&nbsp;Update</Button>
+                <Button className="float-right" color="primary" disabled={this.state.updateDisabled} onClick={() => this.updatePlan()} hidden={!this.state.existingCustomer}>&nbsp;Update</Button>
                 <Button className="float-right" color="primary" onClick={() => this.onPaymentBtnClick()} hidden={this.state.existingCustomer}>&nbsp;Add Payment</Button>
                 {/* <Button className="float-right" color="primary" onClick={() => this.purchasePlan()} hidden={this.state.existingCustomer}>&nbsp;Purchase</Button> */}
 

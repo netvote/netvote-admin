@@ -82,14 +82,14 @@ export default class NetVoteAdmin {
                 .then(data => {
                     //Add Authorization
                     let token = data.getIdToken().getJwtToken();
-                    console.log('Admin Token: ' + token);
+                    // console.log('Admin Token: ' + token);
                     reqHeaders.append('Authorization', "Bearer " + token);
 
                 }).catch(err => {
-                    console.log('Admin Auth ERROR: ' + err);
+                    console.log('networkRequest() Auth ERROR: ' + err);
                 });
 
-            console.log('Admin Fetching URL: ' + URL);
+            console.log('networkRequest() Fetching URL: ' + URL);
 
             let reqObj = {
                 method,
@@ -104,10 +104,10 @@ export default class NetVoteAdmin {
             let response = await fetch(URL, reqObj);
 
             if (response.ok) {
-                console.log('Admin Fetch Successful - ' + response.status);
+                console.log('networkRequest() Fetch Successful - ' + response.status);
                 return await response.json();
             } else {
-                console.log('Admin ERROR: Fetch Failed - ' + response.status);
+                console.log('networkRequest() ERROR: Fetch Failed - ' + response.status);
                 return await response.json();
                 // throw new Error('Admin ERROR: Fetch Failed - ' + response.status);
             }
@@ -173,7 +173,6 @@ export default class NetVoteAdmin {
             return this.billingRequest(STRIPE_PLANS, STRIPE_SERVICE, 'GET', null);
         };
 
-        //PUT /v1/stripe/subscription
         this.setSubscriptionPlans = (planData) => {
             return this.billingRequest(STRIPE_SUBSCRIPTION, STRIPE_SERVICE, 'PUT', planData)
         }

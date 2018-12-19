@@ -29,37 +29,28 @@ class PaymemtForm extends React.Component {
 
     this.state = {
       elementFontSize: window.innerWidth < 450 ? '14px' : '18px',
-      complete: false
+      complete: false,
+      disableButton: false
     };
 
     this.inputs = {};
   };
 
-  //TODO: Server side integration
   //Tokenizes the card information and sends it to Citizen Data server
   handleSubmit = (ev) => {
     // Prevent default form submission here, which would refresh the page.
     ev.preventDefault();
 
+    //Disable button 
+    this.setState({
+      disableButton: true
+    });
+
     // STEP 1 - Create Stripe Token
     // Within the context of `Elements`, this call to createToken knows which Element to
     // tokenize, since there's only one in this group.
-    // this.props.stripe.createToken({ name: 'Eric Clapton' }).then(async ({ token, error }) => {
     this.props.stripe.createToken().then(async ({ token, error }) => {
       console.log('Received Stripe token:', token);
-
-      if (error !== undefined) {
-
-        //Show  Error
-        console.log('Stripe token error :', error);
-
-        this.setState({
-          errorTitle: `Payment Error`,
-          errorMessage: error.message
-        });
-
-        this.toggleError();
-      }
 
       //STEP 2 - Send Stripe Token to Citizen Data server
       if (token !== undefined) {
@@ -69,7 +60,6 @@ class PaymemtForm extends React.Component {
         let response = await new NetVoteAdmin().setPaymentMethod(token.id);
 
         console.log(response);
-        console.log('Response code: ' + response["code"]);
 
         if (response["code"] !== undefined) {
           //Show error message
@@ -81,26 +71,38 @@ class PaymemtForm extends React.Component {
           this.toggleError();
 
         } else {
-          //Show response message
-          this.setState({
-            successTitle: `Update Payment`,
-            successMessage: `${response["message"]}`
-          });
 
-          //TODO: set customer exists flag
-
-          this.toggleSuccess();
+          //Set Customer exists flag
           this.props.enableExistingCustomer();
-          // window.location.reload()
 
-            //Toggle payment modal
-            // setTimeout(function() { this.closePaymentModal(); }, 5000);
-            //  this.props.togglePaymentModal()
+          // //Show response message
+          // this.setState({
+          //   successTitle: `Update Payment`,
+          //   successMessage: `${response["message"]}`
+          // });
+
+
+          // this.toggleSuccess();
+          
+          //Toggle payment modal
+          this.setState({ complete: true });
         }
 
-        //Toggle payment modal
-        // this.props.togglePaymentModal();
-        //this.setState({ complete: true });
+      } else {
+        //enable button 
+        this.setState({
+          disableButton: false
+        });
+
+        //Show  Error
+        console.log('Stripe token error :', error);
+
+        this.setState({
+          errorTitle: `Payment Error`,
+          errorMessage: error.message
+        });
+
+        this.toggleError();
       }
     });
   };
@@ -182,81 +184,85 @@ class PaymemtForm extends React.Component {
 
   render() {
 
-    // if (this.state.complete) {
-    //   return <h1 style={{ fontWeight: "bold", color: "green" }}>Payment details sent to Citizen Data server</h1>;
-    // }
+    if (this.state.complete) {
+      //Show completed message
+      return (
+        <h5 align="center" style={{ fontSize: "14px", fontWeight: "bold", color: "#22b1dd", margin: "20px" }}>Your payment details have been updated</h5>
+      );
+    } else {
 
-    return (
-      <div className="animated fadeIn">
-        <Form>
-          {/* <CardElement/> */}
-          <FormGroup>
-            <Label for="cardNumber" style={{ fontWeight: "bold", color: "#22b1dd" }}>Card Number</Label>
-            <CardNumberElement
-              onBlur={this.handleBlur}
-              onChange={this.handleChange}
-              onFocus={this.handleFocus}
-              onReady={(el) => el.focus()}
-              // onReady={this.handleReady}
-              {...this.createOptions(this.props.fontSize)}
-            />
-          </FormGroup>
+      return (
+        <div className="animated fadeIn">
+          <Form>
+            {/* <CardElement/> */}
+            <FormGroup>
+              <Label for="cardNumber" style={{ fontWeight: "bold", color: "#22b1dd" }}>Card Number</Label>
+              <CardNumberElement
+                onBlur={this.handleBlur}
+                onChange={this.handleChange}
+                onFocus={this.handleFocus}
+                onReady={(el) => el.focus()}
+                // onReady={this.handleReady}
+                {...this.createOptions(this.props.fontSize)}
+              />
+            </FormGroup>
 
-          <FormGroup>
-            <Label for="expDate" style={{ fontWeight: "bold", color: "#22b1dd" }}>Expiration</Label>
+            <FormGroup>
+              <Label for="expDate" style={{ fontWeight: "bold", color: "#22b1dd" }}>Expiration</Label>
 
-            <CardExpiryElement
-              onBlur={this.handleBlur}
-              onChange={this.handleChange}
-              onFocus={this.handleFocus}
-              onReady={this.handleReady}
-              {...this.createOptions(this.props.fontSize)}
-            />
-          </FormGroup>
+              <CardExpiryElement
+                onBlur={this.handleBlur}
+                onChange={this.handleChange}
+                onFocus={this.handleFocus}
+                onReady={this.handleReady}
+                {...this.createOptions(this.props.fontSize)}
+              />
+            </FormGroup>
 
-          <FormGroup>
-            <Label for="cvc" style={{ fontWeight: "bold", color: "#22b1dd" }}>CVC</Label>
+            <FormGroup>
+              <Label for="cvc" style={{ fontWeight: "bold", color: "#22b1dd" }}>CVC</Label>
 
-            <CardCVCElement
-              onBlur={this.handleBlur}
-              onChange={this.handleChange}
-              onFocus={this.handleFocus}
-              onReady={this.handleReady}
-              {...this.createOptions(this.props.fontSize)}
-            />
-          </FormGroup>
+              <CardCVCElement
+                onBlur={this.handleBlur}
+                onChange={this.handleChange}
+                onFocus={this.handleFocus}
+                onReady={this.handleReady}
+                {...this.createOptions(this.props.fontSize)}
+              />
+            </FormGroup>
 
-          <FormGroup>
-            <Label for="postalCode" style={{ fontWeight: "bold", color: "#22b1dd" }}>Postal code</Label>
+            <FormGroup>
+              <Label for="postalCode" style={{ fontWeight: "bold", color: "#22b1dd" }}>Postal code</Label>
 
-            <PostalCodeElement
-              onBlur={this.handleBlur}
-              onChange={this.handleChange}
-              onFocus={this.handleFocus}
-              onReady={this.handleReady}
-              {...this.createOptions(this.props.fontSize)}
-            />
-          </FormGroup>
-          <Col align="center" style={{ margin: "10px", paddingLeft: "10px" }}>
-            <Button color="primary" disabled={this.state.complete} onClick={this.handleSubmit}>Update Card</Button>
-          </Col>
-        </Form>
-        <Modal isOpen={this.state.error} centered={true} toggle={this.toggleError}
-          className={'modal-danger ' + this.props.className}>
-          <ModalHeader toggle={this.toggleError}>{this.state.errorTitle}</ModalHeader>
-          <ModalBody style={{ fontWeight: "bold", color: "red", backgroundColor: "#ee909057" }}>
-            {this.state.errorMessage}
-          </ModalBody>
-        </Modal>
-        <Modal isOpen={this.state.success} centered={true} toggle={this.toggleSuccess}
-          className={'modal-success ' + this.props.className}>
-          <ModalHeader toggle={this.toggleSuccess}>{this.state.successTitle}</ModalHeader>
-          <ModalBody style={{ fontWeight: "bold", color: "green", backgroundColor: "#90ee9057" }}>
-            {this.state.successMessage}
-          </ModalBody>
-        </Modal>
-      </div>
-    );
+              <PostalCodeElement
+                onBlur={this.handleBlur}
+                onChange={this.handleChange}
+                onFocus={this.handleFocus}
+                onReady={this.handleReady}
+                {...this.createOptions(this.props.fontSize)}
+              />
+            </FormGroup>
+            <Col align="center" style={{ margin: "10px", paddingLeft: "10px" }}>
+              <Button color="primary" disabled={this.state.disableButton} onClick={this.handleSubmit}>Update Card</Button>
+            </Col>
+          </Form>
+          <Modal isOpen={this.state.error} centered={true} toggle={this.toggleError}
+            className={'modal-danger ' + this.props.className}>
+            <ModalHeader toggle={this.toggleError}>{this.state.errorTitle}</ModalHeader>
+            <ModalBody style={{ fontWeight: "bold", color: "red", backgroundColor: "#ee909057" }}>
+              {this.state.errorMessage}
+            </ModalBody>
+          </Modal>
+          <Modal isOpen={this.state.success} centered={true} toggle={this.toggleSuccess}
+            className={'modal-success ' + this.props.className}>
+            <ModalHeader toggle={this.toggleSuccess}>{this.state.successTitle}</ModalHeader>
+            <ModalBody style={{ fontWeight: "bold", color: "green", backgroundColor: "#90ee9057" }}>
+              {this.state.successMessage}
+            </ModalBody>
+          </Modal>
+        </div>
+      );
+    }
   }
 }
 
