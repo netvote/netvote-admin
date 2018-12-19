@@ -187,7 +187,7 @@ class PaymemtForm extends React.Component {
     if (this.state.complete) {
       //Show completed message
       return (
-        <h5 align="center" style={{ fontSize: "14px", fontWeight: "bold", color: "#22b1dd", margin: "20px" }}>Your payment details have been updated</h5>
+        <h5 align="center" style={{ fontSize: "14px", fontWeight: "bold", color: "#22b1dd", margin: "20px" }}>Your payment details have been saved</h5>
       );
     } else {
 
@@ -243,7 +243,7 @@ class PaymemtForm extends React.Component {
               />
             </FormGroup>
             <Col align="center" style={{ margin: "10px", paddingLeft: "10px" }}>
-              <Button color="primary" disabled={this.state.disableButton} onClick={this.handleSubmit}>Update Card</Button>
+              <Button color="primary" disabled={this.state.disableButton} onClick={this.handleSubmit}>Save Payment Method</Button>
             </Col>
           </Form>
           <Modal isOpen={this.state.error} centered={true} toggle={this.toggleError}

@@ -531,7 +531,7 @@ class Profile extends Component {
                   </Input>
                 </FormGroup>
                 <Button className="float-right" color="primary" disabled={this.state.updateDisabled} onClick={() => this.updatePlan()} hidden={!this.state.existingCustomer}>&nbsp;Update Plans</Button>
-                <Button className="float-right" color="primary" onClick={() => this.onPaymentBtnClick()} hidden={this.state.existingCustomer}>&nbsp;Add Payment</Button>
+                <Button className="float-right"style={{ fontWeight: "bold", backgroundColor: "#20d86b", color: "white" }} onClick={() => this.onPaymentBtnClick()} hidden={this.state.existingCustomer}>&nbsp;Add Payment Method</Button>
                 {/* <Button className="float-right" color="primary" onClick={() => this.purchasePlan()} hidden={this.state.existingCustomer}>&nbsp;Purchase</Button> */}
 
               </CardBody>
@@ -548,7 +548,7 @@ class Profile extends Component {
                 <Form inline>
                   <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
                   </FormGroup>
-                  <Button color="primary" onClick={() => this.onPaymentBtnClick()}>&nbsp;Update Card</Button>
+                  <Button color="primary" onClick={() => this.onPaymentBtnClick()}>&nbsp;Update Payment Method</Button>
                 </Form>
               </CardBody>
             </Card>
