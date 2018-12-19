@@ -155,7 +155,7 @@ class Profile extends Component {
       //Show response message
       this.setState({
         successTitle: `Update Plan`,
-        successMessage: `Your subscriptions have been updated`,
+        successMessage: `Your service plans have been updated`,
         supportPlanLevel: supportId || "None",
         usagePlanLevel: subPlanId || "None",
       });
@@ -486,7 +486,7 @@ class Profile extends Component {
           <Col>
             <Card style={{ marginTop: 30 + 'px' }}>
               <CardHeader style={{ fontWeight: "bold", color: "#22b1dd" }}>
-                <img src={logo} alt="CitizenData" width="25" height="25" border="0" /><strong>&nbsp;Subscriptions</strong>
+                <img src={logo} alt="CitizenData" width="25" height="25" border="0" /><strong>&nbsp;Service Plans</strong>
                 <strong hidden={STRIPE.LIVEMODE} style={{ fontSize: "12px", fontWeight: "bold", color: "orange", margin: "20px" }}>TEST MODE</strong>
                 <span className="ml-auto" >
                   <a href="https://citizendata.network/pricing/" target="_blank" rel='noopener noreferrer'>  <i id="subHelp" className={"fa fa-question-circle-o float-right fa-lg "} ></i></a>
@@ -530,7 +530,7 @@ class Profile extends Component {
                     {supportOptions}
                   </Input>
                 </FormGroup>
-                <Button className="float-right" color="primary" disabled={this.state.updateDisabled} onClick={() => this.updatePlan()} hidden={!this.state.existingCustomer}>&nbsp;Update</Button>
+                <Button className="float-right" color="primary" disabled={this.state.updateDisabled} onClick={() => this.updatePlan()} hidden={!this.state.existingCustomer}>&nbsp;Update Plans</Button>
                 <Button className="float-right" color="primary" onClick={() => this.onPaymentBtnClick()} hidden={this.state.existingCustomer}>&nbsp;Add Payment</Button>
                 {/* <Button className="float-right" color="primary" onClick={() => this.purchasePlan()} hidden={this.state.existingCustomer}>&nbsp;Purchase</Button> */}
 
@@ -548,7 +548,7 @@ class Profile extends Component {
                 <Form inline>
                   <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
                   </FormGroup>
-                  <Button color="primary" onClick={() => this.onPaymentBtnClick()}>&nbsp;Update</Button>
+                  <Button color="primary" onClick={() => this.onPaymentBtnClick()}>&nbsp;Update Card</Button>
                 </Form>
               </CardBody>
             </Card>
