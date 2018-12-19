@@ -126,7 +126,7 @@ class Profile extends Component {
 
   updatePlan = async () => {
     const { subPlan, supportPkg } = this.inputs;
-    
+
     //Disable Update Button
     this.setState({
       updateDisabled: true
@@ -170,7 +170,7 @@ class Profile extends Component {
       });
 
       this.toggleError();
-  
+
     }
 
     this.setState({
@@ -341,17 +341,24 @@ class Profile extends Component {
         itemTitle += ` / Includes ${key["includedTx"]} blockchain transactions`;
       }
 
-      //Default to Developer
-      if (name === 'Developer') {
-        namesList.unshift(itemTitle);
-      } else {
-        namesList.push(itemTitle);
-      }
+      //Add item to list
+      namesList.push(itemTitle);
+      // //Default to Developer
+      // if (name === 'Developer') {
+      //   namesList.unshift(itemTitle);
+      // } else {
+      //   namesList.push(itemTitle);
+      // }
 
     }
 
     //Sort list
-    // namesList.sort();
+    namesList = namesList.sort(function(a, b){
+      let price_a = parseFloat(a.split("$")[1]);
+      let price_b = parseFloat(b.split("$")[1]);
+      
+      return price_a > price_b ? 1 : price_a < price_b ? -1 : 0;
+    });
 
     return namesList;
   }
@@ -531,7 +538,7 @@ class Profile extends Component {
                   </Input>
                 </FormGroup>
                 <Button className="float-right" color="primary" disabled={this.state.updateDisabled} onClick={() => this.updatePlan()} hidden={!this.state.existingCustomer}>&nbsp;Update Plans</Button>
-                <Button className="float-right"style={{ fontWeight: "bold", backgroundColor: "#20d86b", color: "white" }} onClick={() => this.onPaymentBtnClick()} hidden={this.state.existingCustomer}>&nbsp;Add Payment Method</Button>
+                <Button className="float-right" style={{ fontWeight: "bold", backgroundColor: "#20d86b", color: "white" }} onClick={() => this.onPaymentBtnClick()} hidden={this.state.existingCustomer}>&nbsp;Add Payment Method</Button>
                 {/* <Button className="float-right" color="primary" onClick={() => this.purchasePlan()} hidden={this.state.existingCustomer}>&nbsp;Purchase</Button> */}
 
               </CardBody>
