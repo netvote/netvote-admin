@@ -19,7 +19,7 @@ import { Auth } from 'aws-amplify';
 
 //Citizen Data Billing API Details
 const CITIZEN_DATA_BILLING_SERVER = 'https://billing.citizendata.network';
-const CITIZEN_DATA_API_VERSION = 'v1';
+const CITIZEN_DATA_API_VERSION = 'dev';
 
 //Citizen Data Services
 const NETVOTE_SERVICE = 'netvote';
@@ -30,13 +30,9 @@ const STRIPE_SERVICE = 'stripe';
 const STRIPE_PLANS = 'plans';
 const STRIPE_SUBSCRIPTION ='subscription';
 
-//Citizen Data Usage Endpoints
+//Citizen Data Usage Endpointsv
 const CITIZEN_DATA_USAGE_DETAILS = 'usage/detail';
 const CITIZEN_DATA_USAGE_TIME = 'usage/report/time';
-
-//Netvote API Details
-const NETVOTE_API_SERVER = 'https://elections.netvote.io';
-const NETVOTE_API_VERSION = 'dev';
 
 //Netvote IAM API Details
 const IAM_API_SERVER = 'https://iam.netvote.io';
@@ -49,22 +45,15 @@ const IAM_ENDPOINT_TENANT = "tenant";
 //Netrosa IAM Endpoints
 const IAM_ENDPOINT_NETROSA_API_KEY = "/netrosa/apikey";
 
-
-
 export default class NetVoteAdmin {
     constructor() {
         //API Servers
         this.citizenDataServer = CITIZEN_DATA_BILLING_SERVER + '/' + CITIZEN_DATA_API_VERSION;
-        this.electionsServer = NETVOTE_API_SERVER + '/' + NETVOTE_API_VERSION;
         this.iamServer = IAM_API_SERVER + '/' + IAM_API_VERSION;
 
         this.billingRequest = async (path, service, method, postObj) => {
             let endpoint = (service) ? this.citizenDataServer + '/' + service : this.citizenDataServer;
             return this.networkRequest(endpoint, path, method, postObj)
-        }
-
-        this.electionRequest = async (path, method, postObj) => {
-            return this.networkRequest(this.electionsServer, path, method, postObj)
         }
 
         this.iamRequest = async (path, method, postObj) => {
