@@ -343,13 +343,6 @@ class Profile extends Component {
 
       //Add item to list
       namesList.push(itemTitle);
-      
-      // //Default to Developer
-      // if (name === 'Developer') {
-      //   namesList.unshift(itemTitle);
-      // } else {
-      //   namesList.push(itemTitle);
-      // }
 
     }
 
