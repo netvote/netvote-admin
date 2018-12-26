@@ -30,7 +30,7 @@ const STRIPE_SERVICE = 'stripe';
 const STRIPE_PLANS = 'plans';
 const STRIPE_SUBSCRIPTION ='subscription';
 
-//Citizen Data Usage Endpointsv
+//Citizen Data Usage Endpoints
 const CITIZEN_DATA_USAGE_DETAILS = 'usage/detail';
 const CITIZEN_DATA_USAGE_TIME = 'usage/report/time';
 
