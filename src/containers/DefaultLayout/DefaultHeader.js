@@ -66,7 +66,7 @@ class DefaultHeader extends Component {
             </DropdownToggle>
             <DropdownMenu right style={{ right: 'auto' }}>
               {/* <DropdownItem><i className="fa fa-user"></i> Account</DropdownItem> */}
-              <DropdownItem><NavLink href="#/profile"><i className="icon-user"></i>Profile</NavLink></DropdownItem>
+              <DropdownItem><NavLink href="#/profile"><i className="icon-user" style={{ color: '#20a8d8' }}></i>Profile</NavLink></DropdownItem>
               <DropdownItem onClick={this.signOut}><i className="fa fa-lock"></i> Logout</DropdownItem>
             </DropdownMenu>
           </AppHeaderDropdown>
