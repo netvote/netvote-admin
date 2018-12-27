@@ -1,6 +1,6 @@
 //Stripe Publishable Keys
 export const PUB_KEY = process.env.NODE_ENV === 'production'
-  ? 'pk_live_inmG9y3aVMj1j1gBiVd5uuq8' //LIVE KEY
+  ? 'pk_live_bZkSaMKnR6Trg6AC6i7PTnas' //LIVE KEY
   : 'pk_test_inmG9y3aVMj1j1gBiVd5uuq8'; //TEST KEY
 
 //Stripe payment server

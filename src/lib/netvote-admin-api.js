@@ -19,7 +19,7 @@ import { Auth } from 'aws-amplify';
 
 //Citizen Data Billing API Details
 const CITIZEN_DATA_BILLING_SERVER = 'https://billing.citizendata.network';
-const CITIZEN_DATA_API_VERSION = 'dev';
+const CITIZEN_DATA_API_VERSION = 'v1';
 
 //Citizen Data Services
 const NETVOTE_SERVICE = 'netvote';
